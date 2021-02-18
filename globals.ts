@@ -1,6 +1,6 @@
 export namespace globals {
   export const yourName = "Juangui Jordán";
-  export const siteName = "Jguix site";
+  export const siteName = "Juangui Jordán";
   export const siteDescription =
     "This is my site where I gather my blog posts and some other random stuff";
   export const siteCreationDate = "February 17, 2021 08:00:00 GMT";

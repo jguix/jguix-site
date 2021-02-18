@@ -13,32 +13,13 @@ const Home = (props: {
   return (
     <div className="content">
       <Head>
-        <title>Introducing Devii</title>
+        <title>Juangui Jordán</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className="introduction">
-        <h1>Introduction to Devii</h1>
-        <Markdown source={props.introduction} />
-      </div>
-
       <div className="section">
-        <h2>Features</h2>
-        <div className="medium-wide">
-          <Markdown source={props.features} />
-        </div>
-      </div>
-
-      <div className="section">
-        <h2>My blog posts</h2>
-        <p>
-          This section demonstrates the power of dynamic imports. Every Markdown
-          file under <code>/md/blog</code> is automatically parsed into a
-          structured TypeScript object and available in the{" "}
-          <code>props.posts</code> array. These blog post "cards" are
-          implemented in the
-          <code>/components/PostCard.tsx</code> component.
-        </p>
+        <h1>Blog</h1>
+        <p>This is my collection of blog posts at medium and mimacom.</p>
         <div className="post-card-container">
           {props.posts.map((post, j) => {
             return <PostCard post={post} key={j} />;
