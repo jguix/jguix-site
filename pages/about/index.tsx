@@ -3,6 +3,19 @@ import { FC } from "react";
 import { Markdown } from "../../components/Markdown";
 import { loadMarkdownFile } from "../../loader";
 
+const AboutPhoto: React.FC<{ name: string; photoSrc: string }> = (props) => {
+  return (
+    <>
+      <div className="about-author-container">
+        <div className="about-author">
+          <img src={props.photoSrc} className="about-author-image" />
+        </div>
+      </div>
+      <h2 className="about-author-name">{props.name}</h2>
+    </>
+  );
+};
+
 type Props = { about: string };
 
 const About: FC<Props> = ({ about }) => {
@@ -14,7 +27,10 @@ const About: FC<Props> = ({ about }) => {
       </Head>
 
       <div className="introduction">
-        <h1>Juangui Jordán</h1>
+        <AboutPhoto
+          name="Juangui Jordán"
+          photoSrc="/img/authors/jguix.jpeg"
+        ></AboutPhoto>
         <Markdown source={about} />
       </div>
     </div>
