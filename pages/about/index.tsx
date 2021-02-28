@@ -16,9 +16,9 @@ const AboutPhoto: React.FC<{ name: string; photoSrc: string }> = (props) => {
   );
 };
 
-type Props = { about: string };
+type Props = { about: string; resume: string };
 
-const About: FC<Props> = ({ about }) => {
+const About: FC<Props> = ({ about, resume }) => {
   return (
     <div className="content">
       <Head>
@@ -32,6 +32,8 @@ const About: FC<Props> = ({ about }) => {
           photoSrc="/img/authors/jguix.jpeg"
         ></AboutPhoto>
         <Markdown source={about} />
+        <Markdown source={"---"} />
+        <Markdown source={resume} />
       </div>
     </div>
   );
@@ -40,10 +42,12 @@ const About: FC<Props> = ({ about }) => {
 export default About;
 
 export const getStaticProps = async () => {
-  const about = await loadMarkdownFile("about.md");
+  const about = (await loadMarkdownFile("about/about.md")).contents;
+  const resume = (await loadMarkdownFile("about/resume.md")).contents;
 
   const props: Props = {
-    about: about.contents,
+    about,
+    resume,
   };
 
   return { props };
