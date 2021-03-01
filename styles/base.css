@@ -420,3 +420,17 @@ hr {
 .about-author-name {
   text-align: center;
 }
+
+@media print {
+  body {
+    zoom: 0.7;
+  }
+
+  .header {
+    display: none;
+  }
+
+  .introduction {
+    max-width: 800px;
+  }
+}

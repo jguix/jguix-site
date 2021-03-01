@@ -1,5 +1,3 @@
-# My Resume
-
 ## Work Experience
 
 **2016/09 - Present**  

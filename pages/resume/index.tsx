@@ -1,9 +1,8 @@
 import Head from "next/head";
 import { FC } from "react";
-import { Markdown } from "../components/Markdown";
-import { globals } from "../globals";
-import { loadMarkdownFile } from "../loader";
-
+import { Markdown } from "../../components/Markdown";
+import { globals } from "../../globals";
+import { loadMarkdownFile } from "../../loader";
 const AboutPhoto: React.FC<{ name: string; photoSrc: string }> = (props) => {
   return (
     <>
@@ -17,13 +16,13 @@ const AboutPhoto: React.FC<{ name: string; photoSrc: string }> = (props) => {
   );
 };
 
-type Props = { about: string };
+type Props = { resume: string };
 
-const Home: FC<Props> = ({ about }) => {
+const Resume: FC<Props> = ({ resume }) => {
   return (
     <div className="content">
       <Head>
-        <title>{globals.siteName}</title>
+        <title>Resume - {globals.siteName}</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
@@ -32,19 +31,19 @@ const Home: FC<Props> = ({ about }) => {
           name="Juangui Jordán"
           photoSrc="/img/authors/jguix.jpeg"
         ></AboutPhoto>
-        <Markdown source={about} />
+        <Markdown source={resume} />
       </div>
     </div>
   );
 };
 
-export default Home;
+export default Resume;
 
 export const getStaticProps = async () => {
-  const about = (await loadMarkdownFile("about/about.md")).contents;
+  const resume = (await loadMarkdownFile("resume/resume.md")).contents;
 
   const props: Props = {
-    about,
+    resume,
   };
 
   return { props };

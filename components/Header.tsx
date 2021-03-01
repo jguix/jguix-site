@@ -6,6 +6,6 @@ export const Header: React.FC = () => (
     <a href="/">{globals.siteName}</a>
     <div className="flex-spacer" />
     <a href="/blog">Blog</a>
-    <a href="https://github.com/jguix">GitHub</a>
+    <a href="/resume">Resume</a>
   </div>
 );
