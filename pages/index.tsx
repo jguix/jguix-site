@@ -1,29 +1,40 @@
 import Head from "next/head";
-import { generateRSS } from "../rssUtil";
-import { PostData, loadBlogPosts, loadMarkdownFile } from "../loader";
-import { PostCard } from "../components/PostCard";
+import { FC } from "react";
+import { Markdown } from "../components/Markdown";
+import { globals } from "../globals";
+import { loadMarkdownFile } from "../loader";
 
-const Home = (props: {
-  introduction: string;
-  features: string;
-  readme: string;
-  posts: PostData[];
-}) => {
+const AboutPhoto: React.FC<{ name: string; photoSrc: string }> = (props) => {
+  return (
+    <>
+      <div className="about-author-container">
+        <div className="about-author">
+          <img src={props.photoSrc} className="about-author-image" />
+        </div>
+      </div>
+      <h2 className="about-author-name">{props.name}</h2>
+    </>
+  );
+};
+
+type Props = { about: string; resume: string };
+
+const Home: FC<Props> = ({ about, resume }) => {
   return (
     <div className="content">
       <Head>
-        <title>Juangui Jordán</title>
+        <title>{globals.siteName}</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className="section">
-        <h1>Blog</h1>
-        <p>This is my collection of blog posts at medium and mimacom.</p>
-        <div className="post-card-container">
-          {props.posts.map((post, j) => {
-            return <PostCard post={post} key={j} />;
-          })}
-        </div>
+      <div className="introduction">
+        <AboutPhoto
+          name="Juangui Jordán"
+          photoSrc="/img/authors/jguix.jpeg"
+        ></AboutPhoto>
+        <Markdown source={about} />
+        <Markdown source={"---"} />
+        <Markdown source={resume} />
       </div>
     </div>
   );
@@ -32,20 +43,12 @@ const Home = (props: {
 export default Home;
 
 export const getStaticProps = async () => {
-  const introduction = await loadMarkdownFile("introduction.md");
-  const features = await loadMarkdownFile("features.md");
-  const readmeFile = await import(`../${"README.md"}`);
-  const readme = readmeFile.default;
-  const posts = await loadBlogPosts();
+  const about = (await loadMarkdownFile("about/about.md")).contents;
+  const resume = (await loadMarkdownFile("about/resume.md")).contents;
 
-  // comment out to turn off RSS generation during build step.
-  await generateRSS(posts);
-
-  const props = {
-    introduction: introduction.contents,
-    features: features.contents,
-    readme: readme,
-    posts,
+  const props: Props = {
+    about,
+    resume,
   };
 
   return { props };
