@@ -1,11 +1,13 @@
 import { useTranslation } from "next-i18next";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import React, { FC } from "react";
 
 import { globals } from "../globals";
 
 export const Header: FC = () => {
   const { t } = useTranslation();
+  const router = useRouter();
 
   return (
     <div className="header">
@@ -19,12 +21,9 @@ export const Header: FC = () => {
       <Link href="/resume">
         <a>{t("header_resume")}</a>
       </Link>
-      {/* <Link href="/ES" locale={false}>
-        <a>ES</a>
+      <Link href={router.asPath} locale={router.locale === "en" ? "es" : "en"}>
+        <a>{router.locale === "en" ? t("language_es") : t("language_en")}</a>
       </Link>
-      <Link href="/en" locale={false}>
-        <a>EN</a>
-      </Link> */}
     </div>
   );
 };

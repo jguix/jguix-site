@@ -13,5 +13,6 @@ module.exports = {
     };
     return config;
   },
+  distDir: "build",
   i18n,
 };
