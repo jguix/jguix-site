@@ -1,19 +1,26 @@
-import React from 'react';
-import Head from 'next/head';
-import { Footer } from '../components/Footer';
-import { globals } from '../globals';
-import { Header } from '../components/Header';
-import '../styles/base.css';
+import "../styles/base.css";
+
+import { appWithTranslation } from "next-i18next";
+import Head from "next/head";
+import React from "react";
+
+import { Footer } from "../components/Footer";
+import { Header } from "../components/Header";
+import { globals } from "../globals";
 
 const App: React.FC = ({ Component, pageProps }: any) => {
   return (
     <div className="container">
       <Head>
         {globals.googleAnalyticsId && (
-          <script async src={`https://www.googletagmanager.com/gtag/js?id=${globals.googleAnalyticsId}`}></script>
+          <script
+            async
+            src={`https://www.googletagmanager.com/gtag/js?id=${globals.googleAnalyticsId}`}
+          ></script>
         )}
         {globals.googleAnalyticsId && (
-          <script dangerouslySetInnerHTML={{
+          <script
+            dangerouslySetInnerHTML={{
               __html: `
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
@@ -21,7 +28,8 @@ const App: React.FC = ({ Component, pageProps }: any) => {
 
             gtag('globals', '${globals.googleAnalyticsId}');
             `,
-          }}></script>
+            }}
+          ></script>
         )}
       </Head>
       <Header />
@@ -31,4 +39,4 @@ const App: React.FC = ({ Component, pageProps }: any) => {
   );
 };
 
-export default App;
+export default appWithTranslation(App);

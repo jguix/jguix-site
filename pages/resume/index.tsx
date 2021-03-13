@@ -1,20 +1,11 @@
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Head from "next/head";
 import { FC } from "react";
+
+import { AboutPhoto } from "../../components/AboutPhoto";
 import { Markdown } from "../../components/Markdown";
 import { globals } from "../../globals";
 import { loadMarkdownFile } from "../../loader";
-const AboutPhoto: React.FC<{ name: string; photoSrc: string }> = (props) => {
-  return (
-    <>
-      <div className="about-author-container">
-        <div className="about-author">
-          <img src={props.photoSrc} className="about-author-image" />
-        </div>
-      </div>
-      <h2 className="about-author-name">{props.name}</h2>
-    </>
-  );
-};
 
 type Props = { resume: string };
 
@@ -39,11 +30,12 @@ const Resume: FC<Props> = ({ resume }) => {
 
 export default Resume;
 
-export const getStaticProps = async () => {
+export const getStaticProps = async ({ locale }: any) => {
   const resume = (await loadMarkdownFile("resume/resume.md")).contents;
 
   const props: Props = {
     resume,
+    ...(await serverSideTranslations(locale, ["common"])),
   };
 
   return { props };

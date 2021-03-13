@@ -1,14 +1,17 @@
+const { i18n } = require("./next-i18next.config");
+
 module.exports = {
   trailingSlash: true,
   webpack: function (config) {
     config.module.rules.push({
       test: /\.md$/,
-      use: 'raw-loader',
+      use: "raw-loader",
     });
     config.resolve.alias = {
       ...config.resolve.alias,
-      '~': __dirname,
+      "~": __dirname,
     };
     return config;
-  }
+  },
+  i18n,
 };
