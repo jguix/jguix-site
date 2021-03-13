@@ -13,5 +13,6 @@ module.exports = {
     };
     return config;
   },
+  target: "serverless",
   i18n,
 };
