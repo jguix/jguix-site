@@ -2,13 +2,13 @@ import "../styles/base.css";
 
 import { appWithTranslation } from "next-i18next";
 import Head from "next/head";
-import React from "react";
+import React, { FC } from "react";
 
 import { Footer } from "../components/Footer";
 import { Header } from "../components/Header";
 import { globals } from "../globals";
 
-const App: React.FC = ({ Component, pageProps }: any) => {
+const App: FC = ({ Component, pageProps }: any) => {
   return (
     <div className="container">
       <Head>

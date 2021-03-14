@@ -1,5 +1,6 @@
-import matter from "gray-matter";
 import glob from "glob";
+import matter from "gray-matter";
+
 import { globals } from "./globals";
 
 export type PostData = {
@@ -21,8 +22,12 @@ export type PostData = {
 
 type RawFile = { path: string; contents: string };
 
-export const loadMarkdownFile = async (path: string): Promise<RawFile> => {
-  const mdFile = await import(`./md/${path}`);
+export const loadMarkdownFile = async (
+  path: string,
+  locale?: string
+): Promise<RawFile> => {
+  const localePath = !locale || locale === "en" ? "" : `${locale}/`;
+  const mdFile = await import(`./md/${localePath}${path}`);
   return { path, contents: mdFile.default };
 };
 
@@ -67,8 +72,11 @@ export const loadMarkdownFiles = async (path: string) => {
   return postDataList;
 };
 
-export const loadPost = async (path: string): Promise<PostData> => {
-  const file = await loadMarkdownFile(path);
+export const loadPost = async (
+  path: string,
+  locale?: string
+): Promise<PostData> => {
+  const file = await loadMarkdownFile(path, locale);
   return mdToPost(file);
 };
 

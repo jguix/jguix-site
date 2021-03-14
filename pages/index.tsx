@@ -29,7 +29,7 @@ const Home: FC<Props> = ({ about }) => (
 export default Home;
 
 export const getStaticProps = async ({ locale }: any) => {
-  const about = (await loadMarkdownFile("about/about.md")).contents;
+  const about = (await loadMarkdownFile("about/about.md", locale)).contents;
 
   const props: Props = {
     about,

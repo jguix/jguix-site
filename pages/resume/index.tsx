@@ -31,7 +31,7 @@ const Resume: FC<Props> = ({ resume }) => {
 export default Resume;
 
 export const getStaticProps = async ({ locale }: any) => {
-  const resume = (await loadMarkdownFile("resume/resume.md")).contents;
+  const resume = (await loadMarkdownFile("resume/resume.md", locale)).contents;
 
   const props: Props = {
     resume,

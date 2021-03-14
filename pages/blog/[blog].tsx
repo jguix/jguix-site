@@ -7,10 +7,11 @@ import { loadPost } from "../../loader";
 
 const Post: FC = (props: any) => {
   const { post } = props;
+
   return <BlogPost post={post} />;
 };
 
-export const getStaticPaths = () => {
+export const getStaticPaths = ({ locales }: any) => {
   const blogs = glob.sync("./md/blog/*.md");
   const slugs = blogs.map((file: string) => {
     const popped = file.split("/").pop();
@@ -18,12 +19,15 @@ export const getStaticPaths = () => {
     return popped.slice(0, -3).trim();
   });
 
-  const paths = slugs.map((slug) => `/blog/${slug}`);
-  return { paths, fallback: false };
+  const paths = slugs.flatMap((slug) =>
+    locales.map((locale: string) => ({ params: { blog: slug }, locale }))
+  );
+
+  return { paths, fallback: true };
 };
 
 export const getStaticProps = async ({ locale, params }: any) => {
-  const post = await loadPost(`blog/${params.blog}.md`);
+  const post = await loadPost(`blog/${params.blog}.md`, locale);
 
   const props = {
     post,
