@@ -11,7 +11,8 @@ const Post: FC = (props: any) => {
   return <BlogPost post={post} />;
 };
 
-export const getStaticPaths = ({ locales }: any) => {
+export const getStaticPaths = (props?: any) => {
+  const { locales } = props;
   const blogs = glob.sync("./md/blog/*.md");
   const slugs = blogs.map((file: string) => {
     const popped = file.split("/").pop();
