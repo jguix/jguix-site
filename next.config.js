@@ -13,5 +13,6 @@ module.exports = {
     };
     return config;
   },
+  target: "experimental-serverless-trace",
   i18n,
 };
