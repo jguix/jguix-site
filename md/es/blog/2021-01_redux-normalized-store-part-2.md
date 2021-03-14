@@ -1,35 +1,36 @@
 ---
-title: "Using redux with relational data (2/3)"
-excerpt: "In this post, I will show you how to create a simple Chrome extension, using just JavaScript, HTML and CSS. I will also summarize all what a Chrome extension can do, and I will introduce how to create more complex extensions based on modern JavaScript frameworks like React, Angular or Vue."
+title: "Usando redux con datos relacionales (2/3)"
+excerpt: "En esta serie de posts crearemos una aplicación usando react y redux, en la que manejaremos datos relacionales. En esta segunda parte implementaremos la store."
 published: true
 datePublished: 1611648000000
 date: "2021-01-26T09:00:00.000Z"
 author: Juangui Jordán
 tags:
-  - Dan Abramov
+  - javascript
+  - frontend
 authorPhoto: /img/authors/jguix.jpeg
 bannerPhoto: "/img/blog/2021-01_redux-normalized-store-part-2/redux-normalized-store-part-2.jpg"
 thumbnailPhoto: "/img/blog/2021-01_redux-normalized-store-part-2/redux-normalized-store-part-2.jpg"
 canonicalUrl: https://juanguijordan.com/blog/2021-01_redux-normalized-store-part-2
 ---
 
-In this series of posts we will create an application using **react** and **redux**, in which we will handle relational data. In this second part we will be implementing the store.
+## Parte 2. Implementando la store de redux
 
-SEE YA.
+En esta serie de posts crearemos una aplicación usando **react** y **redux**, en la que manejaremos datos relacionales. En esta segunda parte modelaremos la store.
 
-We ended up the last part of this series modelling the store. Check part 1 if you need more context on that: [Using redux with relational data (1/3)](https://blog.mimacom.com/redux-normalized-store-part-1/).
+Al final de la anterior parte de esta serie habíamos modelado la tienda. Consulta la parte 1 si necesitas más contexto sobre ello: [Usando redux con datos relacionales (1/3)](https://blog-es.mimacom.com/redux-normalized-store-part-1/).
 
-Our store will have two main reducers, the `entities` store and the `ui` store.
+Nuestra tienda tendrá dos reducers principales, la store `entities` y la store `ui`.
 
-Let's start by creating the `entities` store. It will hold 3 types of data, or entities, namely:
+Comencemos por crear la store `entities`. Tendrá 3 tipos de datos o entidades, a saber:
 
 - user
 - comment
 - post
 
-Each entity will have associated types, actions and reducers. For the sake of easy comprehension, I'll show the types and actions in the first place.
+Cada entidad tendrá asociados tipos, acciones y reducers. En aras de una fácil comprensión, mostraré los tipos y acciones en primer lugar.
 
-User types:
+Tipos de usuario:
 
 ```javascript
 // user.types.ts
@@ -41,7 +42,7 @@ export type User = {
 };
 ```
 
-The user actions will include an action to load all users into the store, and an action to load a single user. The first one will be potentially called from the `My Friends` page, the second one from `My Wall` or `Friend Wall` page, where posts and comments will display the associated user next to them.
+Las acciones del usuario incluirán una acción para cargar todos los usuarios en la store y una acción para cargar un solo usuario. La primera será llamada potencialmente desde la página `My Friends`, la segunda desde la página `My Wall` o la página `Friend Wall`, donde los posts y los comentarios mostrarán el usuario asociado junto a ellos.
 
 ```javascript
 // user.actions.ts
@@ -90,7 +91,7 @@ export const userActions = {
 };
 ```
 
-Similarly we will have `post` types, where each post has a `userId`, which is the way that our database will manage the one-to-many relation (but remember that we will make this data more easily searchable by creating a `postIdsById` reducer inside the `users` reducer):
+De igual manera, tendremos tipos de `post`, donde cada publicación tiene un `userId`, que es la forma en que nuestra base de datos administrará la relación de uno a muchos (pero recuerda que haremos que estos datos sean más fáciles de buscar creando un reducer `postIdsById` dentro del reducer `users`):
 
 ```javascript
 // post.types.ts
@@ -102,7 +103,7 @@ export type Post = {
 };
 ```
 
-The `post` actions only include an action to load posts by user, with the `userId` being an optional parameter. We will dispatch this action with the `userId` param informed from the `Friend Wall` page to get all his posts. We will dispatch this action with the `userId` param `undefined` from `My Wall` to get all posts from all users (to simplify, let's say that all users are friends of mine).
+Las acciones de los `post` solo incluyen una acción para cargar publicaciones por usuario, siendo el `userId` un parámetro opcional. Enviaremos esta acción con el parámetro `userId` informado desde la página` Friend Wall` para obtener todas sus publicaciones. Despacharemos esta acción con el parámetro `userId` con valor `undefined` desde `My Wall` para obtener todas las publicaciones de todos los usuarios (para simplificar, digamos que todos los usuarios son amigos míos).
 
 ```javascript
 // post.actions.ts
@@ -134,7 +135,7 @@ export const postActions = {
 };
 ```
 
-As for the `comment` types, they will hold indexes pointing to the related `post` and `user`:
+En cuanto a los tipos de `comment`, contendrán índices que apuntan al `post` y el `user` relacionados:
 
 ```javascript
 // comment.types.ts
@@ -147,7 +148,7 @@ export type Comment = {
 };
 ```
 
-The `comment` actions also include just one action to load comments by post:
+Las acciones de `comment` también incluyen solo una acción para cargar comentarios por post:
 
 ```javascript
 // comments.actions
@@ -179,7 +180,7 @@ export const commentActions = {
 };
 ```
 
-Now, let's address the reducers. Regarding the `user` reducer, it will be created by combining two reducers. The first one will take the `LoadUsersAction` action and store a map of users by `id`. It will also process the `LoadUserAction` and store the user in the map. The second one will take the `LoadPostsAction` and store a map of `postIds` related to a user.
+Ahora, abordemos los reducers. En cuanto al reducer `user`, se creará combinando dos reducers. El primero tomará la acción `LoadUsersAction` y almacenará un mapa de usuarios por` id`. También procesará la `LoadUserAction` y almacenará al usuario en el mapa. El segundo tomará el `LoadPostsAction` y almacenará un mapa de `postIds` relacionados con un usuario.
 
 ```javascript
 // user.reducer.ts
@@ -254,7 +255,7 @@ export const userReducer: Reducer<UserState> = combineReducers({
 });
 ```
 
-The `NumberIndexed` custom type is defined as follows, in a shared file where we also define the types for the filters. This type allows us to type maps with numbers as index used by the reducers above.
+El tipo personalizado `NumberIndexed` se define de la siguiente manera, en un archivo compartido donde también definimos los tipos para los filtros. Este tipo nos permite tipar mapas con números como índices, utilizados por los reductores anteriores.
 
 ```javascript
 // shared.types.ts
@@ -263,7 +264,7 @@ export type StringIndexed<T> = { [index: string]: T };
 export type OrderType = "asc" | "desc";
 ```
 
-Similarly, the `post` reducer has a reducer related to the `LoadPost` action ans a reducer taking care of the `LoadCommentsAction`.
+De manera similar, el reducer `post` tiene un reducer relacionado con la acción` LoadPost` y un reducer que se encarga de la `LoadCommentsAction`.
 
 ```javascript
 // post.reducer.ts
@@ -331,7 +332,7 @@ export const postReducer: Reducer<PostState> = combineReducers({
 });
 ```
 
-The `comment` reducer is more simple, taking care just of the `LoadComments` action.
+El reducer de `comment` es más simple, encargándose solo de la acción` LoadComments`.
 
 ```javascript
 // comment.reducer.ts
@@ -369,9 +370,9 @@ export const commentReducer: Reducer<CommentState> = combineReducers({
 });
 ```
 
-Next, we will implement the `ui` store. It will hold data for `My Wall`, `Friend Wall` and `Friends` page.
+A continuación, implementaremos la store `ui`. Contendrá los datos de la página `My Wall`, `Friend Wall` y `Friends`.
 
-`My wall` will not hold custom types, just indexes to the `post` entities belonging to the user that will be displayed in the page. The actions will include an action to load wall posts.
+`My Wall` no contendrá tipos personalizados, solo índices a entidades de `post` que pertenecen al usuario que se mostrarán en la página. Las acciones incluirán una acción para cargar posts del muro.
 
 ```javascript
 // wall.actions.ts
@@ -400,7 +401,7 @@ export const wallActions = {
 };
 ```
 
-The reducer will be simple, just taking care of that action.
+El reducer será sencillo, encargándose solo de esa acción.
 
 ```javascript
 // wall.reducer.ts
@@ -431,9 +432,9 @@ export const wallReducer: Reducer<WallState> = combineReducers({
 });
 ```
 
-We will ommit the code for the actions and reducers associated to the `Friend Wall`, which are very similar to the ones for `My Wall`. You can check the [git repository branch](https://github.com/jguix/redux-normalized-example/tree/blogpost-part2) for this post if you want all the source code.
+Omitiremos el código para las acciones y reducers asociados al `Friend Wall`, que son muy similares a los de `My Wall`. Puedes consultar la [rama del repositorio de git](https://github.com/jguix/redux-normalized-example/tree/blogpost-part2) para este post si deseas ver todo el código fuente.
 
-The `Friends` actions will include loading friends and setting the friends list order (ascending or descending).
+Las acciones de `Friends` incluirán cargar amigos y establecer el orden de la lista de amigos (ascendente o descendente).
 
 ```javascript
 // friends.actions.ts
@@ -482,7 +483,7 @@ export const friendsActions = {
 };
 ```
 
-The `friends` reducer will have reducers that just point to `user` entities. We will have one for the ascending order list and one for the descending order list, because we will implement a pagination strategy with the backend (we will talk about that on the next post of the series). Another reducer will store the state of the filter.
+El reducer `friends` tendrá reducers que solo apunten a las entidades `user`. Tendremos uno para la lista con orden ascendente y otro para la lista con orden descendente, porque implementaremos una estrategia de paginación con el backend (de eso hablaremos en la próxima publicación de la serie). Otro reducer almacenará el estado del filtro.
 
 ```javascript
 // friends.reducer.ts
@@ -529,13 +530,13 @@ export const friendsReducer: Reducer<FriendsState> = combineReducers({
 });
 ```
 
-To create the store, we will first install the [redux-devtools-extension](https://github.com/zalmoxisus/redux-devtools-extension). With this tools we will be able to debug the dispatching of actions and the changes in the state of the store.
+Para crear la store, primero instalaremos la [redux-devtools-extension](https://github.com/zalmoxisus/redux-devtools-extension). Con estas herramientas podremos depurar el despacho de acciones y los cambios en el estado de la store.
 
 ```
 yarn add redux-devtools-extension
 ```
 
-The `root` store is composed of the `entities` store and `ui` store as follows:
+La `root` store se compone de la store `entities` y la store `ui` de la siguiente manera:
 
 ```javascript
 // store.ts
@@ -586,7 +587,7 @@ export const rootReducer: Reducer<ApplicationStore> = combineReducers({
 export const store = createStore(rootReducer, composeWithDevTools());
 ```
 
-Finally, let's throw some data into this store, dispatch some actions and see the results. We will use some mocked data and will display the results using some `console.log` messages and printing the contents of the store in the main page. Alternatively, you can debug these actions with a Chrome plugin like [Redux DevTools](https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd).
+Finalmente, introduzcamos algunos datos en esta store, enviemos algunas acciones y veamos los resultados. Usaremos algunos datos simulados y mostraremos los resultados usando mensajes `console.log` e imprimiendo el contenido de la store en la página principal. Alternativamente, puede depurar estas acciones con un complemento de Chrome como [Redux DevTools](https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd).
 
 ```javascript
 // App.tsx
@@ -693,15 +694,15 @@ const App = () => {
 export default App;
 ```
 
-If we run the app we can follow in the console log how the store dispatches actions and the result in the output page. We can also follow the steps, the partial updates and the result in the React DevTools extension.
+Si ejecutamos la aplicación, podemos seguir en la consola cómo la store despacha acciones y el resultado en la página generada. También podemos seguir los pasos, las actualizaciones parciales y el resultado en la extensión React DevTools.
 
 ![Redux DevTools Extension](/img/blog/2021-01_redux-normalized-store-part-2/redux-dev-tools.png)
 
-If you wan to dig more into the code, remember that you can check the whole source code in this branch:
+Si deseas profundizar más en el código, recuerda que puedes consultar todo el código fuente en esta rama:
 
 [https://github.com/jguix/redux-normalized-example/tree/blogpost-part2](https://github.com/jguix/redux-normalized-example/tree/blogpost-part2)
 
-In the next post we will implement the pages and components and a mocked backend with pagination. We will also implement caching methods to avoid asking for the same data again and again.
+En la próxima publicación implementaremos las páginas y componentes y un backend simulado con paginación. También implementaremos métodos de almacenamiento en caché para evitar pedir los mismos datos una y otra vez.
 
 ## Credits
 

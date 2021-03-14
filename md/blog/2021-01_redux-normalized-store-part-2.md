@@ -1,17 +1,20 @@
 ---
 title: "Using redux with relational data (2/3)"
-excerpt: "In this post, I will show you how to create a simple Chrome extension, using just JavaScript, HTML and CSS. I will also summarize all what a Chrome extension can do, and I will introduce how to create more complex extensions based on modern JavaScript frameworks like React, Angular or Vue."
+excerpt: "In this series of posts we will create an application using react and redux, in which we will handle relational data. In this second part we will be implementing the store."
 published: true
 datePublished: 1611648000000
 date: "2021-01-26T09:00:00.000Z"
 author: Juangui Jordán
 tags:
-  - Dan Abramov
+  - javascript
+  - frontend
 authorPhoto: /img/authors/jguix.jpeg
 bannerPhoto: "/img/blog/2021-01_redux-normalized-store-part-2/redux-normalized-store-part-2.jpg"
 thumbnailPhoto: "/img/blog/2021-01_redux-normalized-store-part-2/redux-normalized-store-part-2.jpg"
 canonicalUrl: https://juanguijordan.com/blog/2021-01_redux-normalized-store-part-2
 ---
+
+## Part 2. Implementing the redux store
 
 In this series of posts we will create an application using **react** and **redux**, in which we will handle relational data. In this second part we will be implementing the store.
 
