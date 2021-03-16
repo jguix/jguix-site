@@ -1,12 +1,12 @@
-import { useTranslation } from "next-i18next";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import React, { FC } from "react";
+import { useTranslation } from 'next-i18next';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import React, { FC } from 'react';
 
-import { globals } from "../globals";
+import { globals } from '../globals';
 
 export const Header: FC = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation("common", { useSuspense: false });
   const router = useRouter();
 
   return (
