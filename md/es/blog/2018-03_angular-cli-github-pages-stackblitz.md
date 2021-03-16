@@ -6,7 +6,7 @@ datePublished: 1522047600000
 date: "2018-03-26T10:00:00.000Z"
 author: Juangui Jordán
 tags:
-  - Dan Abramov
+  - javascript
 authorPhoto: /img/authors/jguix.jpeg
 bannerPhoto: "/img/blog/2018-03_angular-cli-github-pages-stackblitz/angular-cli-github-pages-stackblitz.jpg"
 thumbnailPhoto: "/img/blog/2018-03_angular-cli-github-pages-stackblitz/angular-cli-github-pages-stackblitz.jpg"

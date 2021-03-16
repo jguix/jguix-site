@@ -6,7 +6,7 @@ datePublished: 1590994800000
 date: "2020-06-01T09:00:00.000Z"
 author: Juangui Jordán
 tags:
-  - Dan Abramov
+  - javascript
 authorPhoto: /img/authors/jguix.jpeg
 bannerPhoto: "/img/blog/2020-05_creating-a-chrome-extension/creating-a-chrome-extension.jpg"
 thumbnailPhoto: "/img/blog/2020-05_creating-a-chrome-extension/creating-a-chrome-extension.jpg"

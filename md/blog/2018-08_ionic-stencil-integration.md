@@ -6,7 +6,7 @@ datePublished: 1536735600000
 date: "2018-09-12T10:00:00.000Z"
 author: Juangui Jordán
 tags:
-  - Dan Abramov
+  - javascript
 authorPhoto: /img/authors/jguix.jpeg
 bannerPhoto: "/img/blog/2018-08_ionic-stencil-integration/ionic-stencil-integration.jpg"
 thumbnailPhoto: "/img/blog/2018-08_ionic-stencil-integration/ionic-stencil-integration.jpg"
@@ -30,7 +30,7 @@ Maybe I neglected some obvious thing, but I had to do some research to get my St
 and the effort was big enough to make me think about creating a post of it,
 hoping that it may help someone.
 
-## Requirements
+## Requirements
 
 As a requirement, you need to create a Stencil component, a task for which you can find proper documentation in the Stencil site. The Stencil component doesn't need either to be registered in the npm registry.
 
@@ -42,7 +42,7 @@ The process takes three steps.
 
 - First we build the component and copy the distribution files to our project.
 - Then we tell the Angular side of things how to use the component.
-- Last, we tell the Ionic side of things to include the component when it builds the bundle. The way we talk to Angular (really Ionic-Angular) depends on whether we are eagerly loading pages, or lazily loading them.
+- Last, we tell the Ionic side of things to include the component when it builds the bundle. The way we talk to Angular (really Ionic-Angular) depends on whether we are _eagerly_ loading pages, or _lazily_ loading them.
 
 ### Step 1. Build and copy component
 
@@ -53,7 +53,7 @@ In this example we chose the folder `@img/lib/components/my-google-maps`.
 
 First, you need to import the `CUSTOM_ELEMENTS_SCHEMA`, and add it to the `schemas` section of the `@NgModule`. If you import `CUSTOM_ELEMENTS_SCHEMA` into one of your page modules, the Angular compiler will accept elements it does not recognize (otherwise, it will throw an error). If you are lazy loading, you need to import this schema into each page module where you want to use the web component. If you are eagerly loading, you only need to import the schema into `app.module.ts`.
 
-Then, add an import to your `dist/mycomponent` folder. This import statement does not load the entire web component. It only loads a small piece of code that then allows Ionic to load the full web component later when a template requests it.
+Then, add an import to your `dist/mycomponent` folder. This import statement does not load the entire web component. It only loads a small piece of code that then allows Ionic to load the full web component later, when a template requests it.
 
 When you've performed both steps, your `app.module.ts` should look like this if you are eagerly loading.
 
@@ -76,9 +76,9 @@ If you are lazy loading, import just the web component in `app.module.ts`, and j
 
 ### Step 3. Tell ionic-app-scripts to include the component in the build
 
-We will create a copy.config.js file that will define some rules to copy the web component to our final build. A good practice is to create it in a config folder, to separate it from other standard files like `package.json` or `ionic.config.json`.
+We will create a `copy.config.js` file that will define some rules to copy the web component to our final build. A good practice is to create it in a config folder, to separate it from other standard files like `package.json` or `ionic.config.json`.
 
-This file can tell ionic app-scripts to include extra content when it builds an Ionic app. If you are creating the file, put it in a folder named config that is at the same directory level as your src folder. In the first place, let's declare the file in `package.json`. This will tell the app-scripts to use this file. Add the following field to your `package.json`:
+This file can tell ionic app-scripts to include extra content when it builds an Ionic app. If you are creating the file, put it in a folder named `config` that is at the same directory level as your `src` folder. In the first place, let's declare the file in `package.json`. This will tell the app-scripts to use this file. Add the following field to your `package.json`:
 
 ```json
 "config": {
@@ -86,7 +86,7 @@ This file can tell ionic app-scripts to include extra content when it builds an 
 }
 ```
 
-Then, put this inside config\copy.config.js:
+Then, put this inside `config\copy.config.js`:
 
 ```javascript
 module.exports = {

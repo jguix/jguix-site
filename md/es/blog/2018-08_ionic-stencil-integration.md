@@ -1,61 +1,51 @@
 ---
-title: "Using Stencil Built Web Components with Ionic"
-excerpt: "This post aims at providing clear instructions on how to use components created and compiled with Stencil on an Ionic application. I will guide you in the process of making your web component available in your Ionic templates, without the need of registering them in the npm registry or adding ugly script tags to your index file."
+title: "Usando componentes web generados con Stencil en Ionic"
+excerpt: "Esta publicación tiene como objetivo proporcionar instrucciones claras sobre cómo usar componentes creados y compilados con Stencil en una aplicación Ionic. Te guiaré en el proceso de hacer que un componente web esté disponible en tus templates Ionic, sin necesidad de registrarlos en el registro npm o agregar feos tags script a tu índice."
 published: true
 datePublished: 1536735600000
 date: "2018-09-12T10:00:00.000Z"
 author: Juangui Jordán
 tags:
-  - Dan Abramov
+  - javascript
 authorPhoto: /img/authors/jguix.jpeg
 bannerPhoto: "/img/blog/2018-08_ionic-stencil-integration/ionic-stencil-integration.jpg"
 thumbnailPhoto: "/img/blog/2018-08_ionic-stencil-integration/ionic-stencil-integration.jpg"
 canonicalUrl: https://juanguijordan.com/blog/2018-08_ionic-stencil-integration
 ---
 
-This post aims at providing clear instructions on how to use components created and compiled with Stencil on an Ionic application.
-I will guide you in the process of making your web component available in your Ionic templates,
-without the need of registering them in the npm registry or adding ugly script tags to your index file.
+Esta publicación tiene como objetivo proporcionar instrucciones claras sobre cómo usar componentes creados y compilados con Stencil en una aplicación Ionic. Te guiaré en el proceso de hacer que un componente web esté disponible en tus templates Ionic, sin necesidad de registrarlos en el registro npm o agregar feos tags script a tu índice.
 
-## Motivation
+## Motivación
 
-Being created by the [Ionic Framework team](http://ionicframework.com/),
-one would expect that using Stencil web components in Ionic projects would be,
-if not automatic and integrated in the framework by means of some CLI command,
-at least well documented.
+Creado por el [equipo de Ionic Framework](http://ionicframework.com/), uno esperaría que el uso de componentes web Stencil en proyectos Ionic sería, si no automático e integrado en el framework mediante algún comando CLI, al menos bien documentado.
 
-Well, that it not the case, since the Ionic guys provide [framework integration instructions](https://stenciljs.com/docs/framework-integration) for Angular,
-React, Vue and Ember, but they do not provide them for Ionic.
-Maybe I neglected some obvious thing, but I had to do some research to get my Stencil components working on an Ionic project,
-and the effort was big enough to make me think about creating a post of it,
-hoping that it may help someone.
+Bueno, ese no es el caso, ya que los chicos de Ionic proporcionan [instrucciones de integración del framework](https://stenciljs.com/docs/framework-integration) para Angular, React, Vue y Ember, pero no los proporcionan para Ionic. Tal vez descuidé algo obvio, pero tuve que investigar un poco para que mis componentes Stencil funcionaran en un proyecto Ionic, y el esfuerzo fue lo suficientemente grande como para hacerme pensar en crear una publicación, esperando que pueda ayudar a alguien.
 
-## Requirements
+## Requisitos
 
-As a requirement, you need to create a Stencil component, a task for which you can find proper documentation in the Stencil site. The Stencil component doesn't need either to be registered in the npm registry.
+Como requisito, debes crear un componente Stencil, una tarea para la que puedes encontrar la documentación adecuada en el sitio web de Stencil. El componente Stencil tampoco necesita estar registrado en el registro npm.
 
-## Integration process
+## Proceso de integración
 
-If we integrate web components that are registered in npm, the process is simpler. Let's face in this section the case in which we developed a custom component, but we are not publishing it in the npm register. We are aiming at a clean integration without script tags in the `index.html` file.
+Si integramos componentes web registrados en npm, el proceso es más sencillo. Afrontemos en esta sección el caso en el que desarrollamos un componente personalizado, pero no lo estamos publicando en el registro npm. Nuestro objetivo es una integración limpia sin etiquetas de script en el archivo `index.html`.
 
-The process takes three steps.
+El proceso consta de tres pasos.
 
-- First we build the component and copy the distribution files to our project.
-- Then we tell the Angular side of things how to use the component.
-- Last, we tell the Ionic side of things to include the component when it builds the bundle. The way we talk to Angular (really Ionic-Angular) depends on whether we are eagerly loading pages, or lazily loading them.
+- Primero construimos el componente y copiamos los archivos de distribución a nuestro proyecto.
+- Luego le decimos al lado Angular de las cosas cómo usar el componente.
+- Por último, le decimos al lado Ionic de las cosas que incluya el componente cuando construya el paquete. La forma en que hablamos con Angular (realmente Ionic-Angular) depende de si estamos cargando páginas de forma _anticipada_ o de forma _diferida_.
 
-### Step 1. Build and copy component
+### Paso 1. Generar y copiar componente
 
-Build the component and copy the contents of the dist folder to a folder in our project.
-In this example we chose the folder `@img/lib/components/my-google-maps`.
+Construya el componente y copie el contenido de la carpeta dist a una carpeta en nuestro proyecto. En este ejemplo, elegimos la carpeta `@img/lib/components/my-google-maps`.
 
-### Step 2. Import into app.module.ts
+### Paso 2. Importar en el app.module.ts
 
-First, you need to import the `CUSTOM_ELEMENTS_SCHEMA`, and add it to the `schemas` section of the `@NgModule`. If you import `CUSTOM_ELEMENTS_SCHEMA` into one of your page modules, the Angular compiler will accept elements it does not recognize (otherwise, it will throw an error). If you are lazy loading, you need to import this schema into each page module where you want to use the web component. If you are eagerly loading, you only need to import the schema into `app.module.ts`.
+Primero, necesitas importar el `CUSTOM_ELEMENTS_SCHEMA`, y agregarlo a la sección` schemas` del `@NgModule`. Si importas `CUSTOM_ELEMENTS_SCHEMA` en uno de los módulos de tu página, el compilador Angular aceptará elementos que no reconoce (de lo contrario, arrojará un error). Si realizas una carga diferida, debes importar este esquema en cada módulo de página en el que desees utilizar el componente web. Si estás cargando con anticipación, solo necesitas importar el esquema en `app.module.ts`.
 
-Then, add an import to your `dist/mycomponent` folder. This import statement does not load the entire web component. It only loads a small piece of code that then allows Ionic to load the full web component later when a template requests it.
+Luego, agrega un import a la carpeta `dist/mycomponent`. Este import no carga todo el componente web. Solo carga una pequeña parte del código que permite a Ionic cargar el componente web completo más tarde, cuando una plantilla lo solicita.
 
-When you've performed both steps, your `app.module.ts` should look like this if you are eagerly loading.
+Cuando hayas realizado ambos pasos, tu `app.module.ts` debería parecerse al siguiente si estás cargando con anticipación.
 
 ```typescript
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core"; // add this import
@@ -72,13 +62,13 @@ import "@img/lib/components/my-google-maps/dist/mycomponent"; // add this import
 export class AppModule {}
 ```
 
-If you are lazy loading, import just the web component in `app.module.ts`, and just the schema in the individual lazily loaded modules.
+Si usas lazy loading, importa solo el componente web en `app.module.ts`, y solo el esquema en los módulos individuales cargados de forma diferida.
 
-### Step 3. Tell ionic-app-scripts to include the component in the build
+### Paso 3. Usar ionic-app-scripts para incluir el componente en el build
 
-We will create a copy.config.js file that will define some rules to copy the web component to our final build. A good practice is to create it in a config folder, to separate it from other standard files like `package.json` or `ionic.config.json`.
+Crearemos un archivo `copy.config.js` que definirá algunas reglas para copiar el componente web a nuestra compilación final. Una buena práctica es crearlo en una carpeta de configuración, para separarlo de otros archivos estándar como `package.json` o `ionic.config.json`.
 
-This file can tell ionic app-scripts to include extra content when it builds an Ionic app. If you are creating the file, put it in a folder named config that is at the same directory level as your src folder. In the first place, let's declare the file in `package.json`. This will tell the app-scripts to use this file. Add the following field to your `package.json`:
+Este archivo puede indicarle a los scripts de aplicaciones Ionic que incluyan contenido adicional cuando compile una aplicación iónica. Si creas el archivo, ponlo en una carpeta llamada `config` que esté en el mismo nivel de directorio que la carpeta `src`. En primer lugar, declaremos el archivo en `package.json`. Esto le dirá a los scripts de la aplicación que usen este archivo. Agrega el siguiente campo a tu `package.json`:
 
 ```json
 "config": {
@@ -86,7 +76,7 @@ This file can tell ionic app-scripts to include extra content when it builds an 
 }
 ```
 
-Then, put this inside config\copy.config.js:
+Luego, pon esto dentro de `config\copy.config.js`:
 
 ```javascript
 module.exports = {
@@ -99,5 +89,5 @@ module.exports = {
 };
 ```
 
-Once you've made those changes, app-scripts will know how to include the web component in your builds.
-You can now use your Stencil web components in your Ionic templates as any other web component.
+Una vez que hayas realizado esos cambios, los app-scripts sabrán cómo incluir el componente web en sus compilaciones.
+Ahora puedes utilizar componentes web Stencil en tus plantillas Ionic como cualquier otro componente web.

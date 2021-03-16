@@ -1,348 +1,321 @@
 ---
 title: "Circular Design SPRINT"
-excerpt: "In this post I tell you about the experience of participating in a Design Sprint, and how Ecoembes used the Design Sprint methodology to explore new ideas in the context of circular economy and recycling. In order to do that, they recruited through scholarships an eclectic group of professionals who, with the help of UXER School, applied Design Sprint to the world of recycling. In just 5 days we were able to propose and develop innovative ideas that solve problems, for a business that we initially did not know about."
+excerpt: "En este post os cuento la experiencia de participar en un Design Sprint, y cómo Ecoembes utilizó la metodología Design Sprint para explorar nuevas ideas en el contexto de la economía circular y el reciclaje. Para ello, reclutó mediante becas a un ecléctico grupo de profesionales, incluyendo emprendedores, profesionales del marketing, diseño, y tecnología, entre los que me encuentro. Durante 5 días en Julio de 2018, trabajamos conjuntamente en The Circular Lab, un espacio de innovación de Ecoembes localizado en Logroño, particularmente preparado para el trabajo creativo y colaborativo."
 published: true
 datePublished: 1561446000000
 date: "2019-06-25T09:00:00.000Z"
 author: Juangui Jordán
 tags:
-  - Dan Abramov
+  - design-sprint
+  - ux
 authorPhoto: /img/authors/jguix.jpeg
 bannerPhoto: "/img/blog/2019-05_circular-design-sprint/circular-design-sprint.png"
 thumbnailPhoto: "/img/blog/2019-05_circular-design-sprint/circular-design-sprint.png"
 canonicalUrl: https://juanguijordan.com/blog/2019-05_circular-design-sprint
 ---
 
-In this post I tell you the experience of participating in a **Design SPRINT**, and how Ecoembes used the Design SPRINT methodology to explore new ideas in the context of circular economy and recycling.
+En este post os cuento la experiencia de participar en un **Design Sprint**, y cómo Ecoembes utilizó la metodología Design Sprint para explorar nuevas ideas en el contexto de la economía circular y el reciclaje.
 
-In order to do that, they recruited through scholarships an eclectic group of professionals, including entrepreneurs, marketing, design and technology professionals, among which I am included. During 5 days in July 2018, we worked together in [The Circular Lab](https://www.thecircularlab.com), an innovation space of Ecoembes located in Logroño, particularly prepared for creative and collaborative work.
+Para ello, reclutó mediante becas a un ecléctico grupo de profesionales, incluyendo emprendedores, profesionales del marketing, diseño, y tecnología, entre los que me encuentro. Durante 5 días en Julio de 2018, trabajamos conjuntamente en [The Circular Lab](https://www.thecircularlab.com), un espacio de innovación de Ecoembes localizado en Logroño, particularmente preparado para el trabajo creativo y colaborativo.
 
-The scholarship consisted of a course on Design SPRINT methodology, during which we made a real **SPRINT** for Ecoembes. Taught by [UXER School](https://www.uxerschool.com), we applied Design SPRINT to the world of recycling, and in just 5 days we were able to propose and develop innovative ideas that solve problems in a business that we did not know initially.
+![The Circular Lab](/img/blog/2019-05_circular-design-sprint/the_circular_lab_1-1-1024x668.jpg)
 
-## Executive Summary
+La beca consistió en un curso sobre la metodología Design Sprint, durante el cual realizamos un **SPRINT** real para Ecoembes. Tutorizados por [UXER School](https://www.uxerschool.com), aplicamos Design Sprint al mundo del reciclaje, y en solo 5 días fuimos capaces de proponer y desarrollar ideas innovadoras que resuelven problemas en un negocio que inicialmente no conocíamos.
 
-This will be a long article, for which I have decided to create a summary so that the reader can understand the global idea, and then decide if he wants to go into all the details.
+## Resumen ejecutivo
 
-[**Design SPRINT**](https://www.gv.com/sprint) -or just SPRINT- is a surprisingly productive methodology, which allows to obtain excellent results in a short period of time.
+Este será un largo artículo, por lo cual he decidido crear un resumen para que el lector pueda entender la idea global, y ya decidir si quiere adentrarse en todos los detalles.
 
-It can be applied to the development of a product or service at the beginning of a project, but also to the development of a functionality of an already existing product or service, or to the improvement of any process. It is a flexible methodology that has been applied successfully in many areas.
+[**Design SPRINT**](https://www.gv.com/sprint) –o SPRINT, a secas– es una metodología sorprendentemente productiva, que permite obtener excelentes resultados en un breve período de tiempo.
 
-Individual production and collective decision making are encouraged. This promotes, on the one hand, the generation of more open ideas. When thinking and producing we will do that individually, so that we do not receive negative feedback that restrains us or limits us. On the other hand, decision making is collective, using a flat hierarchy, which makes us support and engage even with ideas that we did not generate ourselves, but with which we agree.
+Se puede aplicar al desarrollo de un producto o servicio al inicio de un proyecto, pero también al desarrollo de una funcionalidad de un producto o servicio ya existente, o a la mejora de cualquier proceso. Es una metodología flexible que se ha aplicado con éxito en multitud de ámbitos.
 
-In my opinion, the success of the process is determined by several factors. In the first place, it is important to form a multidisciplinary team, which will provide us with different points of view in the generation of ideas. Another important aspect of the methodology is the short deadlines: most tasks have a very limited term of 5, 10 or 15 minutes, which makes us work under pressure, forcing us to quickly choose and discard ideas.
+Se fomenta la producción individual y la toma de decisiones colectiva. Esto hace que, por un lado, la generación de ideas sea más abierta. En el momento de pensar y producir lo hacemos en general de forma individual, con lo cual no recibimos feedback negativo que nos cohiba o nos limite. Por otro lado, la toma de decisiones es colectiva, usando una jerarquía plana, lo cual nos hace partícipes incluso de ideas que no hemos generado nosotros mismos, pero con las que nos sentimos de acuerdo.
+
+En mi opinión, el éxito del proceso viene determinado por varios factores. En primer lugar, es importante conformar un equipo multidisciplinar, lo cual nos va a aportar diferentes puntos de vista en la generación de ideas. Otro aspecto importante de la metodología son los plazos cortos: la mayoría de tareas tienen un plazo muy limitado, de 5, 10 o 15 minutos, lo cual nos hace trabajar bajo presión, obligando a escoger y descartar rápidamente ideas.
 
 ![The famous Time Timer helps keep activities in term](/img/blog/2019-05_circular-design-sprint/dia1-reloj.jpg)
 
-Another important aspect is to leave the egos aside, to do without the superheroes -focus on the collective work instead of giving all the prominence to the gurus or experts- and be able to give up to your own ideas -when the team decides that an idea is not going to be used, we must not press to include it again.
+Otro aspecto importante es dejar los egos a un lado, prescindir de los superhéroes –centrarse en el trabajo colectivo en lugar de dar todo el protagonismo a los gurús o expertos– y ser capaz de renunciar a tus propias ideas –cuando el equipo decide que una idea no se va a utilizar, no debemos presionar para volver a incluirla. Para conducir el proceso, marcar las pautas, favorecer que prevalezca el espíritu colectivo y desatascar los bloqueos existe la figura del facilitador. En este caso el facilitador era Javier Larrea de UXER SCHOOL.
 
-To lead the process, set the guidelines, foster to prevail the collective spirit and unravel the blockages there is the figure of the facilitator. In this case the facilitator was Javier Larrea from UXER SCHOOL.
+Visto en retrospectiva, el proceso se siente como un puzzle inicialmente desordenado, en el que poco a poco van encajando las piezas, de forma casi automática.
 
-Seen in retrospect, the process feels like an initially messy puzzle, in which little by little pieces are fitting together, almost automatically.
+Por último, aclarar que **Design Sprint** es una metodología adaptable a cada proyecto y organización, por tanto algunos procesos realizados pueden diferir de lo que encontramos en el [libro oficial](https://www.gv.com/sprint/#book) o lo que hayamos encontrado en otros sprints.
 
-Finally, it should be clarified that **Design SPRINT** is a methodology adaptable to each project and organization, therefore some processes may differ from what we find in the [official book](https://www.gv.com/sprint/#book) or what we found in other SPRINTs.
+## Design Sprint de un vistazo
 
-## Design SPRINT in a nutshell
-
-Design SPRINT is a methodology that typically takes place over 5 days.
+Design Sprint es una metodología que se desarrolla típicamente a lo largo de 5 días.
 
 ![Design SPRINT](/img/blog/2019-05_circular-design-sprint/design-sprint-resumen.png)
 
-### Day 1. Map
+### Día 1. Comprender (Map)
 
-We define the problem, articulating assumptions, identifying the consumer and achieving that all stakeholders are aligned on the same objective and with the same information.
+Definimos el problema, articulando suposiciones, identificando al consumidor y logrando que todos los stakeholders estén alineados en el mismo objetivo y con la misma información.
 
-### Day 2. Sketch
+### Día 2. Idear (Sketch)
 
-We explore multiple ways of solving the problem, regardless of whether it is viable or not. This freedom to explore and be creative can often give us very novel concepts and ideas.
+Exploramos múltiples formas de resolver el problema, sin importar si es viable o no. Esta libertad para explorar y ser creativos con la solución a menudo puede darnos conceptos e ideas muy novedosas.
 
-### Day 3. Decide
+### Día 3. Decidir (Decide)
 
-By not having time to prototype all ideas, it is necessary to have a process to decide which is the best idea and which ones we should abandon. Sometimes a single version will be chosen, while others we will decide to validate a few alternatives.
+Al no disponer de tiempo para prototipar todas las ideas, es necesario tener un proceso para decidir cuál es la mejor idea y cuáles debemos abandonar. A veces se escogerá una sola versión, mientras que otras se decidirá validar unas pocas alternativas.
 
-### Day 4. Prototype
+### Día 4. Prototipar (Prototype)
 
-We want to build a prototype of medium fidelity, pretty much a facade, but we do not have content, or information architecture, or wireframes... We must work together to achieve a believable prototype that allows us gather quality information from testing.
+Nuestra idea es mucho más compleja que lo que podemos desarrollar en un día. Sin embargo, adoptando la mentalidad de prototipo construiremos una fachada, un prototipo de fidelidad media, lo bastante fidedigno como para que nos permita recopilar información de calidad de los tests.
 
-### Day 5. Test
+### Día 5. Testear (Test)
 
-Finally the day came! The aim here is to validate (or not to validate) the product ideas with real users, discover errors in the concept design, understand the users and, ultimately, create a product that people want to use.
+¡Llegó el día! El objetivo aquí es validar (o no dar por buenas) las ideas del producto con usuarios reales, descubrir errores en el diseño de concepto, comprender a los usuarios y, en definitiva, crear un producto que las personas quieran usar.
 
-## Day 1. Map
+## Día 1. Entender
 
-### Creation of teams
+### Formación de los equipos
 
-The participants were divided into 3 groups, previously formed by the organizers. Each group was made up of a mix of profiles -designers, marketers, entrepreneurs, engineers-, also belonging to different age groups.
+Los participantes se repartieron entre 3 grupos, previamente formados por los organizadores. Cada grupo fue conformado por una mezcla de perfiles –diseñadores, marketing, emprendedores, ingenieros– y de grupos de edad diferentes.
 
-Each participant made a brief presentation of who he is, what he is doing and why he signed up for the Circular Design SPRINT.
+Cada participante hizo una breve presentación de quién es, a qué se dedica y por qué se apuntó al Circular Design Sprint.
 
-### Challenge
+### Desafío
 
-The client presented us with the challenge, that is, a result that the client wants to obtain. This should be the focus of the solutions that we will create in the **SPRINT**.
+El cliente nos presentó el desafío, esto es, un resultado que el cliente desea obtener. Este debía ser el foco de las soluciones a las que llegaremos en el **SPRINT.**
 
-> Ecoembes Challenge: How can we encourage and motivate citizens to better recycle domestic packaging?
+> Desafío Ecoembes: ¿Cómo podríamos incentivar y motivar a los ciudadanos para que reciclen mejor los envases domésticos?\_
 
 ![Ecoembes Challenge](/img/blog/2019-05_circular-design-sprint/dia1-desafio.jpg)
 
-The challenge could be focused on both citizens as well as the _HORECA_ channel (HOtels, REstaurants and CAtering).
+El desafío podía estar enfocado tanto a ciudadanos como al canal *HORECA* (HOtel, CAtering y REstaurantes).
 
-Then several activities were carried out in order to approach the context of the challenge: the world of recycling.
+Seguidamente se llevaron acabo varias actividades para entrar en contacto con el contexto del desafío: el mundo del reciclaje.
 
-### Interviews
+### Entrevistas
 
-In pairs, we carried out two interviews among the participants, trying to find out what their consumption habits were, as well as their environmental awareness and recycling patterns.
+En parejas, hicimos dos entrevistas entre los participantes, tratando de averiguar cuáles son los hábitos de consumo, conciencia medioambiental y patrones de reciclado.
 
-### Presentation of the client
+### Presentación del cliente
 
-Introduction to the origin, work and objectives of Ecoembes, by Zacarías Torbado.
+Introducción al origen, labor y objetivos de Ecoembes, a cargo de Zacarías Torbado.
 
-### Stakeholders map
+### Mapa de Stakeholders
 
-In a graph with 3 concentric circles we had to place the stakeholders related to the recycling process, in the following way:
+En un gráfico con 3 círculos concéntricos debíamos colocar los stakeholders (partes implicadas) en el proceso de reciclado, de la siguiente manera:
 
-- In the inner circle we had to put the internal stakeholders, that is, the direct users: citizens or restaurants in the case of HORECA.
-- In the intermediate circle went the direct stakeholders, those who deal directly with the user.
-- In the outer circle went the indirect ones, those who do not deal directly with the user.
+- En el círculo interior se sitúan los stakeholders internos, esto es, los usuarios directos: ciudadanos o restaurantes en el caso de HORECA.
+- En el círculo intermedio los stakeholders directos, aquellos que tratan directamente con el usuario.
+- En el círculo exterior los indirectos, aquellos que no tratan directamente con el usuario.
 
 ![Sticking sticky notes on the stakeholders map](/img/blog/2019-05_circular-design-sprint/dia1-stakeholders-1.jpg)
 
-Each participant had to add sticky notes with the stakeholders that came to his mind, without discussing it with the others. In this step the amount should prevail over quality, regardless of whether two sticky notes had almost the same content. It took approximately 10 minutes.
+Cada participante debía disponer postits con los stakeholders que se le ocurrieran, sin discutirlo con los demás. En este paso debía prevalecer la cantidad, sin importar que dos postits dijeran casi lo mismo. Aproximadamente 10 minutos.
 
 ![Stakeholders map](/img/blog/2019-05_circular-design-sprint/dia1-stakeholders-2.jpg)
 
-### Context
+### Contexto
 
-This is the moment in which experts on the client's side help to understand the context of the problem to be solved. Three presentations were made by Ecoembes, in which we were told about the operation of waste separation plants, and previous research activities in Spain and other countries on improvements in the process of collection, separation of waste and recycling (payment by generation, incentive to recycling, tracking bags through RFID, smartag, NFC, etc.).
+Momento en que los expertos del lado del cliente ayudan a entender el contexto del problema a resolver. Se realizaron tres presentaciones a cargo de Ecoembes, en las cuales se nos explicó el funcionamiento de las plantas de separación de residuos, e investigaciones previas en España y otros países sobre mejoras en el proceso de recogida, separación de residuos y reciclaje (pago por generación, incentivo al reciclado, trazado de bolsas mediante RFID, smartag, NFC, etc.)
 
-### Stakeholders map review
+### Revisión de stakeholders
 
-After knowing the context, the stakeholder map was reviewed, adding those that were missing. Then they were grouped by type -producer, generator, collector, processor, transformator-, arranging them radially, dividing the circles like a cheese.
+Tras conocer el contexto se revisó el mapa de stakeholders, pudiendo añadir los que se considera que faltan. Después se agruparon por tipo, disponiéndolos de forma radial, dividiendo los círculos como si fuera un queso.
 
-### How Might We
+### How Might We
 
-This is a very important activity on the first day of the **SPRINT**. We are going to start exploring ideas openly. Each participant must formulate, in sticky notes, questions starting with "How Might We...?". That is, how could we improve this or that, motivate the users to do this or that thing, and so on. Again, without interfering each other, and giving more importance on quantity over quality.
+Esta es una actividad muy importante en el primer día del **SPRINT**. Vamos a comenzar la exploración de ideas de forma abierta. Cada participante debe formular, en postits, preguntas del estilo “How Might We…?”, esto es, cómo podríamos mejorar esto o aquello, motivar a los usuarios a realizar tal o cual cosa… De nuevo sin interferir y valorando la cantidad por encima de la calidad.
 
-They are then arranged on a large paper and are sorted and grouped vertically by affinity.
+Se disponen en un papel grande y se van ordenando y agrupando verticalmente por afinidad.
 
 ![How Might We...?](/img/blog/2019-05_circular-design-sprint/dia1-hmw-1.jpg)
 
-Afterwards, categories are created and similar sticky notes are placed underneath categories, putting one on top of another the ones that match exactly. Once grouped, we have an idea of the most repeated questions and the topics that we have given more importance to.
-
-Then each person has 3 votes in the form of stickers. The votes must be placed on the board at the same time, in order not to influence others.
+Después, se crean categorías y se colocan debajo los postits similares, donde juntamos uno encima de otro los que coincidan exactamente. Una vez agrupados, tenemos una idea de las preguntas que más se repiten y los temas a los que hemos dado más importancia. Cada persona tiene 3 votos en forma de pegatinas. Los votos se colocan en el tablero a la vez, con el fin de no influenciar a los demás.
 
 ![How Might We by categories](/img/blog/2019-05_circular-design-sprint/dia1-hmw-3.jpg)
 
-The sticky notes that have obtained votes are passed to the stakeholder map, placing them in the corresponding quadrant, according to the categories created.
+Los postits que han obtenido votos se pasan al mapa de stakeholders, colocándolos en el cuadrante que corresponda, según las categorías creadas.
 
 ![Stakeholders map + How Might We](/img/blog/2019-05_circular-design-sprint/dia1-stakeholders-3.jpg)
 
-After ordering the stakeholders, it was decided on what type of user and stakeholders we were going to work with. In my group, we selected the HORECA channel (HOtels, REstaurants and CAtering), and the so called waste GENERATORS quadrant.
+Tras la ordenación de los stakeholders, se decidió sobre qué tipo de usuario y stakeholders íbamos a trabajar. En mi grupo seleccionamos el canal HORECA (HOteles, REstaurantes y CAtering), y el cuadrante que denominamos GENERADORES de residuos.
 
-### User interviews
+### Entrevistas a usuarios
 
-A user interview script was prepared. These interviews should allow us to validate our first hypotheses.
+Se preparó un guion de entrevistas para los usuarios. Estas entrevistas nos debían permitir validar nuestras primeras hipótesis.
 
-These hypotheses included the type of average user that we intended to serve, which we decided would be **restaurants with between 2 and 6 employees who had problems to recycle containers, due to lack of motivation, time or space**.
+Estas hipótesis incluían el tipo de usuario promedio al que pretendíamos dar servicio, que decidimos que sería **restaurantes de entre 2 y 6 empleados que tuvieran problemas para reciclar envases, por falta de motivación, tiempo o espacio**. El objetivo es no dirigir la entrevista, ni tratar de venderles una solución, sino averiguar sus motivaciones y frustraciones relacionados con el reciclaje de envases domésticos. Finalmente se puede hacer alguna pregunta sobre la solución que tenemos en mente. La entrevista no debería tomar más de 10 minutos.Por la tarde realizamos las entrevistas propiamente dichas, en la calle o por Skype/teléfono.
 
-The objective is not to direct the interview, nor to try to sell them a solution, but to find out their motivations and frustrations related to the recycling of domestic packaging. Finally we can ask some questions about the solution we have in mind.
-
-The interview should not take more than 10 minutes.
-
-In the afternoon we conduct the interviews, on the street or by Skype/telephone.
-
-Each participant made 1-2 interviews, the objective being a total of 6 or more, a number that is considered representative. Among these 6 there will usually be 3-4 average users, 1 end up sample user (large restaurants) and 1 end down sample user (bars with only one employee).
+Cada participante hizo 1-2 entrevistas, siendo el objetivo un total de 6 o más, número que ya se considera representativo. Entre estos 6 normalmente habrá 3-4 usuarios promedio, 1 extremo por arriba (restaurantes grandes) y 1 extremo por debajo (bares con un solo empleado).
 
 ## Día 2. Divergir
 
-### Generate _persona_
+### Generar *persona*
 
-The first exercise was to collect and synthesize the information from the previous day's interviews. The tool used was an Excel sheet, where all the responses of each of the users were collected, classified and then patterns were detected. Finally the frustrations of the user, their motivations and the verbatim (literal phrases full of emotions, anger, anger, etc., ideas with power) were identified.
+El primer ejercicio fue recopilar y sintetizar la información de las entrevistas del día anterior. La herramienta utilizada fue una hoja Excel, donde se recopilaron todas las respuestas de cada uno de los usuarios, clasificándolas y buscando patrones. Finalmente se identificaron las frustraciones del usuario, sus motivaciones y los verbatim (frases literales cargadas de emociones, rabia, ira, etc., ideas con fuerza).
 
-This information was passed to a synthesis matrix, ordering the most repeated phrases and patterns in:
+Dicha información se pasó a una matriz de síntesis, ordenando las frases y patrones más repetidos en:
 
-- Behavior patterns.
-- Motivations (Gains).
-- Frustrations (Pains).
+- Patrones de comportamiento.
+- Motivaciones (Gains).
+- Frustraciones (Pains).
 - Verbatims.
 
-After detecting the most repeated patterns, the person was generated, with following structure:
+Tras detectar los patrones que más se repiten se genera la persona, que tendrá la siguiente estructura:
 
-- Name and basic demographic data.
-- History.
-- Needs.
-- Reasons/origins for that needs.
+- Nombre y datos demográficos básicos.
+- Historia.
+- Necesidad.
+- Razón.
 
-The model should look like this sentence (our persona was named Mario Kempes after the nickname of a bar owner from my quarter):
+El modelo debería ser parecido a esta frase:
 
-> Mario Kempes is a 35-year-old chef who works in a bar that has 3 employees. He recycles oil and glass because they get paid for it and someone comes to pick it up, but he does not recycle plastics or cardboard for lack of economic incentives and space inside the bar. He needs to be paid, to be fined or getting the space issue solved in order to recycle more.
+> Mario Kempes es un jefe de cocina de 35 años que trabaja en un bar que tiene 3 empleados. Recicla aceite y vidrio porque se lo pagan y se lo vienen a buscar, pero no recicla ni plásticos ni cartón por falta de incentivos económicos y espacio dentro del bar. Necesita que le paguen, le multen o le resuelvan el tema del espacio para poder reciclar más.\_
 
-After analyzing the interviews, we verified that our initial assumptions were not validated, and our initial idea -a kind of label for responsible restaurants regarding the disposal and recycling of waste, which would serve to reward those who recycle the most- did not convince the owners of restaurants, so that we should pivot towards new solutions.
+Tras analizar las entrevistas, comprobamos que nuestros supuestos iniciales no fueron validados, y nuestra idea inicial -una especie de etiqueta de restaurante responsable con los residuos, que sirviera para premiar a los que más reciclan- no convencía a los dueños de locales, por lo que debíamos pivotar hacia nuevas soluciones.
 
 ### Lightning demos
 
-Searching for projects, prototypes, products or services already developed, whose general idea is similar to the one chosen by the team, as a source of inspiration.
+Búsqueda de proyectos, prototipos, productos o servicios ya desarrollados o implantados, cuya idea general sea similar a la que ha escogido el equipo, como fuente de inspiración.
 
 ### Brainstorming
 
-During the stipulated time (about 10 minutes), each team member individually generated all the ideas that came to his mind, in sticky notes and under the following premises:
+Durante el tiempo estipulado (unos 10 minutos), cada miembro del equipo generó de forma individual todas las ideas que se le ocurrieron, en postits y bajo las siguientes premisas:
 
-- Quantity should prevail over quality.
-- Visuals should prevail over text.
-- Each idea should be expressed in approximately 6 words.
-- Ambitious ideas.
-- Do not judge.
-- You can build on other's ideas.
+- Debe primar la cantidad sobre la calidad.
+- Debe primar lo visual sobre el texto.
+- Cada idea debe expresarse en aproximadamente 6 palabras.
+- Ideas ambiciosas.
+- No juzgar.
+- Se puede construir sobre las ideas de los demás.
 
-Once generated, each one reads aloud his sticky notes to the rest, and doubts are clarified.
+Una vez generadas, se leen en voz alta a los demás miembros del equipo y se aclaran dudas.
 
-They are then arranged on the board and ordered.
+Seguidamente se disponen en el tablero y se ordenan.
 
-- They are put one on another when they say exactly the same.
-- They are grouped by theme.
-- Above each group of related sticky notes, a diagonal sticky note is used as a title.
+- Se ponen una sobre otra aquellas que son exactamente iguales.
+- Se agrupan por temática.
+- Sobre cada grupo de postits relacionados se dispone un postit en diagonal (rombo) como título.
 
 ![Brainstorming](/img/blog/2019-05_circular-design-sprint/dia2-brainstorming-1.jpg)
 
-It's time to vote! Each member of the team takes 3 stickers to vote for 3 different ideas. The ideas that don't receive any votes are discarded.
+¡Llega el momento de votar! Cada miembro del equipo toma 3 pegatinas para votar 3 ideas diferentes. Se vota y se descartan las ideas que no han recibido ningún voto.
 
 ![Voting](/img/blog/2019-05_circular-design-sprint/dia2-brainstorming-2.jpg)
 
-Among the ideas that received votes, a few are selected with which we will work, and the rest are discarded. It is not necessary to discard the least voted, although in principle it is logical, but the group can decide to incorporate some idea that has received few votes but that makes sense along with the rest. These ideas are arranged on the board, where we can see the _big picture_ of our future solution.
+Entre las ideas que han recibido votos, se seleccionan unas pocas con las que vamos a trabajar, y se descarta el resto. No se tiene por qué descartar las menos votadas, aunque en principio es lo lógico, pero el grupo puede decidir incorporar alguna idea que haya recibido pocos votos pero que tenga sentido junto con el resto. Se reúnen estas ideas en el tablero, donde ya podremos visualizar el *big picture* de nuestra futura solución.
 
 ![Stakeholders map + voted ideas from brainstorming](/img/blog/2019-05_circular-design-sprint/dia2-brainstorming-4.jpg)
 
 ### Crazy 8
 
-Each member of the team had to take a folio and fold it in 8 quadrants. In each of these quadrants we have to draw a step of the outline of the solution to developed. In this exercise, every minute we write or draw a quadrant. At the end of the 8 minutes you should have a sketch of the prototype.
-
-This was my **crazy 8** for the idea that we decided in the previous step.
+Cada miembro del equipo debía tomar un folio y doblarlo en 8 cuadrantes. En cada uno de estos cuadrantes debe hacer un esbozo de la solución que se va a desarrollar. Para ello, cada minuto escribirá o dibujará un cuadrante. Al final de los 8 minutos deberá tener un boceto del prototipo. Este fue mi **crazy 8** para la idea que conjuntamente habíamos decidido en el paso anterior.
 
 ![Crazy 8](/img/blog/2019-05_circular-design-sprint/dia2-crazy8.jpg)
 
-### Individual prototype
+### Prototipo individual
 
-Each member of the team, for approximately 1 hour, had to make a prototype of the solution to be developed. It should be done on paper, using one or several sheets, with text, diagrams, drawings and sticky notes.
+Cada miembro del equipo, durante aproximadamente 1 hora, debía realizar un prototipo de la solución a desarrollar. Debía hacerlo en papel, usando una o varias hojas, con texto, diagramas, dibujos y postits. Una vez pasado el tiempo se entregó el prototipo al facilitador, que al día siguiente lo dispuso en forma de Art Museum en el tablero, para su exhibición.
 
-When the time was over, the prototype was handed over to the facilitator, who the next day arranged it in the form of an Art Museum on the board, for its exhibition.
-
-## Day 3. Decide
+## Día 3. Decidir
 
 ### Art Museum
 
-In each group board, the individual prototypes were exhibited. The members of the group read to themselves each proposal, without knowing who had made it.
-
-One by one, it was revealed who designed each proposal and everyone could ask questions to clarify doubts.
-
-Next, each member of the team had to take 5 stickers to vote on the aspects of each prototype that they liked the most. The procedure to follow is thinking first and then voting at the same time to avoid influencing others.
-
-Subsequently, each member of the team took a larger blue sticker and cast a vote on their preferred idea. You also should think first and vote later, all at once.
+En cada tablero de grupo se exhibieron los prototipos individuales. Los miembros del grupo leyeron cada propuesta sin conocer quién la había realizado. Una a una se desveló quién diseñó cada propuesta y se le pudieron formular preguntas para aclarar dudas. Seguidamente, cada integrante del equipo debía tomar 5 pegatinas para votar los aspectos de cada prototipo que más le gustaban. Se debe pensar primero y votar a la vez para evitar influenciar a los demás. Posteriormente, cada miembro del equipo tomó una pegatina azul más grande y emitió un voto sobre su idea preferida. También se piensa primero y se vota después, todos a la vez.
 
 ![Art Museum and votes](/img/blog/2019-05_circular-design-sprint/dia3-art-museum-1.jpg)
 
-### Individual pitch
+### Pitch individual
 
-Each member of the team had to present their idea to the client in a minute and a half.
+Cada integrante del equipo debía realizar la presentación de su idea al cliente, en un minuto y medio.
 
 ![Individual pitch](/img/blog/2019-05_circular-design-sprint/dia3-pitch-1.jpg)
 
-Once all the proposals were presented and after a time of reflection, the client (called **decisor** in the Design SPRINT methodology) indicated which aspects he valued positively of each proposal and signaled with yellow stickers what were the 2 or 3 ideas that he wanted to include in the final prototype.
+Una vez presentadas todas las propuestas y después de un tiempo de reflexión, el cliente (llamado **decisor** en la metodología Design Sprint) señaló qué aspectos valoraba positivamente de cada propuesta e indicó mediante pegatinas amarillas cuáles eran las 2 o 3 ideas que deseaba incluir en el prototipo final.
 
 ### User journey
 
-Individually, and taking as input the most voted points of the prototypes and the customer feedback, each member had to generate a user journey in 8 steps. Using 8 sticky notes, in each one we write a phrase summarizing a step of the user journey of our product or service. Conceptually, we distribute them in 3 phases:
+De forma individual, y tomando como input los puntos más votados de los prototipos y el feedback del cliente, cada integrante debía generar un user journey en 8 pasos. Utilizando 8 postits, en cada uno apuntamos una frase resumiendo un paso del user journey de nuestro producto o servicio. Conceptualmente los repartimos en 3 fases:
 
-- _Before_: steps that are taken before using the product or service
-- _During_: steps that occur during use
-- _After_: steps that occur after use
+- _Antes_: pasos que se dan antes de usar el producto o servicio
+- _Durante_: pasos que se dan durante el uso
+- _Después_: pasos que se dan después del uso
 
-Once the individual user journeys are worked out, on the board, we distribute in 8 columns the user journeys of all the members of the team. Initially each user journey will use the 8 columns, along a row.
-
-Then we order them, grouping similar steps or steps that identify the same action, and placing them under the one that best summarizes it. We must have a user journey with 8 steps, and in each column we will only have a few sticky notes (one or two) for the different ideas that have arisen for this step.
+Una vez trabajados los user journeys individuales, en el tablero, disponemos en 8 columnas los user journeys de todos los integrantes del equipo. Inicialmente cada user journey utilizará las 8 columnas, a lo largo de una fila. Seguidamente los ordenamos, agrupando los pasos similares o que identifican la misma acción, y poniéndolos debajo de aquel que mejor la resuma. Nos debe quedar un user journey con 8 pasos, y en cada columna solo tendremos unos pocos postits (uno o dos) para las diferentes ideas surgidas para dicho paso.
 
 ![User Journey](/img/blog/2019-05_circular-design-sprint/dia3-user-journey.jpg)
 
-### User journey pitch
+### Pitch de user journey
 
-A member designated by the team had to make a new one and a half minute pitch describing the user journey.
+Un miembro designado por el equipo debía realizar un nuevo pitch de un minuto y medio describiendo el user journey de la idea tal y como se ha decidió en el punto anterior.
 
-### Prototype draft
+### Borrador de prototipo
 
-Team members had to work on creating a new draft of the prototype, incorporating the received feedback and the generated user journey. At this point you can distribute the work among team members.
+Los integrantes del equipo debían trabajar en la creación de un nuevo borrador del prototipo, incorporando el feedback recibido y el user journey generado. En este punto se puede repartir el trabajo entre los miembros del equipo.
 
-## Day 4. Prototype
+## Día 4. Prototipar
 
-### Role designation
+### Elección de roles
 
-The team had to designate several roles for the realization of the prototype, where a person could assume several roles:
+El equipo debía designar varios roles para la realización del prototipo, donde una persona podía asumir varios roles:
 
-- _Designers_: graphic design of product, presentation, landing page or application mockups.
-- _Creators of content_: images and texts for presentation, landing pages or application mockups.
-- _Copys_: texts for calls to action and other creative texts.
-- _Stitcher_: the one that is in charge of assembling the pieces, and makes sure that what others produce makes sense together.
+- _Diseñadores_: diseño gráfico de producto, presentación, landing page o mockups de aplicación.
+- _Creadores de contenido_: imágenes y textos para presentación, landing pages o mockups de aplicación.
+- _Copys_: textos para llamadas a la acción y otros textos creativos.
+- _Stitcher_: aquel que se encarga de ensamblar las piezas y que lo que producen los demás tenga sentido en conjunto.
 
-### Prototyping
+### Creación del prototipo
 
-The members of the team had to work on the creation of the prototype, individually, in subgroups or as deemed appropriate. Finally the stitcher had to be in charge of the coordination and union of the pieces.
+Los integrantes del equipo debían trabajar en la creación del prototipo, de manera individual, en subgrupos o como estimaran conveniente. Finalmente el stitcher debía encargarse de la coordinación y unión de las piezas.
 
-Said prototype is only a facade of the product or service to be designed, in no case is it intended to implement a product exhaustively, since time is extremely limited. The objective of this prototype is to be able to validate our assumptions through the tests that will be carried out the next day.
+Dicho prototipo es tan solo una fachada del producto o servicio a diseñar, en ningún caso se pretende implementar un producto de manera exhaustiva, ya que el tiempo es extremadamente limitado. El objetivo de este prototipo es poder validar nuestras suposiciones mediante los tests que se realizarán el día siguiente.
 
-In the case of my team, the prototype had to portray a plastic collection service in the restaurants. This service included the use of a mobile app, but this app was not the central part of the application, so we decided to make a commercial presentation instead of a navigable prototype.
+En el caso de mi equipo, el prototipo debía mostrar un servicio de recogida de plásticos en los restaurantes. Dicho servicio incluía el uso de una app móvil, pero esta app no era la parte central de la aplicación, por lo que decidimos hacer una presentación comercial en lugar de un prototipo navegable.
 
 ![Prototype](/img/blog/2019-05_circular-design-sprint/dia4-prototipo.png)
 
-Other teams estimated making physical prototypes by means of boxes, paper, etc., since they had to simulate electronic devices that do not exist.
+Otros equipos estimaron hacer prototipos físicos mediante cajas, papel, etc., ya que debían simular dispositivos electrónicos que no existen.
 
-## Day 5. Test
+## Día 5. Validar
 
-### Validation interview script
+### Guion de entrevista de validación
 
-In the first place, it was necessary to write a script for an interview for the final user, including how he will be addressed, in case of cold-door interviews.
+En primer lugar era necesario redactar un guion de entrevista al usuario final, incluyendo cómo se le va a abordar, en caso de ser entrevistas a puerta fría. Una vez más, las entrevistas deben buscar la validación del producto, no su aceptación por parte del usuario.
 
-Once again, the interviews should seek validation of the product, not its acceptance by the user.
+- ¿Cumple nuestra solución con sus necesidades?
+- ¿Son capaces de usar nuestra interfaz/servicio?
+- ¿Qué le gusta o no le gusta de lo que hemos hecho?
+- ¿Qué le gustaría mejorar?
 
-- Does our solution meet your needs?
-- Are you able to use our interface / service?
-- What do you like or do not like about what we have done?
-- What would you like to improve?
+Para ello la metodología buscará:
 
-Consequently, this the methodology will look for:
+- Usar preguntas abiertas en lugar de preguntas dirigidas.
+- Si existe un prototipo utilizable o clicable, dejar al usuario interactuar con él para ver si lo entiende y encontrar sus bloqueos o frustraciones con respecto a la interacción.
+- Realizar la mínima explicación de contexto necesaria antes de enfrentar al usuario al prototipo, en lugar de contarle todo, para ver si lo entiende, y evitar condicionarlo.
 
-- Use open questions instead of directed questions.
-- If there is a usable or clickable prototype, let the user interact with it, find out if he understands it, and find his blockages or frustrations regarding the interaction.
-- Provide the minimum context explanation before facing the user to the prototype, instead of telling everything, to see if he understands it, and avoid conditioning him.
+En nuestro caso, no había prototipo clicable ya que se trataba más de un servicio que de la propia aplicación, por lo que optamos por mostrarle la presentación completa y averiguar más tarde qué pensaba de la solución.
 
-In our case, there was no clickable prototype, as it was more of a service than the application itself, so we chose to show the full presentation and find out later what he thought of the solution.
+### Entrevistas de validación
 
-### Validation interviews
+Para la realización de entrevistas, según sean a puerta fría o previamente concertadas, habrá que salir a la calle o bien usar una sala de entrevistas, o Skype.
 
-In order to conduct interviews, depending on whether they are cold-weather or previously arranged, you will have to go outside or use an interview room, or Skype.
+El caso ideal consistiría en concertar una serie de entrevistas presenciales con usuarios finales, y disponer de una sala en la que solo una persona hable con él, sin apuntar nada, para poder mantener contacto visual. Desde fuera otras personas observarían la entrevista, incluyendo la pantalla que esté manejando el usuario si es el caso, y apuntarían todo lo que observen de lo que el usuario dice y lo que realmente hace. Idealmente se grabaría todo en vídeo para poder repasarlo posteriormente.
 
-The ideal case would be to arrange a series of face-to-face interviews with end users, and to have a room in which only one person speaks with the user, without taking notes, in order to maintain visual contact. From the outside, other people would observe the interview, including the screen that the user is handling if that is the case, and they would take notes of everything relevant of what the user says and what he actually does. Ideally, everything would be recorded on video to be available for later review.
+Alternativas a esta situación ideal incluyen realizar la entrevista por Skype y grabarla, o bien que realicen la entrevista de forma presencial 2 o más personas, de las cuales una hablará con el usuario sin perder contacto visual, mientras que otras grabarán en audio/video (si la persona se puede mostrar cohibida puede ser mejor audio, ya que no se percibe cómo te graban) y anotarán los comentarios. El número de entrevistas de validación suficiente es de unas 10, entre las cuales debemos apuntar a nuestro usuario objetivo (persona) al menos en un 80%.
 
-Alternatives to this ideal situation include conducting the interview by Skype and recording it, or conducting the interview in person, 2 or more people, of which one will speak with the user without losing visual contact, while others will record in audio/video (if the person can be self-conscious, audio may be better, since the recording is not perceived) and write down comments.
+### Conclusiones de la validación. Aprendizaje
 
-The number of validation interviews is about 10, among which we must target our target user (persona) at least 80%.
+Se reúne de nuevo el equipo y se extraen patrones de las entrevistas. Para ello clasificaremos a los usuarios entrevistados según su perfil y agruparemos las respuestas recibidas. A partir de este aprendizaje sacaremos conclusiones sobre qué partes de la solución pueden funcionar y cuáles no, así como la solución a nivel global.
 
-### Validation conclusions. Lessons learned
+- ¿Tiene sentido nuestra propuesta para los usuarios?
+- ¿Saben interactuar con ella?
+- ¿La podemos mejorar? ¿Cómo?
+- ¿Seguimos con ella o la descartamos?
 
-The team meets again and patterns are extracted from the interviews. For this we will classify the interviewed users according to their profile and we will group the received answers.
+### Pitch final
 
-From this learning we will draw conclusions about which parts of the solution can work and which do not, as well as the solution on a global level.
+El equipo debía preparar un pitch final para presentar al cliente el prototipo realizado junto con las el aprendizaje obtenido de la validación. Este pitch final debía durar 5 minutos. Se realizó el pitch ante el cliente y se escuchó el feedback por parte de este.
 
-- Does our proposal make sense for users?
-- Do you know how to interact with her?
-- Can we improve it? How?
-- Should we keep with this approach or discard it?
+## Conclusiones
 
-### Final pitch
+La impresión final fue que en un muy breve espacio de tiempo se alcanzó un resultado de gran calidad, donde se puso en juego mucha creatividad y soluciones originales. En varios puntos hubo que dar un golpe de timón, cuando se vio que los supuestos iniciales no eran validados, y se logró hacer sin demasiada resistencia por parte de los autores de dichas ideas iniciales. Aparentemente, las ideas no tenían un único autor y, de alguna manera, todos los miembros del equipo se sentían partícipes y realizaron su aportación, tanto en la generación de ideas como en la toma de decisiones.
 
-The team had to prepare a final pitch to present to the client the prototype, along with the lessons learned from the validation. This final pitch should last 5 minutes.
+Resulta un proceso bastante sorprendente desde dentro, ya que al principio hay una multitud de ideas dispares a las que poco a poco se va poniendo orden y descartando, bajo mucha presión de tiempo, hasta que finalmente todo va convergiendo de una forma que parece natural.
 
-The pitch was made to the client, who in turn provided feedback to the teams.
-
-## Conclusions
-
-The final impression was that, in a very short space of time a high quality result was achieved, where a lot of creativity and original solutions were put into play. At several points, it was necessary to change of direction, when the initial assumptions were not validated, and it was possible to do that without too much resistance coming from the authors of these initial ideas. Apparently, the ideas did not have a single author and, in some way, all the members of the team felt involved and made their contribution, both in the generation of ideas and in decision-making.
-
-It is a rather surprising process from the inside, since at the beginning we come up with a lot of disparate ideas, that are gradually sorted out and discarded, under a lot of time pressure, until finally everything starts to converge in a way that seems natural.
-
-Also, due to the philosophy of exploration without censorship, the solutions start being very ambitious and not feasible, but as the process progresses some ideas are canceled, recombined with others or degraded solutions are found for the more science-fiction ideas, so that the final solution is feasible. This allows us to get to put into practice ideas that initially we would have discarded because they seemed impossible.
+Asimismo, debido a la filosofía de exploración sin censura, las soluciones empiezan siendo muy ambiciosas y poco factibles, pero a medida que avanza el proceso se cancelan algunas ideas, se recombinan con otras o se encuentran soluciones degradadas a las ideas más de ciencia ficción, de modo que la solución final es factible. Esto nos permite llegar a poner en práctica ideas que inicialmente habríamos descartado por parecernos imposibles.

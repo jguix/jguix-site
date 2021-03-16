@@ -1,29 +1,32 @@
 ---
-title: "Using redux with relational data (1/3)"
-excerpt: "In this post, I will show you how to create a simple Chrome extension, using just JavaScript, HTML and CSS. I will also summarize all what a Chrome extension can do, and I will introduce how to create more complex extensions based on modern JavaScript frameworks like React, Angular or Vue."
+title: "Usando redux con datos relacionales (1/3)"
+excerpt: "En esta serie de posts crearemos una aplicación usando react y redux, en la que manejaremos datos relacionales. En esta primera parte modelaremos la store."
 published: true
 datePublished: 1604390400000
 date: "2020-11-03T09:00:00.000Z"
 author: Juangui Jordán
 tags:
-  - Dan Abramov
+  - javascript
+  - frontend
 authorPhoto: /img/authors/jguix.jpeg
 bannerPhoto: "/img/blog/2020-08_redux-normalized-store-part-1/redux-normalized-store-part-1.jpg"
 thumbnailPhoto: "/img/blog/2020-08_redux-normalized-store-part-1/redux-normalized-store-part-1.jpg"
 canonicalUrl: https://juanguijordan.com/blog/2020-08_redux-normalized-store-part-1
 ---
 
-In this series of posts we will create an application using **react** and **redux**, in which we will handle relational data. In this first part we will be modelling the store.
+## Parte 1. Modelando la store de redux
 
-Often the redux tutorials are too simple and handle a flat data structure. This is the case of the typical TODO app (to-do list), or a shopping list, etc. In these cases we usually manage a few reducers, which are independent of each other.
+En esta serie de posts crearemos una aplicación usando **react** y **redux**, en la que manejaremos datos relacionales. En esta primera parte modelaremos la store.
 
-For example:
+A menudo, los tutoriales sobre redux son demasiado simples y manejan una estructura de datos plana. Es el caso de la típica app de TODOs (lista de tareas), o una lista de la compra, etc. En estos casos solemos tener unos pocos reducers, los cuales son independientes entre sí.
 
-- The list of TODOs, including the status of each task.
-- The value of a show/hide filter, for example "hide complete".
-- The value of a sort filter, for example "sort by ascending creation date".
+Por ejemplo:
 
-In such a simple case, the store doesn't need to handle relationships, and it can be rendered in an object similar to the following:
+- La lista de TODOs, incluyendo el estado de cada tarea.
+- El valor de un filtro de mostrar/ocultar, por ejemplo, "ocultar completas".
+- El valor de un filtro de orden, por ejemplo, "ordenar por fecha de creación ascendente".
+
+En un caso así de simple, la store no tiene que manejar relaciones, y se puede representar en un objeto similar a este:
 
 ```json
 {
@@ -52,29 +55,29 @@ In such a simple case, the store doesn't need to handle relationships, and it ca
 }
 ```
 
-However, real applications are usually more complex. Some data is dependent on others, and there are hierarchies: one-to-one, one-to-many, and many-to-many relationships. This will present us with several challenges, both in the representation of the state in the store, and in the efficiency of communication with the backend.
+Sin embargo, las aplicaciones reales suelen ser más complejas. Algunos datos dependen de otros y existen jerarquías: relaciones uno a uno, uno a muchos y muchos a muchos. Esto nos va a presentar varios retos, tanto en la representación del estado en la store, como en la eficiencia de la comunicación con el backend.
 
-To illustrate that, we will use the example of a social network. The main entities that we will handle are users, posts and comments. Users can create posts, and posts can contain comments from other users. Simple, isn't it?
+Para ilustrarlo, usaremos el ejemplo de una red social. Las entidades principales que manejaremos son usuarios, posts y comentarios. Los usuarios podrán crear posts, y los posts podrán contener comentarios de otros usuarios. Simple, ¿verdad?
 
-In order to model this data, let's look first at some of the designs of our social network.
+Veamos en primer lugar algunos de los diseños de nuestra red social, para modelar estos datos.
 
-The home page of our social network will be **My Wall**, the page where my posts and those of all my friends are shown, with their respective comments.
+La página inicial de nuestra red social será **Mi Muro**, la página donde aparecen mis posts y los de todos mis amigos, con sus respectivos comentarios.
 
 ![My Wall](/img/blog/2020-08_redux-normalized-store-part-1/my_wall.png)
 
-There will also be a **Friends** page, where the users who are direct contacts of mine are listed.
+También habrá una página de **Amigos**, donde se listan los usuarios que son contactos directos míos.
 
 ![My Friends](/img/blog/2020-08_redux-normalized-store-part-1/my_friends.png)
 
-From this page, if I click on one of my friends, I will visit the **Friend's wall**, that is, a page where their posts will appear, along with the comments of other users.
+Desde esta página, si pulso sobre uno de mis amigos visitaré el **Muro del amigo**, esto es, una página donde aparecerán sus posts, junto con los comentarios de otros usuarios.
 
 ![Friend Page](/img/blog/2020-08_redux-normalized-store-part-1/friend.png)
 
-Each post will include the avatar and name of the user, and the date. Each comment will also include the avatar, username and date.
+Cada post incluirá el avatar y nombre del usuario, y la fecha. Cada comentario incluirá también el avatar, nombre del usuario y la fecha.
 
 ![Posts and comments](/img/blog/2020-08_redux-normalized-store-part-1/post_and_comments.png)
 
-Without going into the relationships or hierarchies, we can define the types of the entities as user (`User`), post (`Post`) and comment (`Comment`):
+Sin entrar en las relaciones o jerarquías, podemos definir los tipos de las entidades como usuario (`User`), post (`Post`) y comentario (`Comment`):
 
 ```typescript
 // user.types.ts
@@ -100,7 +103,7 @@ export type Comment = {
 };
 ```
 
-An extremely simple representation, based on the TODO application, consists of having a reducer dedicated to each type of entity:
+Una representación extremadamente simple, basada en la aplicación de los TODOs, consiste en tener un reducer por cada tipo de entidad:
 
 ```json
 {
@@ -136,11 +139,11 @@ An extremely simple representation, based on the TODO application, consists of h
 }
 ```
 
-If I visit the **Friends** page, the store holds the friends in `users`; if I enter a friend's page the store holds the posts in `posts`, and if I show a post, the comments are stored in `comments`.
+Si entro en la página de **Friends** la store almacena los amigos en `users`; si entro en la página de un amigo la store almacena los posts en `posts`, y si muestro un post, los comentarios se almacenan en `comments`.
 
-This strategy will force me to retrieve all the posts from the backend every time I switch to the wall of a different friend. Moreover, it won't work as expected, because on the **Friend** and **My wall** pages I need to show several posts at the same time, where each post has different comments. According to the store designed above, all the posts displayed would always show the same comments.
+Esta estrategia me va a obligar a traerme todos los posts del backend cada vez que cambie al muro de un amigo distinto, y además no va a funcionar porque en las páginas de **Amigo** y **Mi muro** debo mostrar varios posts a la vez, donde cada post tiene distintos comentarios. Según la store diseñada arriba, todos los posts visualizados mostrarían siempre los mismos comentarios.
 
-To avoid this problem we could nest the comments within the posts, like this:
+Para evitar este problema podríamos anidar los comentarios dentro de los posts, así:
 
 ```json
 {
@@ -176,9 +179,9 @@ To avoid this problem we could nest the comments within the posts, like this:
 }
 ```
 
-However, we still have several problems. We are not caching any data, for instance, if I navigate from one friend to another and go back to the first one, I will have to reload all the posts and comments from the backend. There is also a lot of replicated data, such as users, taking up more space than necessary.
+Sin embargo, todavía tenemos varios problemas. No estamos cacheando datos, por ejemplo, si navego de un amigo a otro y vuelvo al primero, tendré que cargar de nuevo todos los posts y comments del backend. También hay muchos datos replicados, como los usuarios, ocupando más espacio del necesario.
 
-Ideally, you should normalize the store, as recommended in the [redux documentation](https://redux.js.org/recipes/structuring-reducers/normalizing-state-shape). We could think something like this, where to each entity we have added one or several ids (`userId`, `postId`) that point to the entities with which it is related:
+Lo ideal sería normalizar la store, como se recomienda en la [documentación de redux](https://redux.js.org/recipes/structuring-reducers/normalizing-state-shape). Podríamos pensar algo así, donde a cada entidad hemos añadido uno o varios ids (`userId`, `postId`) que apuntan a las entidades con las que está relacionada:
 
 ```json
 {
@@ -216,9 +219,9 @@ Ideally, you should normalize the store, as recommended in the [redux documentat
 }
 ```
 
-In this way we flatten the store and avoid replicated data. However, the search for the user id associated with each post or comment, and the search for all the comments associated with a post will not be optimal, since it will force us to go through all the users or comments and filter by id. When the store grows during a session, this process will become slower and slower and will impact the user experience.
+De esta forma aplanamos la store y evitamos los datos replicados. Sin embargo, la búsqueda por id del usuario asociado a cada post o comentario, y la búsqueda de todos los comentarios asociados a un post no va a ser nada óptima, ya que nos va a obligar a recorrer todos los usuarios o comentarios y filtrar por id. Cuando la store crezca durante una sesión, este proceso se va a volver más y más lento e impactará a la experiencia de usuario.
 
-We can improve this by indexing each data entity, as suggested in the redux documentation.
+Podemos mejorar esto indexando cada dato, como se sugiere en la documentación de redux.
 
 ```json
 {
@@ -275,9 +278,9 @@ We can improve this by indexing each data entity, as suggested in the redux docu
 }
 ```
 
-Now it is much easier and faster to search for the `user` associated with a `post` or a `comment`. However, it is still difficult to get the list of `posts` by `user`, or the list of `comments` by `post`. In fact, it is now more difficult and inefficient to filter this data.
+Ahora es mucho más sencillo y rápido buscar el `user` asociado a un `post` o un `comment`. Sin embargo, sigue siendo complejo obtener la lista de `posts` por `user`, o la lista de `comments` por `post`. De hecho, ahora es más difícil e ineficiente filtrar estos datos.
 
-We are going to create relational structures that tell us which posts belong to each user (one to many), and what comments belong to each post.
+Vamos pues a crear estructuras relacionales que nos indiquen qué posts pertenecen a cada usuario (uno a muchos), y qué comentarios a cada post.
 
 ```json
 {
@@ -325,13 +328,13 @@ We are going to create relational structures that tell us which posts belong to 
 }
 ```
 
-The meaning of the reducer `postIdsById` reads as _"the user with id 2 has the post with id 1"_. The reading of `commentIdsById` would be _"the post with id 1 has the comments with ids 1 and 2"_. Now we have everything indexed and the database structure is fully normalized.
+La lectura del reducer `postIdsById` sería _"el usuario con id 2 tiene el post con id 1"_. La lectura de `commentIdsById` sería _"el post con id 1 tiene los comentarios con ids 1 y 2"_. Ahora ya tenemos todo indexado y la estructura de base de datos está totalmente normalizada.
 
-We only lack structures that allow us to store the ids of the posts that will be visible on each wall, either the user's or the friends', as well as the ids of the users that should appear on the friends page. We will include on the friend page a filter to sort alphabetically in ascending or descending order.
+Únicamente nos faltan estructuras que nos permitan almacenar los ids de los posts que serán visibles en cada muro, ya sea el del usuario o el de sus amigos, así como los ids de los usuarios que deben aparecer en la página de amigos. Incluiremos en la página de amigos un filtro para ordenar alfabéticamente de forma ascendente o descendente.
 
-To separate the structures that model entities that belong to the database from the structures that model elements of the user interface, we will create 2 higher-level reducers. One called `entities` where we will store **entities from the database**, and another called `ui` where we will store all the **elements of the user interface**.
+Para separar las estructuras que modelan entidades que pertenecen a la base de datos, de las estructuras que modelan elementos de la interfaz de usuario, crearemos 2 reducers de mayor nivel, uno llamado `entities` donde almacenaremos **entidades de la base de datos**, y otro llamado `ui` donde almacenaremos todos los **elementos de la interfaz de usuario**.
 
-This is finally the store model, which avoids data replication, facilitates the search thanks to indexing, and will allow us to cache the data already loaded, since the structures associated with the user interface only store ids, and any entity already downloaded from the backend will remain in the store until we clear the browser cache.
+Este es finalmente el modelo de la store, que evita la replicación de datos, facilita la búsqueda gracias a la indexación, y nos va a permitir cachear los datos ya cargados, ya que las estructuras asociadas a la interfaz de usuario solo almacenan ids, y cualquier entidad ya descargada del backend va a permanecer en la store hasta que borremos la caché del navegador.
 
 ```json
 {
@@ -395,8 +398,8 @@ This is finally the store model, which avoids data replication, facilitates the 
 }
 ```
 
-In future posts we will go through the implementation of this store and the caching methods.
+En próximos posts veremos la implementación de esta store y los métodos de cacheado.
 
 ## Credits
 
-Photo by [Jeremy Bishop](https://unsplash.com/@jeremybishop) on [Unsplash](https://unsplash.com/).
+Fotografía por [Jeremy Bishop](https://unsplash.com/@jeremybishop) en [Unsplash](https://unsplash.com/).

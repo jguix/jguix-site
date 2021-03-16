@@ -6,7 +6,7 @@ datePublished: 1524553200000
 date: "2018-04-24T09:00:00.000Z"
 author: Juangui Jordán
 tags:
-  - Dan Abramov
+  - javascript
 authorPhoto: /img/authors/jguix.jpeg
 bannerPhoto: "/img/blog/2018-04_versioning-features-in-an-angular-app/versioning-features-in-an-angular-app.png"
 thumbnailPhoto: "/img/blog/2018-04_versioning-features-in-an-angular-app/versioning-features-in-an-angular-app.png"

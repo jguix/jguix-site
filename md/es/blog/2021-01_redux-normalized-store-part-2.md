@@ -706,4 +706,4 @@ En la próxima publicación implementaremos las páginas y componentes y un back
 
 ## Credits
 
-Photo by [Sigmund](https://unsplash.com/@sigmund) on [Unsplash](https://unsplash.com/).
+Fotografía por [Sigmund](https://unsplash.com/@sigmund) on [Unsplash](https://unsplash.com/).

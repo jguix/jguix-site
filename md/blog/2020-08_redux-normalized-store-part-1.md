@@ -6,12 +6,15 @@ datePublished: 1604390400000
 date: "2020-11-03T09:00:00.000Z"
 author: Juangui Jordán
 tags:
-  - Dan Abramov
+  - javascript
+  - frontend
 authorPhoto: /img/authors/jguix.jpeg
 bannerPhoto: "/img/blog/2020-08_redux-normalized-store-part-1/redux-normalized-store-part-1.jpg"
 thumbnailPhoto: "/img/blog/2020-08_redux-normalized-store-part-1/redux-normalized-store-part-1.jpg"
 canonicalUrl: https://juanguijordan.com/blog/2020-08_redux-normalized-store-part-1
 ---
+
+## Part 1. Modelling the redux store
 
 In this series of posts we will create an application using **react** and **redux**, in which we will handle relational data. In this first part we will be modelling the store.
 

@@ -6,7 +6,8 @@ datePublished: 1561446000000
 date: "2019-06-25T09:00:00.000Z"
 author: Juangui Jordán
 tags:
-  - Dan Abramov
+  - design-sprint
+  - ux
 authorPhoto: /img/authors/jguix.jpeg
 bannerPhoto: "/img/blog/2019-05_circular-design-sprint/circular-design-sprint.png"
 thumbnailPhoto: "/img/blog/2019-05_circular-design-sprint/circular-design-sprint.png"
@@ -16,6 +17,8 @@ canonicalUrl: https://juanguijordan.com/blog/2019-05_circular-design-sprint
 In this post I tell you the experience of participating in a **Design SPRINT**, and how Ecoembes used the Design SPRINT methodology to explore new ideas in the context of circular economy and recycling.
 
 In order to do that, they recruited through scholarships an eclectic group of professionals, including entrepreneurs, marketing, design and technology professionals, among which I am included. During 5 days in July 2018, we worked together in [The Circular Lab](https://www.thecircularlab.com), an innovation space of Ecoembes located in Logroño, particularly prepared for creative and collaborative work.
+
+![The Circular Lab](/img/blog/2019-05_circular-design-sprint/the_circular_lab_1-1-1024x668.jpg)
 
 The scholarship consisted of a course on Design SPRINT methodology, during which we made a real **SPRINT** for Ecoembes. Taught by [UXER School](https://www.uxerschool.com), we applied Design SPRINT to the world of recycling, and in just 5 days we were able to propose and develop innovative ideas that solve problems in a business that we did not know initially.
 

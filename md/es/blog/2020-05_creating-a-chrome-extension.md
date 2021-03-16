@@ -1,48 +1,48 @@
 ---
-title: "Creating a Chrome extension"
-excerpt: "In this post, I will show you how to create a simple Chrome extension, using just JavaScript, HTML and CSS. I will also summarize all what a Chrome extension can do, and I will introduce how to create more complex extensions based on modern JavaScript frameworks like React, Angular or Vue."
+title: "Creando una extensión de Chrome"
+excerpt: "En este post, te mostraré cómo crear una simple Chrome extension, usando solo JavaScript, HTML y CSS. También resumiré lo que una extensión de Chrome puede hacer, y también voy a explicar cómo crear extensiones más complejas basadas en JavaScript, React, Angular o Vue."
 published: true
 datePublished: 1590994800000
 date: "2020-06-01T09:00:00.000Z"
 author: Juangui Jordán
 tags:
-  - Dan Abramov
+  - javascript
 authorPhoto: /img/authors/jguix.jpeg
 bannerPhoto: "/img/blog/2020-05_creating-a-chrome-extension/creating-a-chrome-extension.jpg"
 thumbnailPhoto: "/img/blog/2020-05_creating-a-chrome-extension/creating-a-chrome-extension.jpg"
 canonicalUrl: https://juanguijordan.com/blog/2020-05_creating-a-chrome-extension
 ---
 
-In this post, I will show you how to create a simple [Chrome extension](https://chrome.google.com/webstore/category/extensions). I will also summarize what a Chrome extension can do, and I will introduce how to create more complex extensions based on modern JavaScript frameworks like React, Angular or Vue.
+En este post, te mostraré cómo crear una simple [Chrome extension](https://chrome.google.com/webstore/category/extensions). Resumiré lo que una extensión de Chrome puede hacer, y también voy a explicar cómo crear extensiones más complejas basadas en JavaScript, React, Angular o Vue.
 
-What is a Chrome extension? Google Chrome extensions are like small applications living in your browser, based on standard web technologies, such as HTML, CSS and JavaScript. They take advantage of some Chrome APIs, providing the foundations for building an app, like storage and messaging. Google Chrome extensions can interact with the web pages open in your browser tabs, but they are not really meant to. They can live on their own and provide any kind of functionality, separate from the browsing experience. You can build anything, from an agenda, to a pomodoro timer, to a web image scrapper. You can think of Chrome as the Electron platform, providing a basis for building JavaScript applications that can interact with the browsing experience.
+¿Qué es una extensión de Chrome? Las extensiones de Google Chrome son como pequeñas aplicaciones que viven en tu navegador, basadas en tecnologías web estándar, como HTML, CSS y JavaScript. Aprovechan algunas API de Chrome, proporcionando las bases para construir una aplicación, como el almacenamiento y la mensajería. Las extensiones de Google Chrome pueden interactuar con las páginas web abiertas en las pestañas de tu navegador, pero en realidad no están pensadas para ello. Pueden "vivir" por sí solas y proporcionar cualquier tipo de funcionalidad, más allá de la experiencia de navegación. Puedes crear cualquier cosa, desde una agenda, pasando por un temporizador pomodoro, hasta un web image scrapper. Puedes pensar en Chrome como la plataforma Electron, proporcionando una base para construir aplicaciones JavaScript que pueden interactuar con la experiencia de navegación.
 
-Chrome extensions can stay dormant until some trigger awakes them, making some content or script to be injected, executed, or some popup shown. These scripts live in something called “Isolated Worlds” in relation with the web pages being browsed, which means that a Chrome extension can only share the DOM with a particular page, but not the script variables or functions. Chrome extensions can thus modify the DOM, inject additional CSS or JavaScript scripts which interact with the same DOM, but can not directly modify the original page CSS or JavaScript. On the other hand, the extensions can communicate with the page through messages, so you can create a page that gracefully interact with a Chrome extension.
+Las extensiones de Chrome pueden permanecer inactivas hasta que algún trigger las despierte, haciendo que se inyecte algún contenido o script, se ejecute o se muestre algún popup. Estos scripts viven en algo llamado "Mundos Aislados" en relación con las páginas web que se están navegando, lo que significa que una extensión de Chrome sólo puede compartir el DOM con una página en particular, pero no las variables o funciones del script. Por lo tanto, las extensiones de Chrome pueden modificar el DOM, inyectar scripts CSS o JavaScript adicionales que interactúan con el mismo DOM, pero no pueden modificar directamente la página original CSS o JavaScript. Por otro lado, las extensiones pueden comunicarse con la página a través de mensajes, por lo que puede crear una página que interactúe con una extensión de Chrome.
 
-## Extension capabilities
+## Capacidades de la extensión
 
-This is an incomplete summary of what an extension can do:
+Este es un resumen incompleto de lo que puede hacer una extensión:
 
-- **Show an icon**. The extension icon can be modified on runtime, or show a badge over it, with a colored background and a 4 letter text in it.
-- **Show a popup**. Clicking on the extension icon can trigger a popup with content.
-- **Show a secondary menu**. Right clicking on the extension icon can trigger a secondary menu.
-- **Respond to shortcuts**. Keyboard shortcuts can be associated to extension actions (i.e. CTRL+SHIFT+V).
-- **Respond to actions in the URL bar** (the so called omnibox). Text shortcuts can be used in the omnibox to trigger actions in the extension (i.e. “myext+<TAB>").
-- **Respond to visiting some web page**. For instance, modifying the icon state or popup content.
-  Modify the content of a web site. For instance, modifying the DOM by a content script or applying additional CSS files.
-- **Have an Options page** for the extension configuration.
-- **Replace the History page, Bookmarks page or New Tab page** of Google Chrome.
-- **Exchanging messages** with a web site or with itself. A extension can use messaging to talk to some web page being browsed, or to communicate between parts of the extension itself.
-- **Store information** in local storage, Chrome storage (storage which is synchronized across different devices where the user is logged in) or any storage native to JS, for instance sessionStorage.
-- **Show notifications** as a toast.
-- **Use several APIs provided by Google Chrome**.
-- **Be free or paid**. When creating a paid extension, you can choose to use the Chrome store or your own payment means.
+- **Mostrar un icono**. El icono de la extensión puede ser modificado en tiempo de ejecución, o mostrar una insignia sobre él, con un fondo de color y un texto de 4 letras en él.
+- **Mostrar un popup**. Al hacer clic en el icono de la extensión se puede activar un popup con contenido.
+- **Mostrar un menú secundario**. Haciendo clic con el botón derecho del ratón en el icono de la extensión puede activar un menú secundario.
+- **Responder a atajos de teclado**. Los atajos de teclado pueden asociarse a las acciones de extensión (CTRL+SHIFT+V).
+- **Responder a acciones de la barra de direcciones** (la así llamada omnibox). Los atajos de texto pueden usarse en la omnibox para activar acciones en la extensión (p.ej. “myext+<TAB>").
+- **Responder a la visita a cierta página web**. Por ejemplo, modificar el estado del icono o el contenido de la ventana emergente
+  Modifica el contenido de un sitio web. Por ejemplo, modificar el DOM por un script de contenido o aplicar archivos CSS adicionales.
+- **Tener una página de opciones** para la configuración de la extensión.
+- **Reemplazar la página de Historial, Favoritos o Nueva Pestaña** de Google Chrome.
+- **Intercambiar mensajes** con un sitio web o consigo mismo. Una extensión puede utilizar la mensajería para hablar con alguna página web que se esté navegando, o para comunicarse entre partes de la propia extensión.
+- **Almacenar información** en el almacenamiento local, el almacenamiento Chrome (almacenamiento que se sincroniza a través de diferentes dispositivos donde el usuario está conectado) o cualquier almacenamiento nativo de JS, por ejemplo sessionStoragef.
+- **Mostrar notificaciones** como un "toast".
+- **Usar varias APIs proporcionadas por Google Chrome**.
+- **Ser gratis, o de pago**. Al crear una extensión de pago, puedes elegir usar la tienda Chrome o tus propios medios de pago.
 
-## The basics
+## Lo básico
 
-The only mandatory file of a Chrome extension is the manifest. It has to be placed in the root directory, and it communicates the extension metadata, permissions and other files involved.
+El único archivo obligatorio de una extensión de Chrome es el manifiesto. Debe estar colocado en el directorio raíz, y comunica los metadatos de la extensión, los permisos y otros archivos involucrados.
 
-The manifest format has a lot of options, which can be ckecked in this page (https://developer.chrome.com/extensions/manifest), but we will focus on the most important ones. Let’s introduce the Cat detector extension manifest:​
+El formato del manifiesto tiene un montón de opciones, que se pueden ver en esta página (https://developer.chrome.com/extensions/manifest), pero nos centraremos en los más importantes. Presentemos el manifiesto de la extensión "Cat detector":
 
 ```json
 {
@@ -73,19 +73,19 @@ The manifest format has a lot of options, which can be ckecked in this page (htt
 }
 ```
 
-The manifest declares some capabilities that will be used by the extension:
+El manifiesto declara algunas capacidades que serán utilizadas por la extensión:
 
-- It declares a background script. Background scripts can activate at any time, but don't have direct access to the tabs content.
-- It declares a content script. Content scripts get injected in the same page that is being browsed and have access to the content. A matches expression is used to determine when the script is injected. In this case we chose `<all urls>`, meaning it will be injected in any web page.
-- It declares a browser action, meaning a extension that is able to work independently of the current browsed page. If we wanted to create a extension that only activates when some conditions are met in the page you are browsing, we would use a "page action”. The reason we chose browser action is that cats can be seen almost everywhere on the internet. A second reason is that we want to display a badge over the extension icon, and that is only possible using a browser action.
-- Inside the browser action, it declares a popup that will be open on clicking on the extension icon.
-- It declares icons. The smaller ones used for the browser icon, depending on the display resolution, and the bigger ones used in the extensions menu of Chrome and the Chrome Store.
+- Declara un background script. Los background scripts pueden activarse en cualquier momento, pero no tienen acceso directo al contenido de los tabs.
+- Declara un content script. Los scripts de contenido se implementan en la misma página en la que se está navegando y tienen acceso al contenido. Una expresión de coincidencia es usada para determinar cuándo el script es inyectado. En este caso elegimos `<all urls>`, lo que significa que se implementa en cualquier página web.
+- Declara una acción del navegador, es decir, una extensión que es capaz de funcionar independientemente de la página por la que se está navegando. Si quisiéramos crear una extensión que sólo se activa cuando se cumplen algunas condiciones en la página que se está navegando, utilizaríamos una "page action". La razón por la que elegimos la acción de navegación es que los gatos se pueden ver casi en todas partes en Internet. Una segunda razón es que queremos mostrar un badge sobre el icono de la extensión, y eso sólo es posible usando una acción del navegador.
+- Dentro de la acción del navegador, declara un popup que se abrirá al hacer clic en el icono de la extensión.
+- Declara los iconos. Los más pequeños se utilizan para el icono del navegador, dependiendo de la resolución de la pantalla, y los más grandes se usan en el menú de extensiones de Chrome y el Chrome Store.
 
-## Our sample extension
+## Nuestra extensión de ejemplo
 
-Now, getting to the point of this post. This page action uses a background script that, on page load, calls sends a message to the content script, which in turn counts the number of times the words “cat”, “kitten” or “kitty” appear in our page. After receiving a response, the background task displays a badge over the icon to communicate the number of kittens spot. On clicking on the extension icon, a popup will be shown showing a happy kitten image together with the counter.
+Vamos al grano de este post: esta page action utiliza un background script que, al cargar la página, envía un mensaje al content script, que a su vez cuenta el número de veces que las palabras "cat", "kitten" o "kitty" aparecen en nuestra página. Después de recibir una respuesta, la tarea de background muestra un badge sobre el icono para comunicar el número de gatitos que aparecen. Al hacer clic en el icono de la extensión, se mostrará un popup con una imagen de un gatito feliz junto con el contador.
 
-Let’s present our extension file structure:
+Echemos un vistazo a la estructura de los archivos de extensión:
 
 ```
 -audios
@@ -108,9 +108,9 @@ Let’s present our extension file structure:
 -popup.js
 ```
 
-It includes the extension icons, some audio files, the manifest, the background script, the content script, and the popup html and js files.
+Incluye los iconos de extensión, algunos archivos de audio, el manifiesto, el background script, el content script y los archivos del popup html y js.
 
-This is how the background script looks like. Comments have been included to guide you through the important stuff:
+Así queda el background script. Se han incluido comentarios para señalar las cosas importantes:
 
 ```
 const maxMeows = 6;
@@ -172,7 +172,7 @@ const updateBadge = (catIndex, delay) => {
 };
 ```
 
-The content script basically receives the `cat_count` message and responds to it. Some logic has been included to count the cats with a regex expression:
+El content script básicamente recibe el mensaje `cat_count` y responde a él. Se ha incluido algo de lógica para contar los gatos con una expresión regex:
 
 ```
 chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
@@ -195,7 +195,7 @@ const removeScriptsFromContent = (strCode) => {
 };
 ```
 
-The popup html file just displays an image and declares the javascript file:
+El archivo html del popup simplemente muestra una imagen y declara el fichero javascript:
 
 ```
 <html>
@@ -206,7 +206,7 @@ The popup html file just displays an image and declares the javascript file:
 </html>
 ```
 
-The popup js file executes a function on load which in turn sends a message to the content script to count cats again. This is because popups do not live until they are open, so if some update on the popup needs to be done, it is the popup who needs to start the action:
+El archivo js ejecuta una función en la carga que a su vez envía un mensaje al content script para contar gatos de nuevo. Esto se debe a que los popups no "viven" hasta que se abren, así que si hay que hacer alguna actualización en el popup, es el popup el que debe iniciar la acción:
 
 ```
 window.onload = () => {
@@ -223,41 +223,41 @@ const onCatCount = (catNumber) => {
 };
 ```
 
-Tadaaaa, this is the result of the cat detector extension in action:
+ChanChanChan, este es el resultado de la extensión del detector de gatos en acción:
 
 ![Cat extension](/img/blog/2020-05_creating-a-chrome-extension/cat_extension.png)
 
-## Testing locally our extension
+## Probando localmente nuestra extensión
 
-If you want to test your extension in your local machine, you just need to go to the menu item More Tools —> Extensions, then click on Load Unpacked, and select the folder where your manifest and the rest of the files are.
+Si quieres probar tu extensión en tu máquina local, sólo tienes que ir al menu item More Tools —> Extensions, luego hacer click en Load Unpacked, y seleccionar la carpeta donde está tu manifiesto y el resto de los archivos.
 
 ![Loading the extension for testing](/img/blog/2020-05_creating-a-chrome-extension/load_extension.png)
 
 ## Debugging
 
-Debugging gets particularly complex since every bit of a extension has to be inspected in a different way.
+El proceso de debugging se vuelve particularmente compleja ya que cada extensión debe ser inspeccionada de manera diferente.
 
-Regarding the background scripts, they are inspected in the extensions. To open the dev tools you need to click on the background page link in the extension details.
+En cuanto a los background scripts, se inspeccionan en las extensiones. Para abrir las herramientas de desarrollo es necesario hacer clic en el enlace "página en segundo plano" en los detalles de la extensión.
 
 ![Opening the extension dev tools](/img/blog/2020-05_creating-a-chrome-extension/extension_info.png)
 
-Content scripts are inspected in the web page that you are browsing, since they are injected to the page. They are shown in a **Content Scripts** tab.
+Los content scripts se inspeccionan en la página web que estás navegando, ya que se inyectan en la página. Se muestran en una pestaña de **Content Scripts**.
 
 ![Debugging content scripts](/img/blog/2020-05_creating-a-chrome-extension/debugging_content_scripts.png)
 
-I could not found the way to inspect popup scripts, even the console logs got lost somewhere, so showing an alert was the only way to check that the popup was alive and doing stuff.
+No pude encontrar la forma de inspeccionar los popup scripts, incluso los logs de la consola se perdían en algún lugar, así que mostrar una alerta fue la única forma de comprobar que el popup estaba "vivo" y activo.
 
-## Publishing
+## Publicando la extensión
 
-To publish a Google Chrome extension you need to register as a Chrome developer, pay \$5 and fill in some information about your extension name, description and images or videos. The process is very similar than the one followed to publish an app in Google Play. After submitting your extension for approval, you need to wait for a response. Negative responses are quite fast -my first extension was rejected for no reason, and I had to send an email to ask for a human review-, positive ones can take a few hours or days.
+Para publicar una extensión de Google Chrome es necesario registrarse como desarrollador de Chrome, pagar 5 dólares y rellenar algunos datos sobre el nombre de la extensión, la descripción y las imágenes o vídeos. El proceso es muy similar al que se sigue para publicar una aplicación en Google Play. Después de enviar tu extensión para la aprobación, tienes que esperar una respuesta. Las respuestas negativas son bastante rápidas -mi primera extensión fue rechazada sin razón alguna, y tuve que enviar un correo electrónico para pedir una revisión humana-, las positivas pueden tardar unas horas o días.
 
-## Going further
+## Ir más allá...
 
-The Chrome developer site for extensions provides a great number of sample extensions. These are simple extensions tackling very specific features that can help you learn build extensions.
+El sitio de desarrollo de Chrome para extensiones proporciona un gran número de extensiones de muestra. Estas son extensiones simples que abordan características muy específicas que pueden ayudar a aprender a construir extensiones.
 
 https://developer.chrome.com/extensions/samples
 
-There are many boilerplate projects out there to help you develop more complex extensions using React, Angular or Vue. Take the following links as a starting point:
+Hay muchos proyectos de boilerplate por ahí para ayudarte a desarrollar extensiones más complejas usando React, Angular o Vue. Toma los siguientes enlaces como punto de partida:
 
 - https://github.com/lxieyang/chrome-extension-boilerplate-react
 - https://github.com/larscom/ng-chrome-extension
@@ -265,12 +265,12 @@ There are many boilerplate projects out there to help you develop more complex e
 
 ## Recap
 
-Creating Chrome extensions can be fun, and you can also find many productive scenarios for them. Developing extensions is easy if you know basic web technologies as HTML, CSS and JavaScript. We showed you the basics of a Chrome extension and guided you through the creation of a simple extension.
+Crear extensiones de Chrome puede ser divertido, y también puedes encontrar muchos escenarios productivos para ellas. Desarrollar extensiones es fácil si conoces las tecnologías web básicas como HTML, CSS y JavaScript. Te mostramos los fundamentos de una extensión de Chrome y te guiamos en la creación de una simple extensión.
 
-If you want to check the full extension code, please go to this [github repository](https://github.com/jguix/chrome-cat-detector).
+Si quiere comprobar el código de extensión completo, ¡échale un vistazo! [github repository](https://github.com/jguix/chrome-cat-detector).
 
-Can you imagine something that could be delivered as a Chrome extension? We would like to hear about your thoughts.
+¿Puedes imaginarte algo que pueda ser entregado como una extensión de Chrome? Compártenos tu idea...
 
-## Credits
+## Crédits
 
-Photo by Markus Winkler on [Unsplash](https://unsplash.com/).
+Fotografía de Markus Winkler en [Unsplash](https://unsplash.com/).
