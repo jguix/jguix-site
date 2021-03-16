@@ -1,14 +1,14 @@
 ## Work Experience
 
-**2016/09 - Present**  
+**Sep 2016 - Present**  
 **Senior Software Engineer**  
 _mimacom, Valencia, Spain_
 
 - Frontend development tasks with JavaScript technologies: Angular, Ionic, React and React Native.
-- Also backend development using Java and Spring Boot.
+- Backend development using Java and Spring Boot.
 - I also assumed UX design tasks on some projects.
 
-**2014/03 - 2016/09**  
+**Mar 2014 - Sep 2016**  
 **Software Architect**  
 _Hofmann SLU, Paterna, Spain_
 
@@ -17,7 +17,7 @@ _Hofmann SLU, Paterna, Spain_
 - Creating technical documentation on requirements, specifications and user manuals, contributing to the preparation of work plans.
 - Developing Angular, Android, iOS, and Laravel PHP software modules.
 
-**2010/02 - 2014/02**  
+**Feb 2010 - Feb 2014**  
 **Software Engineer**  
 _Kanteron Systems, Valencia, Spain_
 
@@ -29,9 +29,9 @@ _Kanteron Systems, Valencia, Spain_
 - Creating technical documentation on requirements, specifications and user manuals, contributing to the preparation of work plans.
 - Preparing documents for tenders and contests.
 
-**12/2000 - 01/2010**  
+**Dec 2000 - Jan 2010**  
 **Research Technician**  
-_Instituto de Robótica (Universitat deValència), Burjassot, Spain_
+_Instituto de Robótica (Universitat de València), Burjassot, Spain_
 
 - Research and management in research projects in the field of Intelligent Transportation Systems (ITS), in the fields of electronic toll (EFC) through microwave and infrared communications, road charging using satellite positioning systems and cellular communications, GIS (particularly gvSIG), itinerary planning systems.
 - Participation in European R&D projects: A1, CARDME, GIROADS.
@@ -41,32 +41,32 @@ _Instituto de Robótica (Universitat deValència), Burjassot, Spain_
 
 ## Education
 
-**2004/09 - 2005/06**  
+**Sep 2004 - Jun 2005**  
 **Master (Diploma de Estudios Avanzados) in Information Technology, Computing and Communication**  
 _Universitat de València_
 
-**1995/09 - 2002/06**  
+**Sep 1995 - Jun 2002**  
 **Telecommunication Engineer**  
 _Universitat Politècnica de València_
 
 ## Further training
 
-**2020/05**  
+**May 2020**  
 **#COVID-19 CHALLENGE**  
 _UXER SCHOOL_  
 [Credential](https://www.credential.net/d295142c-616a-45d2-8624-197c21ae9560)
 
-**2020/02**  
+**Feb 2020**  
 **User Experience Research and Design**  
 _University of Michigan & Coursera_  
 [Credential](https://www.coursera.org/account/accomplishments/specialization/KGXYHU6XPUKF)
 
-**2019/04**  
+**Apr 2019**  
 **UI / UX Design**  
 _California Institute of the Arts (CalArts) & Coursera_  
 [Credential](https://www.coursera.org/account/accomplishments/specialization/certificate/GGCGKG76M2B3)
 
-**2018/07**  
+**Jul 2018**  
 **CIRCULAR DESIGN SPRINT**  
 _UXER SCHOOL_  
 [Credential](http://www.uxerschool.com/wp-content/uploads/certificates/CIRCULAR-DESIGN-SPRINT-II-LO-CERTIFICATE-juanguillermo-aldasoro.pdf)

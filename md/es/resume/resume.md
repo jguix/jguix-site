@@ -1,112 +1,120 @@
-## Work Experience
+## Experiencia Laboral
 
-**2016/09 - Present**  
-**Senior Software Engineer**  
-_mimacom, Valencia, Spain_
+**Sep 2016 - Actualidad**  
+**Desarrollador Senior**  
+_mimacom, Valencia, España_
 
-- Frontend development tasks with JavaScript technologies: Angular, Ionic, React and React Native.
-- Also backend development using Java and Spring Boot.
-- I also assumed UX design tasks on some projects.
+- Desarrollo frontend con tecnologías JS: Angular, Ionic, React y React
+  Native.
+- Desarrollo backend usando Java y Spring Boot.
+- También asumí tareas de diseño de UX en algunos proyectos.
 
-**2014/03 - 2016/09**  
-**Software Architect**  
-_Hofmann SLU, Paterna, Spain_
+**Mar 2014 - Sep 2016**  
+**Arquitecto de Software**  
+_Hofmann SLU, Paterna, España_
 
-- Supervising developments carried out by software providers. Application of good quality and safety practices in Java, Spring, Android and iOS developments.
-- Defining the technical aspects and interfaces in technological and integration projects.
-- Creating technical documentation on requirements, specifications and user manuals, contributing to the preparation of work plans.
-- Developing Angular, Android, iOS, and Laravel PHP software modules.
+- Supervisión de los desarrollos realizados por los proveedores de software. Aplicación de buenas prácticas de calidad y seguridad en desarrollos Java, Spring, Android e iOS.
+- Definición de los aspectos técnicos e interfaces en proyectos tecnológicos y de integración.
+- Creación de documentación técnica sobre requisitos, especificaciones y manuales de usuario, contribuyendo a la preparación de planes de trabajo.
+- Desarrollo de módulos de software Android, NodeJS, Amazon WS.
 
-**2010/02 - 2014/02**  
-**Software Engineer**  
-_Kanteron Systems, Valencia, Spain_
+**Feb 2010 - Feb 2014**  
+**Analista de Software**  
+_Kanteron Systems, Valencia, España_
 
-- Leading a team of developers, including work assignment, progress monitoring and results monitoring, as well as requesting changes and bug fixes to team members.
-- Organising and managing work meetings of the development team.
-- Reporting to managers.
-- Active participation in the different phases of the development of several healthcare IT products.
-- Working with international clients in the collection of requirements and definition of functionalities.
-- Creating technical documentation on requirements, specifications and user manuals, contributing to the preparation of work plans.
-- Preparing documents for tenders and contests.
+- Dirigir un equipo de desarrolladores, incluyendo la asignación de trabajo, seguimiento del progreso y monitorización de los resultados, solicitud de cambios y corrección de fallos a los miembros del equipo.
+- Organizar y dirigir reuniones de trabajo del equipo de desarrollo.
+- Reportar e informar a mis superiores.
+- Participación activa en las diferentes fases del desarrollo de varios productos de las TIC aplicadas al sector sanitario.
+- Trabajar con clientes de ámbito internacional en la recogida de requisitos y definición de funcionalidades.
+- Creación de documentación técnica sobre requisitos, especificaciones y manuales de usuario, contribuyendo a la preparación de planes de trabajo.
+- Preparación de documentos para licitaciones y concursos.
 
-**12/2000 - 01/2010**  
-**Research Technician**  
-_Instituto de Robótica (Universitat deValència), Burjassot, Spain_
+**Dic 2000 - Ene 2010**  
+**Técnico de Investigación**  
+_Instituto de Robótica (Universitat de València), Burjassot, España_
 
-- Research and management in research projects in the field of Intelligent Transportation Systems (ITS), in the fields of electronic toll (EFC) through microwave and infrared communications, road charging using satellite positioning systems and cellular communications, GIS (particularly gvSIG), itinerary planning systems.
-- Participation in European R&D projects: A1, CARDME, GIROADS.
-- Representation and coordination of working groups in meetings at international level
-- Public presentations in congresses
-- Organisation of seminars
+- Investigación y gestión en proyectos de investigación en el campo de los
+  Sistemas Inteligentes de Transporte (ITS), en los campos de telepeaje (EFC)
+  mediante comunicaciones por microondas e infrarrojos, tarificación viaria
+  usando sistemas de posicionamiento vía satélite y comunicaciones celulares,
+  sistemas de información geográfica GIS (particularmente gvSIG), sistemas
+  de intercambio de información multimodal, sistemas de planificación de
+  itinerarios.
+- Participación en proyectos europeos de I+D: A1, CARDME, GIROADS.
+- Representación y coordinación de grupos de trabajo en reuniones a nivel
+  internacional
+- Presentaciones públicas en congresos
+- Organización de seminarios
 
-## Education
+## Educación
 
-**2004/09 - 2005/06**  
-**Master (Diploma de Estudios Avanzados) in Information Technology, Computing and Communication**  
+**Sep 2004 - Jun 2005**  
+**Diploma de Estudios Avanzados, Tecnología de la Información, Computación y Comunicación**  
 _Universitat de València_
 
-**1995/09 - 2002/06**  
-**Telecommunication Engineer**  
+**Sep 1995 - Jun 2002**  
+**Ingeniero de Telecomunicación, Comunicaciones**  
 _Universitat Politècnica de València_
 
-## Further training
+## Educación adicional
 
-**2020/05**  
+**May 2020**  
 **#COVID-19 CHALLENGE**  
 _UXER SCHOOL_  
-[Credential](https://www.credential.net/d295142c-616a-45d2-8624-197c21ae9560)
+[Credencial](https://www.credential.net/d295142c-616a-45d2-8624-197c21ae9560)
 
-**2020/02**  
+**Feb 2020**  
 **User Experience Research and Design**  
 _University of Michigan & Coursera_  
-[Credential](https://www.coursera.org/account/accomplishments/specialization/KGXYHU6XPUKF)
+[Credencial](https://www.coursera.org/account/accomplishments/specialization/KGXYHU6XPUKF)
 
-**2019/04**  
+**Abr 2019**  
 **UI / UX Design**  
 _California Institute of the Arts (CalArts) & Coursera_  
-[Credential](https://www.coursera.org/account/accomplishments/specialization/certificate/GGCGKG76M2B3)
+[Credencial](https://www.coursera.org/account/accomplishments/specialization/certificate/GGCGKG76M2B3)
 
-**2018/07**  
+**Jul 2018**  
 **CIRCULAR DESIGN SPRINT**  
 _UXER SCHOOL_  
-[Credential](http://www.uxerschool.com/wp-content/uploads/certificates/CIRCULAR-DESIGN-SPRINT-II-LO-CERTIFICATE-juanguillermo-aldasoro.pdf)
+[Credencial](http://www.uxerschool.com/wp-content/uploads/certificates/CIRCULAR-DESIGN-SPRINT-II-LO-CERTIFICATE-juanguillermo-aldasoro.pdf)
 
-**C1 English Level Certification**  
+**Certificado de Inglés Nivel C1**  
 _Escuela Oficial de Idiomas de Valencia_
 
-**C1 Catalan Level Certification**  
+**Certificado de Catalán Nivel C1**  
 _Escuela Oficial de Idiomas de Valencia_
 
-**B2 French Level Certification**  
+**Certificado de Francés Nivel B2**  
 _Escuela Oficial de Idiomas de Valencia_  
-[Credential](https://drive.google.com/file/d/0B4UMA5fXTkkuYU9TV2VfVl96S3M/view)
+[Credencial](https://drive.google.com/file/d/0B4UMA5fXTkkuYU9TV2VfVl96S3M/view)
 
-**B2 Italian Level Certification**  
+**Certificado de Italiano Nivel B2**  
 _Università per Stranieri di Perugia_  
-[Credential](https://drive.google.com/file/d/1Ofg8nM0cvC_dDlD-EsQftJJv-zC1kRor/view)
+[Credencial](https://drive.google.com/file/d/1Ofg8nM0cvC_dDlD-EsQftJJv-zC1kRor/view)
 
-## Languages
+## Idiomas
 
-**Spanish**  
-Native or Bilingual
+**Español**  
+Nativo or Bilingüe
 
-**Catalan**  
-Full Professional
+**Catalán**  
+Competencia Profesional Completa
 
-**English**  
-Full Professional
+**Inglés**  
+Competencia Profesional Completa
 
-**French**  
-Full Professional
+**Francés**  
+Competencia Profesional Completa
 
-**Italian**  
-Full Professional
+**Italiano**  
+Competencia Profesional Completa
 
-**German**  
-Elementary
+**Alemán**  
+Elemental
 
-## Honors & Awards
+## Premios & Reconocimientos
 
 **2009 BEEST award**  
-_CEyD Valencia City Council_  
-Winner project: Study of an multimodal transport information system for the city of Valencia.
+_CEyD Ayuntamiento de Valencia_  
+Proyecto ganador: Estudio de un sistema de información al viajero de transporte intermodal para la ciudad de Valencia.
