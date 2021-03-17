@@ -1,6 +1,6 @@
 ---
-title: "Deploying an Angular CLI project on Github Pages and Stackblitz"
-description: "Learn how to easily deploy an angular CLI on Github Pages, as well as sharing a live edit mode version with Stackblitz"
+title: "Desplegando un proyecto Angular CLI en Github Pages y Stackblitz"
+description: "Aprende a implementar fácilmente un proyecto angular CLI en Github Pages, así como a compartir una versión en live edit mode con Stackblitz"
 published: true
 datePublished: 1522047600000
 date: "2018-03-26T10:00:00.000Z"
@@ -13,74 +13,73 @@ thumbnailPhoto: "/img/blog/2018-03_angular-cli-github-pages-stackblitz/angular-c
 canonicalUrl: https://juanguijordan.com/blog/2018-03_angular-cli-github-pages-stackblitz
 ---
 
-Can’t wait to show to the world your proof of concept, side project, idea…?
-This 5-line bash recipe will put your work on the showcase in a matter of seconds.
+¿Estás ansioso por mostrarle al mundo tu prueba de concepto, proyecto paralelo, idea…?
+Esta receta de bash de 5 líneas pondrá tu trabajo en el escaparate en cuestión de segundos.
 
-So you just finished creating the coolest project with [Angular CLI](https://cli.angular.io/) and want to share it with your colleagues, or perhaps write a post about it, but you want to skip the pain to your colleagues of checking out the code, installing dependencies and launching the app — I know, it almost can’t get any easier nowadays — and you don’t own a web server, or perhaps you are as lazy as your colleagues and don’t feel like putting much effort on deploying your code anywhere.
+Así que acabas de terminar de crear el proyecto más genial con [Angular CLI](https://cli.angular.io/) y quieres compartirlo con tus colegas, o quizás escribir una publicación al respecto, pero quieres evitarles a tus colegas el dolor de bajarse el código, instalar dependencias y ejecutar la aplicación (lo sé, casi no puede ser más fácil hoy en día) y no tienes un servidor web, o tal vez eres tan vago como tus colegas y no te apetece poner mucho esfuerzo en desplegar el código en algún sitio.
 
-Well, [Github Pages](https://pages.github.com/) to the rescue!
+Bien, ¡[Github Pages](https://pages.github.com/) al rescate!
 
 ## GitHub Pages
 
-I am assuming that you already created your project with Angular CLI, so your project is already versioned with git.
-Let’s assume too that you already have a **GitHub account** with some _NICKNAME_.
-Head yourself to GitHub and create a new project, let’s call it _MY_PROJECT_.
-Don’t put any files in it, you can come back later and add the _README_ and the desired license,
-but for now it will be easier if you just leave it blank.
+Voy a asumir que ya creaste el proyecto con Angular CLI, por lo que tu proyecto ya está versionado con git.
+Supongamos también que ya tienes una **cuenta de GitHub** con cierto `NICKNAME`.
+Dirígete a GitHub y crea un nuevo proyecto, llamémoslo `MY_PROJECT`.
+No coloques ningún archivo en él, puedes volver más tarde y agregar el `README` y la licencia deseada,
+pero por ahora será más fácil si lo dejas en blanco.
 
-Then, connect your local git repository with the new remote repository and push the changes:
+Luego, conecta tu repositorio de git local con el nuevo repositorio remoto y haz push de los cambios:
 
 ```bash
 git remote add origin https://github.com/NICKNAME/MY_PROJECT.git
 git push origin master
 ```
 
-Now, if you already knew about GitHub Pages, you’d be tempted to manually activate them on the _index.html_ file of your project.
-**DON’T DO THAT! It won’t work!!**
+Ahora, si ya conocíaa GitHub Pages, estarás tentado a activarlas manualmente en el archivo `index.html` de tu proyecto.
+**¡NO HAGAS ESO! ¡¡No funcionará!!**
 
-Your project still needs to be built for production,
-then a _dist_ folder will be created from which you could serve your GitHub pages but **DON’T! It won’t work!!!**
+Tu proyecto aún debe ser generado para producción,
+lo cual creará una carpeta `dist` desde la cual podrás servir tus páginas de GitHub, pero **¡NO LO HAGAS! ¡¡¡No funcionará!!!**
 
-It looks like GitHub Pages is not suited for SPAs, since it redirects any paths in your app to a 404 page.
-But some really nice guys developed [angular-cli-ghpages](https://www.npmjs.com/package/angular-cli-ghpages).
-This npm package will fill the gaps and make your app work in GitHub Pages.
+Parece que GitHub Pages no son adecuadas para SPA, ya que redirigen las rutas de su aplicación a una página 404.
+Pero algunos tipos muy majos desarrollaron [angular-cli-ghpages](https://www.npmjs.com/package/angular-cli-ghpages).
+Este paquete npm llenará los huecos y hará que tu aplicación funcione en GitHub Pages.
 
-Install it with:
+Instálalo con:
 
 ```bash
 npm install -g angular-cli-ghpages
 ```
 
-Then execute these 2 commands:
+Luego ejecuta estos 2 comandos:
 
 ```bash
 ng build --prod --base-href "https://NICKNAME.github.io/MY_PROJECT/"
 angular-cli-ghpages
 ```
 
-The second command has a bunch of options, but they are all optional as the word _option_ states,
-and you don’t need much more to get your app up and running on GitHub Pages. Enjoy!
+El segundo comando tiene un montón de opciones, pero todas son opcionales como dice la palabra `option`,
+y no necesitas mucho más para poner en marcha tu aplicación en GitHub Pages. ¡A disfrutar!
 
-Well, certainly you’ll need the URL of your app to share it with the world.
-This URL is exactly the one that we used on the ng build command:
-
+Bueno, ciertamente necesitarás la URL de tu aplicación para compartirla con el mundo.
+Esta URL es exactamente la que usamos en el comando `ng build`:  
 [https://NICKNAME.github.io/MY_PROJECT/](#)
 
-### Deploying ionic projects
+### Desplegando proyectos Ionic
 
-Update: 2018-05-07
+Actualización: 2018-05-07
 
-What about Ionic projects.
-They are deployed to `www` instead of the `dist` folder, and they use Ionic CLI instead of Angular CLI,
-so a couple of changes will need to be done.
+¿Qué pasa con los proyectos Ionic?
+Se despliegan en `www` en lugar de la carpeta `dist`, y usan Ionic CLI en lugar de Angular CLI,
+por lo que será necesario realizar un par de cambios.
 
 ```bash
 ionic build --prod
 ```
 
-The `--base-href` is not available in Ionic CLI (not that I'm aware of),
-so you will need to open the index.html file and write the base tag on your own, after the build is finished.
-You can put it after the title tag, for instance:
+El `--base-href` no está disponible en Ionic CLI (que yo sepa),
+por lo que deberá abrir el archivo `index.html` y escribir la etiqueta base por tu cuenta, una vez finalizada la compilación.
+Puedes ponerlo después de la etiqueta del título, por ejemplo:
 
 ```html
 <title>Ionic App</title>
@@ -91,8 +90,8 @@ You can put it after the title tag, for instance:
 />
 ```
 
-Now, as I said, the output of the build is not the default for Angular CLI, which would be the dist folder.
-Use the `--dir` flag to specify the `www` folder as the source for GitHub Pages.
+Ahora, como dije, la salida de la compilación no es la predeterminada para Angular CLI, que sería la carpeta `dist`.
+Usa el flag `--dir` para especificar la carpeta `www` como fuente para las páginas de GitHub.
 
 ```bash
 angular-cli-ghpages --dir www
@@ -100,22 +99,20 @@ angular-cli-ghpages --dir www
 
 ## Stackblitz
 
-Now for the [Stackblitz](https://stackblitz.com/) part of the post… wouldn’t it be nice to enable our colleagues or followers, to actually interact with our code and see the impact of the modifications in almost-real-time?
+Ahora, para la parte de [Stackblitz](https://stackblitz.com/) del post… ¿no sería bueno permitir que nuestros colegas o seguidores interactúen realmente con nuestro código y vean el impacto de las modificaciones en casi-tiempo-real?
 
-The guys from Stackblitz have created this sort of online IDE where you can create projects and see the build at the same time.
-It’s like **JSfiddler** on steroids!
+Los chicos de Stackblitz han creado este tipo de IDE en línea donde puedes crear proyectos y ver la generación al mismo tiempo.
+¡Es como **JSfiddler** con esteroides!
 
 ![Stackblitz](/img/blog/2018-03_angular-cli-github-pages-stackblitz/stackblitz.png)
 
-Even simpler than registering on Stackblitz, creating a project and uploading your project files,
-this one line trick will load your GitHub project on the Stackblitz IDE.
+Aún más simple que registrarte en Stackblitz, crear un proyecto y cargar los archivos de tu proyecto,
+este truco de una línea cargará tu proyecto de GitHub en el IDE de Stackblitz.
 
-Just share this URL, using again your GitHub nickname and project name:
-
+Simplemente comparte esta URL, usando nuevamente tu apodo de GitHub y el nombre del proyecto:  
 [https://stackblitz.com/github/NICKNAME/MY_PROJECT](#)
 
-This is valid also for branches, tags or specific commits. Just use the following scheme for the URL:
-
+Esto también es válido para ramas, etiquetas o commits específicos. Simplemente use el siguiente esquema para la URL:  
 [https://stackblitz.com/github/NICKNAME/MY_PROJECT/tree/{TAG|BRANCH|COMMIT}](#)
 
-I hope this post helped you to release your projects in a place where they can be seen, enjoyed and edited by others.
+Espero que esta publicación te haya ayudado a publicar tus proyectos en un lugar donde otros puedan verlos, disfrutarlos y editarlos.

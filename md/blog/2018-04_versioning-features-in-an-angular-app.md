@@ -23,17 +23,17 @@ If it sounds a bit farfetched, take the following scenario that was proposed to 
   some countries may decide not to upgrade some feature, or upgrade it later;
   some countries may take more time to review if some particular new feature follows their privacy regulations…
 
-The naive approach of having ngIf directives all over the place can work for the simpler cases
+The naive approach of having `ngIf` directives all over the place can work for the simpler cases
 but it would be hard to maintain and would also clutter our beautiful templates.
 Also, components using different services when switching from one version to another would be very difficult to maintain.
 
 So we came up to the following approach, to cope with all those situations:
 
 - Create a directive to show/hide parts of a template depending on the country and version.
-  That would be like an extension of _ngIf_ with our _country_ and _version_ parameters,
+  That would be like an extension of `ngIf` with our `country` and `version` parameters,
   and would give an answer to simple problems like hiding a whole feature in some countries,
   or hiding a particular field for some countries/versions.
-- Create a directive that returns a dynamic component, depending on the _country_ and _version_ parameters.
+- Create a directive that returns a dynamic component, depending on the `country` and `version` parameters.
   This directive would be used for more general cases,
   where a component version can provide very different functionality from another version.
 
@@ -82,8 +82,8 @@ These are some screenshots of the final version of the app:
 
 Our app builds on two directives, as we said.
 The first one will show/hide an element depending on the feature availability for a certain country,
-where the features will be _COUNTRY_HEADER_ and _COUNTRY_CONTENT_.
-This directive will get the feature availability from a service, the so called _CountryConfigService_.
+where the features will be `COUNTRY_HEADER` and `COUNTRY_CONTENT`.
+This directive will get the feature availability from a service, the so called `CountryConfigService`.
 
 ```typescript
 import {
@@ -111,8 +111,8 @@ export class CountryConfigService {
 }
 ```
 
-The _config_ is an object following a _CountryConfigDictionary_ model
-that lets us define which version of the _COUNTRY_HEADER_ and _COUNTRY_CONTENT_ components,
+The `config` is an object following a `CountryConfigDictionary` model
+that lets us define which version of the `COUNTRY_HEADER` and `COUNTRY_CONTENT` components,
 if any, is using each country:
 
 ```typescript
@@ -151,7 +151,7 @@ export const DEFAULT_COUNTRY_CONFIG: CountryConfigDictionary = {
 
 ## The FeatureIf directive
 
-With that in mind, let’s see the _FeatureIf_ directive.
+With that in mind, let’s see the `FeatureIf` directive.
 It will display an element if the feature is enabled for the country.
 Optionally, we can define the minimum version implemented by the country,
 meaning that if the country uses a lower version, the element will be hidden.
@@ -227,17 +227,17 @@ export class FeatureIfDirective implements OnChanges {
 }
 ```
 
-This structural directive makes use of 4 parameters: _featureName_, _countryCode_, _featureVersion_ and _else_.
+This structural directive makes use of 4 parameters: `featureName`, `countryCode`, `featureVersion` and `else`.
 Pay attention on how we define input properties in a structural directive:
 
-- The first input takes the name of the very same directive: _appFeatureIf_.
-  We use a setter to internally save it as _\_featureName_.
+- The first input takes the name of the very same directive: `appFeatureIf`.
+  We use a setter to internally save it as `_featureName`.
 - The rest of the inputs take the name of the directive plus the name of the parameter.
-  For instance, the input _appFeatureIfCountryCode_ references the directive parameter _countryCode_.
-  We also use here a setter to map the input to the private variable _\_countryCode_.
+  For instance, the input `appFeatureIfCountryCode` references the directive parameter `countryCode`.
+  We also use here a setter to map the input to the private variable `_countryCode`.
 
 Please remark below how the directive is used in a template.
-The first parameter doesn’t need a key, while the rest is passed with _“key: value”_ tuples, separated by a semicolon (;).
+The first parameter doesn’t need a key, while the rest is passed with `"key: value"` tuples, separated by a semicolon (`;`).
 
 ```html
 <div *appFeatureIf="'COUNTRY_HEADER';countryCode:code;version:2">
@@ -253,15 +253,15 @@ The first parameter doesn’t need a key, while the rest is passed with _“key:
 What the directive basically does is:
 
 - Registers for changes in any of the inputs.
-- When the directive is instantiated or any of the input changes, executes _applyChanges()_.
-- Computes if the feature is enabled according to feature _name_, _country code_ and _version_.
+- When the directive is instantiated or any of the input changes, executes `applyChanges()`.
+- Computes if the feature is enabled according to `featureName`, `countryCode` and `minVersion`.
 - Computes if the element has to be displayed.
-  If the _else_ parameter is defined and true, then it will be displayed if the feature is disabled.
-- Executes _embedTemplate()_, which creates the embedded view into the view container if the element should be displayed,
+  If the `else` parameter is defined and `true`, then it will be displayed if the feature is disabled.
+- Executes `embedTemplate()`, which creates the embedded view into the view container if the element should be displayed,
   or clears the view container otherwise.
 
 We use this directive in two cases in our app.
-In the header, we use it to hide the flag for countries implementing _COUNTRY_HEADER_ version 1.
+In the header, we use it to hide the flag for countries implementing `COUNTRY_HEADER` version 1.
 
 ```html
 <div
@@ -271,7 +271,7 @@ In the header, we use it to hide the flag for countries implementing _COUNTRY_HE
 ></div>
 ```
 
-In the parent component, we use the directive with the _else_ parameter set to _true_,
+In the parent component, we use the directive with the `else` parameter set to `true`,
 to display an informative text when the content component is not available.
 
 ```html
@@ -367,26 +367,26 @@ export class FeatureVersionDirective implements OnChanges {
 }
 ```
 
-This time, the directive takes three parameters: _featureName_, _countryCode_ and _data_.
-The _data_ parameter will be used to pass data to our dynamic component.
+This time, the directive takes three parameters: `featureName`, `countryCode` and `data`.
+The `data` parameter will be used to pass data to our dynamic component.
 Since different components may have different inputs,
-we took the approach of receiving any external data through this _data_ object.
+we took the approach of receiving any external data through this `data` object.
 Dynamic components may also receive external data through services, as we will see later.
 
 So basically, what this directive does is:
 
 - Registers for changes in any of the inputs.
-- When the directive is instantiated or any of the input changes, executes _applyChanges()_.
+- When the directive is instantiated or any of the input changes, executes `applyChanges()`.
 - Computes if the feature is enabled according to feature name and country code.
-- Gets the dynamic component type for the feature name and version from the _DynamicComponentService_.
+- Gets the dynamic component type for the feature name and version from the `DynamicComponentService`.
 - Clears the view container.
-- If a dynamic component type was retrieved successfully, executes _embedTemplate()_,
+- If a dynamic component type was retrieved successfully, executes `embedTemplate()`,
   which resolves a factory for this type of component and creates the embedded view into the view container.
 - Finally, it injects the data object into the dynamically instantiated component.
 
-Let’s see the code for those _DynamicComponent_ and _DynamicComponentService_ classes.
+Let’s see the code for those `DynamicComponent` and `DynamicComponentService` classes.
 
-The _DynamicComponent_ is just a class with a public _data_ property.
+The `DynamicComponent` is just a class with a public `data` property.
 We will also create a dictionary interface and a constant with the current dynamic component classes
 (country content version 1 and 2) that will be used by the service.
 
@@ -412,8 +412,8 @@ export const DEFAULT_DYNAMIC_COMPONENT_DICTIONARY: DynamicComponentDictionary = 
 };
 ```
 
-The _DynamicComponentService_ simply returns the appropriate component class,
-depending on the _featureName_ and _version_ parameters.
+The `DynamicComponentService` simply returns the appropriate component class,
+depending on the `featureName` and `version` parameters.
 
 ```typescript
 import {
@@ -445,7 +445,7 @@ Let’s see how this directive is used in the parent component.
 </ng-template>
 ```
 
-This is the code for the _CountryContentV1Component_ class.
+This is the code for the `CountryContentV1Component` class.
 
 ```typescript
 import { DynamicComponent } from "../../../../shared/services/dynamic-component/dynamic-component.model";
@@ -461,7 +461,7 @@ export class CountryContentV1Component implements DynamicComponent {
 }
 ```
 
-And this is how the template uses the _data_ property to display the country data.
+And this is how the template uses the `data` property to display the country data.
 
 ```html
 <div class="country-content">
@@ -476,8 +476,7 @@ And this is how the template uses the _data_ property to display the country dat
 </div>
 ```
 
-You can see a demo of the application here:
-
+You can see a demo of the application here:  
 https://stackblitz.com/edit/component-version-demo
 
 ## Versioned services
@@ -488,17 +487,16 @@ area and population, and that a new version should be created to include the new
 while still providing the old version for backward compatibility.
 
 In this case we can inject the corresponding service version in the versioned components.
-We won’t be using the _data_ property from _DynamicComponent_, but will get the data from the service instead.
-We could also use injection tokens to dynamically inject the versioned service depending on certain conditions.
+We won’t be using the `data` property from `DynamicComponent`, but will get the data from the service instead.
+We could also use _injection tokens_ to dynamically inject the versioned service depending on certain conditions.
 
-The following demo is a simple approach using versioned services.
-
+The following demo is a simple approach using versioned services:  
 https://stackblitz.com/edit/component-version-demo-services
 
 ## Final considerations
 
 The demo app is probably too simple for that kind of solution.
-We could still smartly use some _ngIf_ and _ngTemplate_ stuff to get to the same solution.
+We could still smartly use some `ngIf` and `ngTemplate` stuff to get to the same solution.
 But think of a case where the user doesn’t select the country from a combo box,
 but the country gets auto detected from your device settings,
 and think of a more complicated UI with a dashboard with several widgets that should be displayed or hidden,

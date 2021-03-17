@@ -1,6 +1,6 @@
 ---
 title: "Deploying an Angular CLI project on Github Pages and Stackblitz"
-description: "Learn how to easily deploy an angular CLI on Github Pages, as well as sharing a live edit mode version with Stackblitz"
+description: "Learn how to easily deploy an angular CLI project on Github Pages, as well as sharing a live edit mode version with Stackblitz"
 published: true
 datePublished: 1522047600000
 date: "2018-03-26T10:00:00.000Z"
@@ -23,9 +23,9 @@ Well, [Github Pages](https://pages.github.com/) to the rescue!
 ## GitHub Pages
 
 I am assuming that you already created your project with Angular CLI, so your project is already versioned with git.
-Let’s assume too that you already have a **GitHub account** with some _NICKNAME_.
-Head yourself to GitHub and create a new project, let’s call it _MY_PROJECT_.
-Don’t put any files in it, you can come back later and add the _README_ and the desired license,
+Let’s assume too that you already have a **GitHub account** with some `NICKNAME`.
+Head yourself to GitHub and create a new project, let’s call it `MY_PROJECT`.
+Don’t put any files in it, you can come back later and add the `README` and the desired license,
 but for now it will be easier if you just leave it blank.
 
 Then, connect your local git repository with the new remote repository and push the changes:
@@ -35,11 +35,11 @@ git remote add origin https://github.com/NICKNAME/MY_PROJECT.git
 git push origin master
 ```
 
-Now, if you already knew about GitHub Pages, you’d be tempted to manually activate them on the _index.html_ file of your project.
+Now, if you already knew about GitHub Pages, you’d be tempted to manually activate them on the `index.html` file of your project.
 **DON’T DO THAT! It won’t work!!**
 
 Your project still needs to be built for production,
-then a _dist_ folder will be created from which you could serve your GitHub pages but **DON’T! It won’t work!!!**
+then a `dist` folder will be created from which you could serve your GitHub pages but **DON’T! It won’t work!!!**
 
 It looks like GitHub Pages is not suited for SPAs, since it redirects any paths in your app to a 404 page.
 But some really nice guys developed [angular-cli-ghpages](https://www.npmjs.com/package/angular-cli-ghpages).
@@ -58,15 +58,14 @@ ng build --prod --base-href "https://NICKNAME.github.io/MY_PROJECT/"
 angular-cli-ghpages
 ```
 
-The second command has a bunch of options, but they are all optional as the word _option_ states,
+The second command has a bunch of options, but they are all optional as the word `option` states,
 and you don’t need much more to get your app up and running on GitHub Pages. Enjoy!
 
 Well, certainly you’ll need the URL of your app to share it with the world.
-This URL is exactly the one that we used on the ng build command:
-
+This URL is exactly the one that we used on the `ng build` command:  
 [https://NICKNAME.github.io/MY_PROJECT/](#)
 
-### Deploying ionic projects
+### Deploying Ionic projects
 
 Update: 2018-05-07
 
@@ -79,7 +78,7 @@ ionic build --prod
 ```
 
 The `--base-href` is not available in Ionic CLI (not that I'm aware of),
-so you will need to open the index.html file and write the base tag on your own, after the build is finished.
+so you will need to open the `index.html` file and write the base tag on your own, after the build is finished.
 You can put it after the title tag, for instance:
 
 ```html
@@ -91,7 +90,7 @@ You can put it after the title tag, for instance:
 />
 ```
 
-Now, as I said, the output of the build is not the default for Angular CLI, which would be the dist folder.
+Now, as I said, the output of the build is not the default for Angular CLI, which would be the `dist` folder.
 Use the `--dir` flag to specify the `www` folder as the source for GitHub Pages.
 
 ```bash
@@ -110,12 +109,10 @@ It’s like **JSfiddler** on steroids!
 Even simpler than registering on Stackblitz, creating a project and uploading your project files,
 this one line trick will load your GitHub project on the Stackblitz IDE.
 
-Just share this URL, using again your GitHub nickname and project name:
-
+Just share this URL, using again your GitHub nickname and project name:  
 [https://stackblitz.com/github/NICKNAME/MY_PROJECT](#)
 
-This is valid also for branches, tags or specific commits. Just use the following scheme for the URL:
-
+This is valid also for branches, tags or specific commits. Just use the following scheme for the URL:  
 [https://stackblitz.com/github/NICKNAME/MY_PROJECT/tree/{TAG|BRANCH|COMMIT}](#)
 
 I hope this post helped you to release your projects in a place where they can be seen, enjoyed and edited by others.

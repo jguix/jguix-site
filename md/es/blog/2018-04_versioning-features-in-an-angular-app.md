@@ -1,6 +1,6 @@
 ---
-title: "Versioning features in an angular app"
-description: "Versioning components and instantiating the appropriate version dynamically is not only possible but also has some use cases. Check this post where I explain how to accomplish that using a ComponentFactoryResolver and structural directives."
+title: "Versionar características en una aplicación angular"
+description: "Versionar componentes e instanciar la versión adecuada de forma dinámica no solo es posible, sino que también tiene algunos casos de uso. Consulta esta publicación donde explico cómo lograr eso usando un ComponentFactoryResolver y directivas estructurales."
 published: true
 datePublished: 1524553200000
 date: "2018-04-24T09:00:00.000Z"
@@ -13,77 +13,73 @@ thumbnailPhoto: "/img/blog/2018-04_versioning-features-in-an-angular-app/version
 canonicalUrl: https://juanguijordan.com/blog/2018-04_versioning-features-in-an-angular-app
 ---
 
-Imagine a scenario where your app needs to show different versions of a component or services to different groups of users.
-If it sounds a bit farfetched, take the following scenario that was proposed to our development team in some real project:
+Imagina un escenario en el que tu aplicación debe mostrar diferentes versiones de un componente o servicios a diferentes grupos de usuarios. Si suena un poco traído por los pelos, toma el siguiente escenario que se propuso a nuestro equipo de desarrollo en cierto proyecto real:
 
-- The app is downloaded from **Google Play/App Store**, and will be deployed in different countries, using the same app ID.
-- Different countries have different regulations as to whether the app can display user photographies, specific fields, and so on.
-  Also, some features should be totally disabled in some countries.
-- The app will keep growing in functionality, but not necessarily at the same time for all countries:
-  some countries may decide not to upgrade some feature, or upgrade it later;
-  some countries may take more time to review if some particular new feature follows their privacy regulations…
+- La aplicación se descarga desde **Google Play/App Store** y se implementará en diferentes países, utilizando el mismo app ID.
+- Los diferentes países tienen diferentes regulaciones sobre si la aplicación puede mostrar fotografías de usuarios, campos específicos, etc. Además, algunas funciones deberían estar totalmente deshabilitadas en algunos países.
+- La aplicación seguirá creciendo en funcionalidad, pero no necesariamente al mismo tiempo para todos los países:
+  algunos países pueden decidir no actualizar alguna función o actualizarla más tarde;
+  algunos países pueden tomar más tiempo para revisar si alguna característica nueva en particular sigue sus regulaciones de privacidad ...
 
-The naive approach of having ngIf directives all over the place can work for the simpler cases
-but it would be hard to maintain and would also clutter our beautiful templates.
-Also, components using different services when switching from one version to another would be very difficult to maintain.
+El enfoque ingenuo de tener directivas `ngIf` por todas partes puede funcionar para los casos más simples
+pero sería difícil de mantener y también saturaría nuestras hermosas plantillas.
+Además, los componentes que utilizan diferentes servicios al cambiar de una versión a otra serían muy difíciles de mantener.
 
-So we came up to the following approach, to cope with all those situations:
+Así que decidimos utilizar el siguiente enfoque para hacer frente a todas esas situaciones:
 
-- Create a directive to show/hide parts of a template depending on the country and version.
-  That would be like an extension of _ngIf_ with our _country_ and _version_ parameters,
-  and would give an answer to simple problems like hiding a whole feature in some countries,
-  or hiding a particular field for some countries/versions.
-- Create a directive that returns a dynamic component, depending on the _country_ and _version_ parameters.
-  This directive would be used for more general cases,
-  where a component version can provide very different functionality from another version.
+- Crear una directiva para mostrar/ocultar partes de una plantilla según el país y la versión.
+  Eso sería como una extensión de `ngIf` con nuestros parámetros `country` y `version`,
+  y daría una respuesta a problemas simples como ocultar una funcionalidad completa en algunos países,
+  u ocultar un campo en particular para algunos países/versiones.
+- Crear una directiva que devuelva un componente dinámico, según los parámetros `country` y `version`.
+  Esta directiva se utilizaría para casos más generales,
+  donde una versión de componente puede proporcionar una funcionalidad muy diferente a otra versión.
 
-To illustrate this post, we created an app. Our app proudly shows some country data,
-like a country flag, area and population.
-We made contact with governments all over the world and kindly asked them to join our non-profit revolutionary app,
-providing some basic data:
+Para ilustrar este post, hemos creado una aplicación. Nuestra aplicación muestra con orgullo algunos datos de países,
+como la bandera de un país, el área y la población.
+Nos pusimos en contacto con gobiernos de todo el mundo y les pedimos amablemente que se unieran a nuestra revolucionaria aplicación sin fines de lucro. proporcionando algunos datos básicos:
 
-- Country name
-- Area
-- Population
+- Nombre del país
+- Área
+- Población
 
-Some of these countries have really severe regulations and wanted to join the app,
-but without revealing their area and population initially,
-until their lawyers would determine if this data could be displayed.
-So we designed the first version of the app with a single screen,
-where the user would select the country from a select combo box,
-and a component with two subcomponents displaying the country data:
+Algunos de estos países tienen regulaciones muy severas y querían unirse a la aplicación,
+pero sin revelar su área y población inicialmente,
+hasta que sus abogados determinen si estos datos podrían mostrarse.
+Por eso diseñamos la primera versión de la aplicación con una sola pantalla,
+donde el usuario seleccionaría el país de un combo box,
+y un componente con dos subcomponentes que muestran los datos del país:
 
-- A header component for the country name
-- A content component for the data
+- Un componente de encabezado para el nombre del país
+- Un componente de contenido para los datos.
 
-The content component should be optional, and will display depending on the country’s regulations.
+El componente de contenido debe ser opcional y se mostrará según las normativas del país.
 
-![Design of the first version of the components](/img/blog/2018-04_versioning-features-in-an-angular-app/features_v1.png)
+![Diseño de la primera versión de los componentes](/img/blog/2018-04_versioning-features-in-an-angular-app/features_v1.png)
 
-These are some screenshots of the app at this point:
+Estas son algunas capturas de pantalla de la aplicación en este punto:
 
-![Screenshots of the first version of the app](/img/blog/2018-04_versioning-features-in-an-angular-app/features_v1_screenshots.png)
+![Capturas de pantalla de la primera versión de la aplicación.](/img/blog/2018-04_versioning-features-in-an-angular-app/features_v1_screenshots.png)
 
-After the kick off, some users were so excited that started to ask for some new features:
+Después de la puesta en marcha, algunos usuarios estaban tan emocionados que empezaron a pedir algunas funcionalidades nuevas:
 
-- They wanted to get the country flag displayed in the header
-- Some more data like country capital and wait for it… the national anthem, of course
+- Querían que se mostrara la bandera del país en el encabezado.
+- Algunos datos más como capital del país y ¿qué más…? el himno nacional, claro.
 
-The development team agreed that, given that some countries still had not provided their area and population,
-it was reasonable to think that some of them would not provide instantly their flag, capital and anthem.
-So we decided to version the header and content components, so we could give them a smooth path to upgrade their data,
-while still looking good in the app, showing the old components instead of new components with empty fields.
+El equipo de desarrollo estuvo de acuerdo en que, dado que algunos países aún no habían proporcionado su área y población,
+Era razonable pensar que algunos de ellos no entregarían instantáneamente su bandera, capital e himno.
+Así que decidimos versionar el encabezado y los componentes de contenido, de modo que pudiéramos darles un camino sencillo para actualizar sus datos sin dejar de verse bien en la aplicación, mostrando los componentes antiguos en lugar de los componentes nuevos con campos vacíos.
 
-![Design of the final version of the components](/img/blog/2018-04_versioning-features-in-an-angular-app/features_v2.png)
+![Diseño de la versión final de los componentes](/img/blog/2018-04_versioning-features-in-an-angular-app/features_v2.png)
 
-These are some screenshots of the final version of the app:
+Estas son algunas capturas de pantalla de la versión final de la aplicación:
 
 ![Screenshots of the final version of the app](/img/blog/2018-04_versioning-features-in-an-angular-app/features_v2_screenshots.png)
 
-Our app builds on two directives, as we said.
-The first one will show/hide an element depending on the feature availability for a certain country,
-where the features will be _COUNTRY_HEADER_ and _COUNTRY_CONTENT_.
-This directive will get the feature availability from a service, the so called _CountryConfigService_.
+Nuestra aplicación se basa en dos directivas, como dijimos.
+La primera mostrará/ocultará un elemento dependiendo de la disponibilidad de funciones para un determinado país,
+donde las características serán `COUNTRY_HEADER` y `COUNTRY_CONTENT`.
+Esta directiva obtendrá la disponibilidad de funciones de un servicio, el llamado `CountryConfigService`.
 
 ```typescript
 import {
@@ -111,9 +107,9 @@ export class CountryConfigService {
 }
 ```
 
-The _config_ is an object following a _CountryConfigDictionary_ model
-that lets us define which version of the _COUNTRY_HEADER_ and _COUNTRY_CONTENT_ components,
-if any, is using each country:
+La `config` es un objeto que sigue un modelo `CountryConfigDictionary`
+que nos permite definir qué versión de los componentes `COUNTRY_HEADER` y `COUNTRY_CONTENT`,
+si hay alguno, está usando cada país:
 
 ```typescript
 export const DEFAULT_COUNTRY_CONFIG: CountryConfigDictionary = {
@@ -149,13 +145,13 @@ export const DEFAULT_COUNTRY_CONFIG: CountryConfigDictionary = {
 };
 ```
 
-## The FeatureIf directive
+## La directiva FeatureIf
 
-With that in mind, let’s see the _FeatureIf_ directive.
-It will display an element if the feature is enabled for the country.
-Optionally, we can define the minimum version implemented by the country,
-meaning that if the country uses a lower version, the element will be hidden.
-I will skip the standard imports to save space in the listing:
+Con eso en mente, veamos la directiva `FeatureIf`.
+Mostrará un elemento si la función está habilitada para el país.
+Opcionalmente, podemos definir la versión mínima implementada por el país,
+lo que significa que si el país usa una versión más baja, el elemento estará oculto.
+Omitiré los imports estándar para ahorrar espacio en el listado:
 
 ```typescript
 import { CountryConfigService } from "../../services/country-config/country-config.service";
@@ -227,17 +223,17 @@ export class FeatureIfDirective implements OnChanges {
 }
 ```
 
-This structural directive makes use of 4 parameters: _featureName_, _countryCode_, _featureVersion_ and _else_.
-Pay attention on how we define input properties in a structural directive:
+Esta directiva estructural hace uso de 4 parámetros: `featureName`, `countryCode`, `featureVersion` y `else`.
+Presta atención a cómo definimos las propiedades de entrada en una directiva estructural:
 
-- The first input takes the name of the very same directive: _appFeatureIf_.
-  We use a setter to internally save it as _\_featureName_.
-- The rest of the inputs take the name of the directive plus the name of the parameter.
-  For instance, the input _appFeatureIfCountryCode_ references the directive parameter _countryCode_.
-  We also use here a setter to map the input to the private variable _\_countryCode_.
+- La primera entrada toma el nombre de la misma directiva: `appFeatureIf`.
+  Usamos un setter para guardarlo internamente como `_featureName`.
+- El resto de entradas toman el nombre de la directiva más el nombre del parámetro.
+  Por ejemplo, la entrada `appFeatureIfCountryCode` hace referencia al parámetro de directiva `countryCode`.
+  También usamos aquí un setter para mapear la entrada a la variable privada `_countryCode`.
 
-Please remark below how the directive is used in a template.
-The first parameter doesn’t need a key, while the rest is passed with _“key: value”_ tuples, separated by a semicolon (;).
+Observa a continuación cómo se utiliza la directiva en una plantilla.
+El primer parámetro no necesita una clave, mientras que el resto se pasa con tuplas `"key: value"`, separadas por un punto y coma (`;`).
 
 ```html
 <div *appFeatureIf="'COUNTRY_HEADER';countryCode:code;version:2">
@@ -250,18 +246,18 @@ The first parameter doesn’t need a key, while the rest is passed with _“key:
 </div>
 ```
 
-What the directive basically does is:
+Lo que básicamente hace la directiva es:
 
-- Registers for changes in any of the inputs.
-- When the directive is instantiated or any of the input changes, executes _applyChanges()_.
-- Computes if the feature is enabled according to feature _name_, _country code_ and _version_.
-- Computes if the element has to be displayed.
-  If the _else_ parameter is defined and true, then it will be displayed if the feature is disabled.
-- Executes _embedTemplate()_, which creates the embedded view into the view container if the element should be displayed,
-  or clears the view container otherwise.
+- Registra cambios en cualquiera de los inputs.
+- Cuando se crea una instancia de la directiva o cualquiera de los inputs cambia, ejecuta `applyChanges()`.
+- Calcula si la funcionalidad está habilitada de acuerdo con `featureName`,` countryCode` y `minVersion`.
+- Calcula si el elemento debe mostrarse.
+  Si el parámetro `else` está definido y es `true`, se mostrará si la función está deshabilitada.
+- Ejecuta `embedTemplate()`, que crea la vista embebida en el contenedor de la vista si el elemento debe mostrarse,
+  o borra el contenedor de vista de lo contrario.
 
-We use this directive in two cases in our app.
-In the header, we use it to hide the flag for countries implementing _COUNTRY_HEADER_ version 1.
+Usamos esta directiva en dos casos en nuestra aplicación.
+En el encabezado, lo usamos para ocultar la bandera de los países que implementan la versión 1 de `COUNTRY_HEADER`.
 
 ```html
 <div
@@ -271,8 +267,8 @@ In the header, we use it to hide the flag for countries implementing _COUNTRY_HE
 ></div>
 ```
 
-In the parent component, we use the directive with the _else_ parameter set to _true_,
-to display an informative text when the content component is not available.
+En el componente padre, usamos la directiva con el parámetro `else` a `true`,
+para mostrar un texto informativo cuando el componente de contenido no está disponible.
 
 ```html
 <div
@@ -284,9 +280,9 @@ to display an informative text when the content component is not available.
 </div>
 ```
 
-## The FeatureVersion directive
+## La directiva FeatureVersion
 
-Our second directive will allow us to dynamically inject a component or another, depending on some parameters.
+Nuestra segunda directiva nos permitirá inyectar dinámicamente un componente u otro, dependiendo de algunos parámetros.
 
 ```typescript
 import { CountryConfigService } from "../../services/country-config/country-config.service";
@@ -367,28 +363,28 @@ export class FeatureVersionDirective implements OnChanges {
 }
 ```
 
-This time, the directive takes three parameters: _featureName_, _countryCode_ and _data_.
-The _data_ parameter will be used to pass data to our dynamic component.
-Since different components may have different inputs,
-we took the approach of receiving any external data through this _data_ object.
-Dynamic components may also receive external data through services, as we will see later.
+Esta vez, la directiva toma tres parámetros: `featureName`, `countryCode` y `data`.
+El parámetro `data` se utilizará para pasar datos a nuestro componente dinámico.
+Dado que los diferentes componentes pueden tener diferentes entradas,
+tomamos el enfoque de recibir cualquier dato externo a través de este objeto `data`.
+Los componentes dinámicos también pueden recibir datos externos a través de servicios, como veremos más adelante.
 
-So basically, what this directive does is:
+Entonces, básicamente, lo que hace esta directiva es:
 
-- Registers for changes in any of the inputs.
-- When the directive is instantiated or any of the input changes, executes _applyChanges()_.
-- Computes if the feature is enabled according to feature name and country code.
-- Gets the dynamic component type for the feature name and version from the _DynamicComponentService_.
-- Clears the view container.
-- If a dynamic component type was retrieved successfully, executes _embedTemplate()_,
-  which resolves a factory for this type of component and creates the embedded view into the view container.
-- Finally, it injects the data object into the dynamically instantiated component.
+- Registra cambios en alguna de los inputs.
+- Cuando se instancia la directiva o cualquiera de los inputs cambia, ejecuta `applyChanges()`.
+- Calcula si la función está habilitada según el nombre de la funcionalidad y el código de país.
+- Obtiene el tipo de componente dinámico para el nombre de la funcionalidad y la versión de `DynamicComponentService`.
+- Borra el view container.
+- Si se recuperó con éxito un tipo de componente dinámico, ejecuta `embedTemplate()`,
+  que resuelve una factoría para este tipo de componente y crea la vista embebida en el view container.
+- Finalmente, inyecta el objeto de datos en el componente instanciado dinámicamente.
 
-Let’s see the code for those _DynamicComponent_ and _DynamicComponentService_ classes.
+Veamos el código para esas clases `DynamicComponent` y `DynamicComponentService`.
 
-The _DynamicComponent_ is just a class with a public _data_ property.
-We will also create a dictionary interface and a constant with the current dynamic component classes
-(country content version 1 and 2) that will be used by the service.
+El `DynamicComponent` es solo una clase con una propiedad pública `data`.
+También crearemos una interfaz de diccionario y una constante con las clases de componentes dinámicos actuales
+(versiones de contenido del país 1 y 2) que será utilizado por el servicio.
 
 ```typescript
 import { CountryContentV1Component } from "../../../country/components/country-content/v1/country-content.v1.component";
@@ -412,8 +408,8 @@ export const DEFAULT_DYNAMIC_COMPONENT_DICTIONARY: DynamicComponentDictionary = 
 };
 ```
 
-The _DynamicComponentService_ simply returns the appropriate component class,
-depending on the _featureName_ and _version_ parameters.
+`DynamicComponentService` simplemente devuelve la clase de componente adecuada,
+dependiendo de los parámetros `featureName` y `version`.
 
 ```typescript
 import {
@@ -435,7 +431,7 @@ export class DynamicComponentService {
 }
 ```
 
-Let’s see how this directive is used in the parent component.
+Veamos cómo se usa esta directiva en el componente principal.
 
 ```html
 <ng-template
@@ -445,7 +441,7 @@ Let’s see how this directive is used in the parent component.
 </ng-template>
 ```
 
-This is the code for the _CountryContentV1Component_ class.
+Este es el código de la clase `CountryContentV1Component`.
 
 ```typescript
 import { DynamicComponent } from "../../../../shared/services/dynamic-component/dynamic-component.model";
@@ -461,7 +457,7 @@ export class CountryContentV1Component implements DynamicComponent {
 }
 ```
 
-And this is how the template uses the _data_ property to display the country data.
+Y así es como la plantilla usa la propiedad `data` para mostrar los datos del país.
 
 ```html
 <div class="country-content">
@@ -476,33 +472,31 @@ And this is how the template uses the _data_ property to display the country dat
 </div>
 ```
 
-You can see a demo of the application here:
-
+Puedes ver una demo de la aplicación aquí:  
 https://stackblitz.com/edit/component-version-demo
 
-## Versioned services
+## Servicios versionados
 
-The situation can get a bit more complicated if services are also versioned.
-Let’s imagine that the first version of the service providing country data just included the country name,
-area and population, and that a new version should be created to include the new data,
-while still providing the old version for backward compatibility.
+La situación puede complicarse un poco más si los servicios también están versionados.
+Imaginemos que la primera versión del servicio que proporciona datos del país solo incluye el nombre del país,
+área y población, y que se debe crear una nueva versión para incluir los nuevos datos,
+al mismo tiempo que proporciona la versión anterior para compatibilidad con versiones anteriores.
 
-In this case we can inject the corresponding service version in the versioned components.
-We won’t be using the _data_ property from _DynamicComponent_, but will get the data from the service instead.
-We could also use injection tokens to dynamically inject the versioned service depending on certain conditions.
+En este caso podemos inyectar la versión de servicio correspondiente en los componentes versionados.
+No usaremos la propiedad `data` de `DynamicComponent`, sino que obtendremos los datos del servicio.
+También podríamos usar _injection tokens_ para inyectar dinámicamente el servicio versionado dependiendo de ciertas condiciones.
 
-The following demo is a simple approach using versioned services.
-
+La siguiente demo es un enfoque simple que utiliza servicios versionados:  
 https://stackblitz.com/edit/component-version-demo-services
 
-## Final considerations
+## Consideraciones finales
 
-The demo app is probably too simple for that kind of solution.
-We could still smartly use some _ngIf_ and _ngTemplate_ stuff to get to the same solution.
-But think of a case where the user doesn’t select the country from a combo box,
-but the country gets auto detected from your device settings,
-and think of a more complicated UI with a dashboard with several widgets that should be displayed or hidden,
-or have different content according to the country, and then this approach will make much more sense.
+La aplicación de demo probablemente sea demasiado simple para ese tipo de solución.
+Podríamos haber usado inteligentemente algunas combinación de `ngIf` y `ngTemplate` para llegar a la misma solución.
+Pero piensa en un caso en el que el usuario no selecciona el país de un cuadro combinado,
+sino que el país se detecta automáticamente desde la configuración de su dispositivo,
+y piensa en una interfaz de usuario más complicada con un panel con varios widgets que deberían mostrarse u ocultarse,
+o tener contenido diferente según el país, y entonces este enfoque tendrá mucho más sentido.
 
-This post is long enough to get into more details.
-If you have suggestions to enhance it, please include them in your comments :)
+Este post es lo suficientemente largo para entrar en más detalles.
+Si tienes sugerencias para mejorarlo, inclúyelas en tus comentarios :)
