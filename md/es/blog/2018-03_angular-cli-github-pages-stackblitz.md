@@ -1,6 +1,6 @@
 ---
 title: "Deploying an Angular CLI project on Github Pages and Stackblitz"
-excerpt: "Learn how to easily deploy an angular CLI on Github Pages, as well as sharing a live edit mode version with Stackblitz"
+description: "Learn how to easily deploy an angular CLI on Github Pages, as well as sharing a live edit mode version with Stackblitz"
 published: true
 datePublished: 1522047600000
 date: "2018-03-26T10:00:00.000Z"

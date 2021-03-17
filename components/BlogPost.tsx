@@ -1,14 +1,15 @@
-import React, { FC } from "react";
+import React, { FC } from 'react';
 
-import { PostData } from "../loader";
-import { Author } from "./Author";
-import { Markdown } from "./Markdown";
-import { PostMeta } from "./PostMeta";
+import { PostData } from '../loader';
+import { Author } from './Author';
+import { Markdown } from './Markdown';
+import { PostMeta } from './PostMeta';
+import { Tag } from './Tag';
 
 export const BlogPost: FC<{ post: PostData }> = ({ post }) => {
   if (!post) return <></>;
 
-  const { bannerPhoto, content, subtitle, title } = post;
+  const { bannerPhoto, content, subtitle, tags, title } = post;
 
   return (
     <div className="blog-post">
@@ -20,6 +21,12 @@ export const BlogPost: FC<{ post: PostData }> = ({ post }) => {
         {subtitle && <h2>{subtitle}</h2>}
         <br />
         <Author post={post} />
+        <br />
+        {
+          <div className="tag-container">
+            {tags && (tags || []).map((tag) => <Tag tag={tag} />)}
+          </div>
+        }
       </div>
 
       <div className="blog-post-content">

@@ -1,6 +1,6 @@
 ---
 title: "Creating a Chrome extension"
-excerpt: "In this post, I will show you how to create a simple Chrome extension, using just JavaScript, HTML and CSS. I will also summarize all what a Chrome extension can do, and I will introduce how to create more complex extensions based on modern JavaScript frameworks like React, Angular or Vue."
+description: "In this post, I will show you how to create a simple Chrome extension, using just JavaScript, HTML and CSS. I will also summarize all what a Chrome extension can do, and I will introduce how to create more complex extensions based on modern JavaScript frameworks like React, Angular or Vue."
 published: true
 datePublished: 1590994800000
 date: "2020-06-01T09:00:00.000Z"

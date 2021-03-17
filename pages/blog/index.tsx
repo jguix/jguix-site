@@ -40,7 +40,7 @@ const Blog: FC<Props> = ({ posts }) => {
 export default Blog;
 
 export const getStaticProps = async ({ locale }: any) => {
-  const posts = await loadBlogPosts();
+  const posts = await loadBlogPosts(locale);
 
   // comment out to turn off RSS generation during build step.
   await generateRSS(posts);

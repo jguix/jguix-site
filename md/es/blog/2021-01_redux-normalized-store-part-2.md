@@ -1,6 +1,6 @@
 ---
 title: "Usando redux con datos relacionales (2/3)"
-excerpt: "En esta serie de posts crearemos una aplicación usando react y redux, en la que manejaremos datos relacionales. En esta segunda parte implementaremos la store."
+description: "En esta serie de posts crearemos una aplicación usando react y redux, en la que manejaremos datos relacionales. En esta segunda parte implementaremos la store."
 published: true
 datePublished: 1611648000000
 date: "2021-01-26T09:00:00.000Z"

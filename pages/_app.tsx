@@ -1,12 +1,12 @@
-import "../styles/base.css";
+import '../styles/base.css';
 
-import { appWithTranslation } from "next-i18next";
-import Head from "next/head";
-import React, { FC } from "react";
+import { appWithTranslation } from 'next-i18next';
+import Head from 'next/head';
+import React, { FC } from 'react';
 
-import { Footer } from "../components/Footer";
-import { Header } from "../components/Header";
-import { globals } from "../globals";
+import { Footer } from '../components/Footer';
+import { Header } from '../components/Header';
+import { globals } from '../globals';
 
 const App: FC = ({ Component, pageProps }: any) => {
   return (

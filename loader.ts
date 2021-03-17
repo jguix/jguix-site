@@ -1,7 +1,7 @@
-import glob from "glob";
-import matter from "gray-matter";
+import glob from 'glob';
+import matter from 'gray-matter';
 
-import { globals } from "./globals";
+import { globals } from './globals';
 
 export type PostData = {
   path: string;
@@ -61,12 +61,12 @@ export const mdToPost = (file: RawFile): PostData => {
   return post as PostData;
 };
 
-export const loadMarkdownFiles = async (path: string) => {
+export const loadMarkdownFiles = async (path: string, locale?: string) => {
   const blogPaths = glob.sync(`./md/${path}`);
   const postDataList = await Promise.all(
     blogPaths.map((blogPath) => {
       const modPath = blogPath.slice(blogPath.indexOf(`md/`) + 3);
-      return loadMarkdownFile(`${modPath}`);
+      return loadMarkdownFile(`${modPath}`, locale);
     })
   );
   return postDataList;
@@ -80,8 +80,8 @@ export const loadPost = async (
   return mdToPost(file);
 };
 
-export const loadBlogPosts = async (): Promise<PostData[]> => {
-  return await (await loadMarkdownFiles(`blog/*.md`))
+export const loadBlogPosts = async (locale?: string): Promise<PostData[]> => {
+  return await (await loadMarkdownFiles(`blog/*.md`, locale))
     .map(mdToPost)
     .filter((p) => p.published)
     .sort((a, b) => (b.datePublished || 0) - (a.datePublished || 0));

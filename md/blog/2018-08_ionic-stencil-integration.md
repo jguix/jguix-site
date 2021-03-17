@@ -1,6 +1,6 @@
 ---
 title: "Using Stencil Built Web Components with Ionic"
-excerpt: "This post aims at providing clear instructions on how to use components created and compiled with Stencil on an Ionic application. I will guide you in the process of making your web component available in your Ionic templates, without the need of registering them in the npm registry or adding ugly script tags to your index file."
+description: "This post aims at providing clear instructions on how to use components created and compiled with Stencil on an Ionic application. I will guide you in the process of making your web component available in your Ionic templates, without the need of registering them in the npm registry or adding ugly script tags to your index file."
 published: true
 datePublished: 1536735600000
 date: "2018-09-12T10:00:00.000Z"
