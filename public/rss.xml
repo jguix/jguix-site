@@ -1,15 +1,15 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Juangui Jordán]]></title><description><![CDATA[This is my site where I gather my blog posts and some other random stuff]]></description><link>https://juanguijordan.com</link><image><url>https://juanguijordan.com/icon.png</url><title>Juangui Jordán</title><link>https://juanguijordan.com</link></image><generator>RSS for Node</generator><lastBuildDate>Wed, 17 Mar 2021 23:54:49 GMT</lastBuildDate><atom:link href="https://juanguijordan.com/rss.xml" rel="self" type="application/rss+xml"/><pubDate>Wed, 17 Feb 2021 08:00:00 GMT</pubDate><copyright><![CDATA[2021 Juangui Jordán]]></copyright><language><![CDATA[en]]></language><managingEditor><![CDATA[juangui@gmail.com]]></managingEditor><webMaster><![CDATA[juangui@gmail.com]]></webMaster><ttl>60</ttl><item><title><![CDATA[Using redux with relational data (2/3)]]></title><description><![CDATA[<h2 id="part2implementingthereduxstore">Part 2. Implementing the redux store</h2>
-<p>In this series of posts we will create an application using <strong>react</strong> and <strong>redux</strong>, in which we will handle relational data. In this second part we will be implementing the store.</p>
-<p>We ended up the last part of this series modelling the store. Check part 1 if you need more context on that: <a href="https://blog.mimacom.com/redux-normalized-store-part-1/">Using redux with relational data (1/3)</a>.</p>
-<p>Our store will have two main reducers, the <code>entities</code> store and the <code>ui</code> store.</p>
-<p>Let's start by creating the <code>entities</code> store. It will hold 3 types of data, or entities, namely:</p>
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Juangui Jordán]]></title><description><![CDATA[This is my site where I gather my blog posts and some other random stuff]]></description><link>https://juanguijordan.com</link><image><url>https://juanguijordan.com/icon.png</url><title>Juangui Jordán</title><link>https://juanguijordan.com</link></image><generator>RSS for Node</generator><lastBuildDate>Thu, 18 Mar 2021 00:00:26 GMT</lastBuildDate><atom:link href="https://juanguijordan.com/rss.xml" rel="self" type="application/rss+xml"/><pubDate>Wed, 17 Feb 2021 08:00:00 GMT</pubDate><copyright><![CDATA[2021 Juangui Jordán]]></copyright><language><![CDATA[en]]></language><managingEditor><![CDATA[juangui@gmail.com]]></managingEditor><webMaster><![CDATA[juangui@gmail.com]]></webMaster><ttl>60</ttl><item><title><![CDATA[Usando redux con datos relacionales (2/3)]]></title><description><![CDATA[<h2 id="parte2implementandolastorederedux">Parte 2. Implementando la store de redux</h2>
+<p>En esta serie de posts crearemos una aplicación usando <strong>react</strong> y <strong>redux</strong>, en la que manejaremos datos relacionales. En esta segunda parte modelaremos la store.</p>
+<p>Al final de la anterior parte de esta serie habíamos modelado la tienda. Consulta la parte 1 si necesitas más contexto sobre ello: <a href="https://blog-es.mimacom.com/redux-normalized-store-part-1/">Usando redux con datos relacionales (1/3)</a>.</p>
+<p>Nuestra tienda tendrá dos reducers principales, la store <code>entities</code> y la store <code>ui</code>.</p>
+<p>Comencemos por crear la store <code>entities</code>. Tendrá 3 tipos de datos o entidades, a saber:</p>
 <ul>
 <li>user</li>
 <li>comment</li>
 <li>post</li>
 </ul>
-<p>Each entity will have associated types, actions and reducers. For the sake of easy comprehension, I'll show the types and actions in the first place.</p>
-<p>User types:</p>
+<p>Cada entidad tendrá asociados tipos, acciones y reducers. En aras de una fácil comprensión, mostraré los tipos y acciones en primer lugar.</p>
+<p>Tipos de usuario:</p>
 <pre><code class="javascript language-javascript">// user.types.ts
 export type User = {
   avatar: string,
@@ -18,7 +18,7 @@ export type User = {
   name: string,
 };
 </code></pre>
-<p>The user actions will include an action to load all users into the store, and an action to load a single user. The first one will be potentially called from the <code>My Friends</code> page, the second one from <code>My Wall</code> or <code>Friend Wall</code> page, where posts and comments will display the associated user next to them.</p>
+<p>Las acciones del usuario incluirán una acción para cargar todos los usuarios en la store y una acción para cargar un solo usuario. La primera será llamada potencialmente desde la página <code>My Friends</code>, la segunda desde la página <code>My Wall</code> o la página <code>Friend Wall</code>, donde los posts y los comentarios mostrarán el usuario asociado junto a ellos.</p>
 <pre><code class="javascript language-javascript">// user.actions.ts
 import { User } from './user.types';
 
@@ -64,7 +64,7 @@ export const userActions = {
   loadUsersAction,
 };
 </code></pre>
-<p>Similarly we will have <code>post</code> types, where each post has a <code>userId</code>, which is the way that our database will manage the one-to-many relation (but remember that we will make this data more easily searchable by creating a <code>postIdsById</code> reducer inside the <code>users</code> reducer):</p>
+<p>De igual manera, tendremos tipos de <code>post</code>, donde cada publicación tiene un <code>userId</code>, que es la forma en que nuestra base de datos administrará la relación de uno a muchos (pero recuerda que haremos que estos datos sean más fáciles de buscar creando un reducer <code>postIdsById</code> dentro del reducer <code>users</code>):</p>
 <pre><code class="javascript language-javascript">// post.types.ts
 export type Post = {
   body: string,
@@ -73,7 +73,7 @@ export type Post = {
   userId: number,
 };
 </code></pre>
-<p>The <code>post</code> actions only include an action to load posts by user, with the <code>userId</code> being an optional parameter. We will dispatch this action with the <code>userId</code> param informed from the <code>Friend Wall</code> page to get all his posts. We will dispatch this action with the <code>userId</code> param <code>undefined</code> from <code>My Wall</code> to get all posts from all users (to simplify, let's say that all users are friends of mine).</p>
+<p>Las acciones de los <code>post</code> solo incluyen una acción para cargar publicaciones por usuario, siendo el <code>userId</code> un parámetro opcional. Enviaremos esta acción con el parámetro <code>userId</code> informado desde la página<code>Friend Wall</code> para obtener todas sus publicaciones. Despacharemos esta acción con el parámetro <code>userId</code> con valor <code>undefined</code> desde <code>My Wall</code> para obtener todas las publicaciones de todos los usuarios (para simplificar, digamos que todos los usuarios son amigos míos).</p>
 <pre><code class="javascript language-javascript">// post.actions.ts
 import { Post } from './post.types';
 
@@ -102,7 +102,7 @@ export const postActions = {
   loadPostsAction,
 };
 </code></pre>
-<p>As for the <code>comment</code> types, they will hold indexes pointing to the related <code>post</code> and <code>user</code>:</p>
+<p>En cuanto a los tipos de <code>comment</code>, contendrán índices que apuntan al <code>post</code> y el <code>user</code> relacionados:</p>
 <pre><code class="javascript language-javascript">// comment.types.ts
 export type Comment = {
   body: string,
@@ -112,7 +112,7 @@ export type Comment = {
   userId: number,
 };
 </code></pre>
-<p>The <code>comment</code> actions also include just one action to load comments by post:</p>
+<p>Las acciones de <code>comment</code> también incluyen solo una acción para cargar comentarios por post:</p>
 <pre><code class="javascript language-javascript">// comments.actions
 import { Comment } from './comment.types';
 
@@ -141,7 +141,7 @@ export const commentActions = {
   loadCommentsAction,
 };
 </code></pre>
-<p>Now, let's address the reducers. Regarding the <code>user</code> reducer, it will be created by combining two reducers. The first one will take the <code>LoadUsersAction</code> action and store a map of users by <code>id</code>. It will also process the <code>LoadUserAction</code> and store the user in the map. The second one will take the <code>LoadPostsAction</code> and store a map of <code>postIds</code> related to a user.</p>
+<p>Ahora, abordemos los reducers. En cuanto al reducer <code>user</code>, se creará combinando dos reducers. El primero tomará la acción <code>LoadUsersAction</code> y almacenará un mapa de usuarios por<code>id</code>. También procesará la <code>LoadUserAction</code> y almacenará al usuario en el mapa. El segundo tomará el <code>LoadPostsAction</code> y almacenará un mapa de <code>postIds</code> relacionados con un usuario.</p>
 <pre><code class="javascript language-javascript">// user.reducer.ts
 import { User } from './user.types';
 import { UserActionTypes, LoadUsersAction, LoadUserAction } from './user.actions';
@@ -213,13 +213,13 @@ export const userReducer: Reducer&lt;UserState&gt; = combineReducers({
   postIdsById: postIdsByIdReducer,
 });
 </code></pre>
-<p>The <code>NumberIndexed</code> custom type is defined as follows, in a shared file where we also define the types for the filters. This type allows us to type maps with numbers as index used by the reducers above.</p>
+<p>El tipo personalizado <code>NumberIndexed</code> se define de la siguiente manera, en un archivo compartido donde también definimos los tipos para los filtros. Este tipo nos permite tipar mapas con números como índices, utilizados por los reductores anteriores.</p>
 <pre><code class="javascript language-javascript">// shared.types.ts
 export type NumberIndexed&lt;T&gt; = { [index: number]: T };
 export type StringIndexed&lt;T&gt; = { [index: string]: T };
 export type OrderType = "asc" | "desc";
 </code></pre>
-<p>Similarly, the <code>post</code> reducer has a reducer related to the <code>LoadPost</code> action ans a reducer taking care of the <code>LoadCommentsAction</code>.</p>
+<p>De manera similar, el reducer <code>post</code> tiene un reducer relacionado con la acción<code>LoadPost</code> y un reducer que se encarga de la <code>LoadCommentsAction</code>.</p>
 <pre><code class="javascript language-javascript">// post.reducer.ts
 import { Post } from './post.types';
 import { PostActionTypes, LoadPostsAction } from './post.actions';
@@ -284,7 +284,7 @@ export const postReducer: Reducer&lt;PostState&gt; = combineReducers({
   commentIdsById: commentIdsByIdReducer,
 });
 </code></pre>
-<p>The <code>comment</code> reducer is more simple, taking care just of the <code>LoadComments</code> action.</p>
+<p>El reducer de <code>comment</code> es más simple, encargándose solo de la acción<code>LoadComments</code>.</p>
 <pre><code class="javascript language-javascript">// comment.reducer.ts
 import { Comment } from './comment.types';
 import { CommentActionTypes, LoadCommentsAction } from './comment.actions';
@@ -319,8 +319,8 @@ export const commentReducer: Reducer&lt;CommentState&gt; = combineReducers({
   byId: commentByIdReducer,
 });
 </code></pre>
-<p>Next, we will implement the <code>ui</code> store. It will hold data for <code>My Wall</code>, <code>Friend Wall</code> and <code>Friends</code> page.</p>
-<p><code>My wall</code> will not hold custom types, just indexes to the <code>post</code> entities belonging to the user that will be displayed in the page. The actions will include an action to load wall posts.</p>
+<p>A continuación, implementaremos la store <code>ui</code>. Contendrá los datos de la página <code>My Wall</code>, <code>Friend Wall</code> y <code>Friends</code>.</p>
+<p><code>My Wall</code> no contendrá tipos personalizados, solo índices a entidades de <code>post</code> que pertenecen al usuario que se mostrarán en la página. Las acciones incluirán una acción para cargar posts del muro.</p>
 <pre><code class="javascript language-javascript">// wall.actions.ts
 export enum WallActionTypes {
   LOAD_POSTS = 'WALL:LOAD_POSTS',
@@ -346,7 +346,7 @@ export const wallActions = {
   loadWallPostsAction,
 };
 </code></pre>
-<p>The reducer will be simple, just taking care of that action.</p>
+<p>El reducer será sencillo, encargándose solo de esa acción.</p>
 <pre><code class="javascript language-javascript">// wall.reducer.ts
 import { AnyAction, combineReducers, Reducer } from 'redux';
 import { LoadWallPostsAction, WallActionTypes } from './wall.actions';
@@ -374,8 +374,8 @@ export const wallReducer: Reducer&lt;WallState&gt; = combineReducers({
   postIds: postIdsReducer,
 });
 </code></pre>
-<p>We will ommit the code for the actions and reducers associated to the <code>Friend Wall</code>, which are very similar to the ones for <code>My Wall</code>. You can check the <a href="https://github.com/jguix/redux-normalized-example/tree/blogpost-part2">git repository branch</a> for this post if you want all the source code.</p>
-<p>The <code>Friends</code> actions will include loading friends and setting the friends list order (ascending or descending).</p>
+<p>Omitiremos el código para las acciones y reducers asociados al <code>Friend Wall</code>, que son muy similares a los de <code>My Wall</code>. Puedes consultar la <a href="https://github.com/jguix/redux-normalized-example/tree/blogpost-part2">rama del repositorio de git</a> para este post si deseas ver todo el código fuente.</p>
+<p>Las acciones de <code>Friends</code> incluirán cargar amigos y establecer el orden de la lista de amigos (ascendente o descendente).</p>
 <pre><code class="javascript language-javascript">// friends.actions.ts
 import { OrderType } from '../shared/shared.types';
 
@@ -421,7 +421,7 @@ export const friendsActions = {
   setFriendsOrderAction,
 };
 </code></pre>
-<p>The <code>friends</code> reducer will have reducers that just point to <code>user</code> entities. We will have one for the ascending order list and one for the descending order list, because we will implement a pagination strategy with the backend (we will talk about that on the next post of the series). Another reducer will store the state of the filter.</p>
+<p>El reducer <code>friends</code> tendrá reducers que solo apunten a las entidades <code>user</code>. Tendremos uno para la lista con orden ascendente y otro para la lista con orden descendente, porque implementaremos una estrategia de paginación con el backend (de eso hablaremos en la próxima publicación de la serie). Otro reducer almacenará el estado del filtro.</p>
 <pre><code class="javascript language-javascript">// friends.reducer.ts
 import { AnyAction, combineReducers, Reducer } from 'redux';
 import { FriendsActionTypes, LoadFriendsAction, SetFriendsOrderAction } from './friends.actions';
@@ -465,10 +465,10 @@ export const friendsReducer: Reducer&lt;FriendsState&gt; = combineReducers({
   userIds: userIdsReducer,
 });
 </code></pre>
-<p>To create the store, we will first install the <a href="https://github.com/zalmoxisus/redux-devtools-extension">redux-devtools-extension</a>. With this tools we will be able to debug the dispatching of actions and the changes in the state of the store.</p>
+<p>Para crear la store, primero instalaremos la <a href="https://github.com/zalmoxisus/redux-devtools-extension">redux-devtools-extension</a>. Con estas herramientas podremos depurar el despacho de acciones y los cambios en el estado de la store.</p>
 <pre><code>yarn add redux-devtools-extension
 </code></pre>
-<p>The <code>root</code> store is composed of the <code>entities</code> store and <code>ui</code> store as follows:</p>
+<p>La <code>root</code> store se compone de la store <code>entities</code> y la store <code>ui</code> de la siguiente manera:</p>
 <pre><code class="javascript language-javascript">// store.ts
 import { combineReducers, createStore, Reducer } from "redux";
 import { userReducer, UserStore } from "../modules/user/user.reducer";
@@ -516,7 +516,7 @@ export const rootReducer: Reducer&lt;ApplicationStore&gt; = combineReducers({
 
 export const store = createStore(rootReducer, composeWithDevTools());
 </code></pre>
-<p>Finally, let's throw some data into this store, dispatch some actions and see the results. We will use some mocked data and will display the results using some <code>console.log</code> messages and printing the contents of the store in the main page. Alternatively, you can debug these actions with a Chrome plugin like <a href="https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd">Redux DevTools</a>.</p>
+<p>Finalmente, introduzcamos algunos datos en esta store, enviemos algunas acciones y veamos los resultados. Usaremos algunos datos simulados y mostraremos los resultados usando mensajes <code>console.log</code> e imprimiendo el contenido de la store en la página principal. Alternativamente, puede depurar estas acciones con un complemento de Chrome como <a href="https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd">Redux DevTools</a>.</p>
 <pre><code class="javascript language-javascript">// App.tsx
 import React from "react";
 import "./App.css";
@@ -620,22 +620,22 @@ const App = () =&gt; {
 
 export default App;
 </code></pre>
-<p>If we run the app we can follow in the console log how the store dispatches actions and the result in the output page. We can also follow the steps, the partial updates and the result in the React DevTools extension.</p>
+<p>Si ejecutamos la aplicación, podemos seguir en la consola cómo la store despacha acciones y el resultado en la página generada. También podemos seguir los pasos, las actualizaciones parciales y el resultado en la extensión React DevTools.</p>
 <p><img src="/img/blog/2021-01_redux-normalized-store-part-2/redux-dev-tools.png" alt="Redux DevTools Extension" /></p>
-<p>If you wan to dig more into the code, remember that you can check the whole source code in this branch:</p>
+<p>Si deseas profundizar más en el código, recuerda que puedes consultar todo el código fuente en esta rama:</p>
 <p><a href="https://github.com/jguix/redux-normalized-example/tree/blogpost-part2">https://github.com/jguix/redux-normalized-example/tree/blogpost-part2</a></p>
-<p>In the next post we will implement the pages and components and a mocked backend with pagination. We will also implement caching methods to avoid asking for the same data again and again.</p>
+<p>En la próxima publicación implementaremos las páginas y componentes y un backend simulado con paginación. También implementaremos métodos de almacenamiento en caché para evitar pedir los mismos datos una y otra vez.</p>
 <h2 id="credits">Credits</h2>
-<p>Photo by <a href="https://unsplash.com/@sigmund">Sigmund</a> on <a href="https://unsplash.com/">Unsplash</a>.</p>]]></description><link>https://juanguijordan.com/blog/2021-01_redux-normalized-store-part-2</link><guid isPermaLink="true">https://juanguijordan.com/blog/2021-01_redux-normalized-store-part-2</guid><category><![CDATA[javascript]]></category><category><![CDATA[frontend]]></category><dc:creator><![CDATA[Juangui Jordán]]></dc:creator><pubDate>Tue, 26 Jan 2021 08:00:00 GMT</pubDate></item><item><title><![CDATA[Using redux with relational data (1/3)]]></title><description><![CDATA[<h2 id="part1modellingthereduxstore">Part 1. Modelling the redux store</h2>
-<p>In this series of posts we will create an application using <strong>react</strong> and <strong>redux</strong>, in which we will handle relational data. In this first part we will be modelling the store.</p>
-<p>Often the redux tutorials are too simple and handle a flat data structure. This is the case of the typical TODO app (to-do list), or a shopping list, etc. In these cases we usually manage a few reducers, which are independent of each other.</p>
-<p>For example:</p>
+<p>Fotografía por <a href="https://unsplash.com/@sigmund">Sigmund</a> on <a href="https://unsplash.com/">Unsplash</a>.</p>]]></description><link>https://juanguijordan.com/blog/2021-01_redux-normalized-store-part-2</link><guid isPermaLink="true">https://juanguijordan.com/blog/2021-01_redux-normalized-store-part-2</guid><category><![CDATA[javascript]]></category><category><![CDATA[frontend]]></category><dc:creator><![CDATA[Juangui Jordán]]></dc:creator><pubDate>Tue, 26 Jan 2021 08:00:00 GMT</pubDate></item><item><title><![CDATA[Usando redux con datos relacionales (1/3)]]></title><description><![CDATA[<h2 id="parte1modelandolastorederedux">Parte 1. Modelando la store de redux</h2>
+<p>En esta serie de posts crearemos una aplicación usando <strong>react</strong> y <strong>redux</strong>, en la que manejaremos datos relacionales. En esta primera parte modelaremos la store.</p>
+<p>A menudo, los tutoriales sobre redux son demasiado simples y manejan una estructura de datos plana. Es el caso de la típica app de TODOs (lista de tareas), o una lista de la compra, etc. En estos casos solemos tener unos pocos reducers, los cuales son independientes entre sí.</p>
+<p>Por ejemplo:</p>
 <ul>
-<li>The list of TODOs, including the status of each task.</li>
-<li>The value of a show/hide filter, for example "hide complete".</li>
-<li>The value of a sort filter, for example "sort by ascending creation date".</li>
+<li>La lista de TODOs, incluyendo el estado de cada tarea.</li>
+<li>El valor de un filtro de mostrar/ocultar, por ejemplo, "ocultar completas".</li>
+<li>El valor de un filtro de orden, por ejemplo, "ordenar por fecha de creación ascendente".</li>
 </ul>
-<p>In such a simple case, the store doesn't need to handle relationships, and it can be rendered in an object similar to the following:</p>
+<p>En un caso así de simple, la store no tiene que manejar relaciones, y se puede representar en un objeto similar a este:</p>
 <pre><code class="json language-json">{
   "todos": [
     {
@@ -661,18 +661,18 @@ export default App;
   "orderBy": "date-asc"
 }
 </code></pre>
-<p>However, real applications are usually more complex. Some data is dependent on others, and there are hierarchies: one-to-one, one-to-many, and many-to-many relationships. This will present us with several challenges, both in the representation of the state in the store, and in the efficiency of communication with the backend.</p>
-<p>To illustrate that, we will use the example of a social network. The main entities that we will handle are users, posts and comments. Users can create posts, and posts can contain comments from other users. Simple, isn't it?</p>
-<p>In order to model this data, let's look first at some of the designs of our social network.</p>
-<p>The home page of our social network will be <strong>My Wall</strong>, the page where my posts and those of all my friends are shown, with their respective comments.</p>
+<p>Sin embargo, las aplicaciones reales suelen ser más complejas. Algunos datos dependen de otros y existen jerarquías: relaciones uno a uno, uno a muchos y muchos a muchos. Esto nos va a presentar varios retos, tanto en la representación del estado en la store, como en la eficiencia de la comunicación con el backend.</p>
+<p>Para ilustrarlo, usaremos el ejemplo de una red social. Las entidades principales que manejaremos son usuarios, posts y comentarios. Los usuarios podrán crear posts, y los posts podrán contener comentarios de otros usuarios. Simple, ¿verdad?</p>
+<p>Veamos en primer lugar algunos de los diseños de nuestra red social, para modelar estos datos.</p>
+<p>La página inicial de nuestra red social será <strong>Mi Muro</strong>, la página donde aparecen mis posts y los de todos mis amigos, con sus respectivos comentarios.</p>
 <p><img src="/img/blog/2020-08_redux-normalized-store-part-1/my_wall.png" alt="My Wall" /></p>
-<p>There will also be a <strong>Friends</strong> page, where the users who are direct contacts of mine are listed.</p>
+<p>También habrá una página de <strong>Amigos</strong>, donde se listan los usuarios que son contactos directos míos.</p>
 <p><img src="/img/blog/2020-08_redux-normalized-store-part-1/my_friends.png" alt="My Friends" /></p>
-<p>From this page, if I click on one of my friends, I will visit the <strong>Friend's wall</strong>, that is, a page where their posts will appear, along with the comments of other users.</p>
+<p>Desde esta página, si pulso sobre uno de mis amigos visitaré el <strong>Muro del amigo</strong>, esto es, una página donde aparecerán sus posts, junto con los comentarios de otros usuarios.</p>
 <p><img src="/img/blog/2020-08_redux-normalized-store-part-1/friend.png" alt="Friend Page" /></p>
-<p>Each post will include the avatar and name of the user, and the date. Each comment will also include the avatar, username and date.</p>
+<p>Cada post incluirá el avatar y nombre del usuario, y la fecha. Cada comentario incluirá también el avatar, nombre del usuario y la fecha.</p>
 <p><img src="/img/blog/2020-08_redux-normalized-store-part-1/post_and_comments.png" alt="Posts and comments" /></p>
-<p>Without going into the relationships or hierarchies, we can define the types of the entities as user (<code>User</code>), post (<code>Post</code>) and comment (<code>Comment</code>):</p>
+<p>Sin entrar en las relaciones o jerarquías, podemos definir los tipos de las entidades como usuario (<code>User</code>), post (<code>Post</code>) y comentario (<code>Comment</code>):</p>
 <pre><code class="typescript language-typescript">// user.types.ts
 export type User = {
   avatar: string;
@@ -695,7 +695,7 @@ export type Comment = {
   id: number;
 };
 </code></pre>
-<p>An extremely simple representation, based on the TODO application, consists of having a reducer dedicated to each type of entity:</p>
+<p>Una representación extremadamente simple, basada en la aplicación de los TODOs, consiste en tener un reducer por cada tipo de entidad:</p>
 <pre><code class="json language-json">{
   users: [
     { id: 1, name: "Josh", email: "josh@gmail.com", avatar: "josh.jpg" },
@@ -728,9 +728,9 @@ export type Comment = {
   ],
 }
 </code></pre>
-<p>If I visit the <strong>Friends</strong> page, the store holds the friends in <code>users</code>; if I enter a friend's page the store holds the posts in <code>posts</code>, and if I show a post, the comments are stored in <code>comments</code>.</p>
-<p>This strategy will force me to retrieve all the posts from the backend every time I switch to the wall of a different friend. Moreover, it won't work as expected, because on the <strong>Friend</strong> and <strong>My wall</strong> pages I need to show several posts at the same time, where each post has different comments. According to the store designed above, all the posts displayed would always show the same comments.</p>
-<p>To avoid this problem we could nest the comments within the posts, like this:</p>
+<p>Si entro en la página de <strong>Friends</strong> la store almacena los amigos en <code>users</code>; si entro en la página de un amigo la store almacena los posts en <code>posts</code>, y si muestro un post, los comentarios se almacenan en <code>comments</code>.</p>
+<p>Esta estrategia me va a obligar a traerme todos los posts del backend cada vez que cambie al muro de un amigo distinto, y además no va a funcionar porque en las páginas de <strong>Amigo</strong> y <strong>Mi muro</strong> debo mostrar varios posts a la vez, donde cada post tiene distintos comentarios. Según la store diseñada arriba, todos los posts visualizados mostrarían siempre los mismos comentarios.</p>
+<p>Para evitar este problema podríamos anidar los comentarios dentro de los posts, así:</p>
 <pre><code class="json language-json">{
   users: [
     { id: 1, name: "Josh", email: "josh@gmail.com", avatar: "josh.jpg" },
@@ -763,8 +763,8 @@ export type Comment = {
   ],
 }
 </code></pre>
-<p>However, we still have several problems. We are not caching any data, for instance, if I navigate from one friend to another and go back to the first one, I will have to reload all the posts and comments from the backend. There is also a lot of replicated data, such as users, taking up more space than necessary.</p>
-<p>Ideally, you should normalize the store, as recommended in the <a href="https://redux.js.org/recipes/structuring-reducers/normalizing-state-shape">redux documentation</a>. We could think something like this, where to each entity we have added one or several ids (<code>userId</code>, <code>postId</code>) that point to the entities with which it is related:</p>
+<p>Sin embargo, todavía tenemos varios problemas. No estamos cacheando datos, por ejemplo, si navego de un amigo a otro y vuelvo al primero, tendré que cargar de nuevo todos los posts y comments del backend. También hay muchos datos replicados, como los usuarios, ocupando más espacio del necesario.</p>
+<p>Lo ideal sería normalizar la store, como se recomienda en la <a href="https://redux.js.org/recipes/structuring-reducers/normalizing-state-shape">documentación de redux</a>. Podríamos pensar algo así, donde a cada entidad hemos añadido uno o varios ids (<code>userId</code>, <code>postId</code>) que apuntan a las entidades con las que está relacionada:</p>
 <pre><code class="json language-json">{
   users: [
     { id: 1, name: "Josh", email: "josh@gmail.com", avatar: "josh.jpg" },
@@ -799,8 +799,8 @@ export type Comment = {
   ],
 }
 </code></pre>
-<p>In this way we flatten the store and avoid replicated data. However, the search for the user id associated with each post or comment, and the search for all the comments associated with a post will not be optimal, since it will force us to go through all the users or comments and filter by id. When the store grows during a session, this process will become slower and slower and will impact the user experience.</p>
-<p>We can improve this by indexing each data entity, as suggested in the redux documentation.</p>
+<p>De esta forma aplanamos la store y evitamos los datos replicados. Sin embargo, la búsqueda por id del usuario asociado a cada post o comentario, y la búsqueda de todos los comentarios asociados a un post no va a ser nada óptima, ya que nos va a obligar a recorrer todos los usuarios o comentarios y filtrar por id. Cuando la store crezca durante una sesión, este proceso se va a volver más y más lento e impactará a la experiencia de usuario.</p>
+<p>Podemos mejorar esto indexando cada dato, como se sugiere en la documentación de redux.</p>
 <pre><code class="json language-json">{
   "users": {
     "byId": {
@@ -854,8 +854,8 @@ export type Comment = {
   }
 }
 </code></pre>
-<p>Now it is much easier and faster to search for the <code>user</code> associated with a <code>post</code> or a <code>comment</code>. However, it is still difficult to get the list of <code>posts</code> by <code>user</code>, or the list of <code>comments</code> by <code>post</code>. In fact, it is now more difficult and inefficient to filter this data.</p>
-<p>We are going to create relational structures that tell us which posts belong to each user (one to many), and what comments belong to each post.</p>
+<p>Ahora es mucho más sencillo y rápido buscar el <code>user</code> asociado a un <code>post</code> o un <code>comment</code>. Sin embargo, sigue siendo complejo obtener la lista de <code>posts</code> por <code>user</code>, o la lista de <code>comments</code> por <code>post</code>. De hecho, ahora es más difícil e ineficiente filtrar estos datos.</p>
+<p>Vamos pues a crear estructuras relacionales que nos indiquen qué posts pertenecen a cada usuario (uno a muchos), y qué comentarios a cada post.</p>
 <pre><code class="json language-json">{
   users: {
     byId: {
@@ -900,10 +900,10 @@ export type Comment = {
   },
 }
 </code></pre>
-<p>The meaning of the reducer <code>postIdsById</code> reads as <em>"the user with id 2 has the post with id 1"</em>. The reading of <code>commentIdsById</code> would be <em>"the post with id 1 has the comments with ids 1 and 2"</em>. Now we have everything indexed and the database structure is fully normalized.</p>
-<p>We only lack structures that allow us to store the ids of the posts that will be visible on each wall, either the user's or the friends', as well as the ids of the users that should appear on the friends page. We will include on the friend page a filter to sort alphabetically in ascending or descending order.</p>
-<p>To separate the structures that model entities that belong to the database from the structures that model elements of the user interface, we will create 2 higher-level reducers. One called <code>entities</code> where we will store <strong>entities from the database</strong>, and another called <code>ui</code> where we will store all the <strong>elements of the user interface</strong>.</p>
-<p>This is finally the store model, which avoids data replication, facilitates the search thanks to indexing, and will allow us to cache the data already loaded, since the structures associated with the user interface only store ids, and any entity already downloaded from the backend will remain in the store until we clear the browser cache.</p>
+<p>La lectura del reducer <code>postIdsById</code> sería <em>"el usuario con id 2 tiene el post con id 1"</em>. La lectura de <code>commentIdsById</code> sería <em>"el post con id 1 tiene los comentarios con ids 1 y 2"</em>. Ahora ya tenemos todo indexado y la estructura de base de datos está totalmente normalizada.</p>
+<p>Únicamente nos faltan estructuras que nos permitan almacenar los ids de los posts que serán visibles en cada muro, ya sea el del usuario o el de sus amigos, así como los ids de los usuarios que deben aparecer en la página de amigos. Incluiremos en la página de amigos un filtro para ordenar alfabéticamente de forma ascendente o descendente.</p>
+<p>Para separar las estructuras que modelan entidades que pertenecen a la base de datos, de las estructuras que modelan elementos de la interfaz de usuario, crearemos 2 reducers de mayor nivel, uno llamado <code>entities</code> donde almacenaremos <strong>entidades de la base de datos</strong>, y otro llamado <code>ui</code> donde almacenaremos todos los <strong>elementos de la interfaz de usuario</strong>.</p>
+<p>Este es finalmente el modelo de la store, que evita la replicación de datos, facilita la búsqueda gracias a la indexación, y nos va a permitir cachear los datos ya cargados, ya que las estructuras asociadas a la interfaz de usuario solo almacenan ids, y cualquier entidad ya descargada del backend va a permanecer en la store hasta que borremos la caché del navegador.</p>
 <pre><code class="json language-json">{
   entities: {
     users: {
@@ -964,32 +964,32 @@ export type Comment = {
   },
 }
 </code></pre>
-<p>In future posts we will go through the implementation of this store and the caching methods.</p>
+<p>En próximos posts veremos la implementación de esta store y los métodos de cacheado.</p>
 <h2 id="credits">Credits</h2>
-<p>Photo by <a href="https://unsplash.com/@jeremybishop">Jeremy Bishop</a> on <a href="https://unsplash.com/">Unsplash</a>.</p>]]></description><link>https://juanguijordan.com/blog/2020-08_redux-normalized-store-part-1</link><guid isPermaLink="true">https://juanguijordan.com/blog/2020-08_redux-normalized-store-part-1</guid><category><![CDATA[javascript]]></category><category><![CDATA[frontend]]></category><dc:creator><![CDATA[Juangui Jordán]]></dc:creator><pubDate>Tue, 03 Nov 2020 08:00:00 GMT</pubDate></item><item><title><![CDATA[Creating a Chrome extension]]></title><description><![CDATA[<p>In this post, I will show you how to create a simple <a href="https://chrome.google.com/webstore/category/extensions">Chrome extension</a>. I will also summarize what a Chrome extension can do, and I will introduce how to create more complex extensions based on modern JavaScript frameworks like React, Angular or Vue.</p>
-<p>What is a Chrome extension? Google Chrome extensions are like small applications living in your browser, based on standard web technologies, such as HTML, CSS and JavaScript. They take advantage of some Chrome APIs, providing the foundations for building an app, like storage and messaging. Google Chrome extensions can interact with the web pages open in your browser tabs, but they are not really meant to. They can live on their own and provide any kind of functionality, separate from the browsing experience. You can build anything, from an agenda, to a pomodoro timer, to a web image scrapper. You can think of Chrome as the Electron platform, providing a basis for building JavaScript applications that can interact with the browsing experience.</p>
-<p>Chrome extensions can stay dormant until some trigger awakes them, making some content or script to be injected, executed, or some popup shown. These scripts live in something called “Isolated Worlds” in relation with the web pages being browsed, which means that a Chrome extension can only share the DOM with a particular page, but not the script variables or functions. Chrome extensions can thus modify the DOM, inject additional CSS or JavaScript scripts which interact with the same DOM, but can not directly modify the original page CSS or JavaScript. On the other hand, the extensions can communicate with the page through messages, so you can create a page that gracefully interact with a Chrome extension.</p>
-<h2 id="extensioncapabilities">Extension capabilities</h2>
-<p>This is an incomplete summary of what an extension can do:</p>
+<p>Fotografía por <a href="https://unsplash.com/@jeremybishop">Jeremy Bishop</a> en <a href="https://unsplash.com/">Unsplash</a>.</p>]]></description><link>https://juanguijordan.com/blog/2020-08_redux-normalized-store-part-1</link><guid isPermaLink="true">https://juanguijordan.com/blog/2020-08_redux-normalized-store-part-1</guid><category><![CDATA[javascript]]></category><category><![CDATA[frontend]]></category><dc:creator><![CDATA[Juangui Jordán]]></dc:creator><pubDate>Tue, 03 Nov 2020 08:00:00 GMT</pubDate></item><item><title><![CDATA[Creando una extensión de Chrome]]></title><description><![CDATA[<p>En este post, te mostraré cómo crear una simple <a href="https://chrome.google.com/webstore/category/extensions">Chrome extension</a>. Resumiré lo que una extensión de Chrome puede hacer, y también voy a explicar cómo crear extensiones más complejas basadas en JavaScript, React, Angular o Vue.</p>
+<p>¿Qué es una extensión de Chrome? Las extensiones de Google Chrome son como pequeñas aplicaciones que viven en tu navegador, basadas en tecnologías web estándar, como HTML, CSS y JavaScript. Aprovechan algunas API de Chrome, proporcionando las bases para construir una aplicación, como el almacenamiento y la mensajería. Las extensiones de Google Chrome pueden interactuar con las páginas web abiertas en las pestañas de tu navegador, pero en realidad no están pensadas para ello. Pueden "vivir" por sí solas y proporcionar cualquier tipo de funcionalidad, más allá de la experiencia de navegación. Puedes crear cualquier cosa, desde una agenda, pasando por un temporizador pomodoro, hasta un web image scrapper. Puedes pensar en Chrome como la plataforma Electron, proporcionando una base para construir aplicaciones JavaScript que pueden interactuar con la experiencia de navegación.</p>
+<p>Las extensiones de Chrome pueden permanecer inactivas hasta que algún trigger las despierte, haciendo que se inyecte algún contenido o script, se ejecute o se muestre algún popup. Estos scripts viven en algo llamado "Mundos Aislados" en relación con las páginas web que se están navegando, lo que significa que una extensión de Chrome sólo puede compartir el DOM con una página en particular, pero no las variables o funciones del script. Por lo tanto, las extensiones de Chrome pueden modificar el DOM, inyectar scripts CSS o JavaScript adicionales que interactúan con el mismo DOM, pero no pueden modificar directamente la página original CSS o JavaScript. Por otro lado, las extensiones pueden comunicarse con la página a través de mensajes, por lo que puede crear una página que interactúe con una extensión de Chrome.</p>
+<h2 id="capacidadesdelaextensin">Capacidades de la extensión</h2>
+<p>Este es un resumen incompleto de lo que puede hacer una extensión:</p>
 <ul>
-<li><strong>Show an icon</strong>. The extension icon can be modified on runtime, or show a badge over it, with a colored background and a 4 letter text in it.</li>
-<li><strong>Show a popup</strong>. Clicking on the extension icon can trigger a popup with content.</li>
-<li><strong>Show a secondary menu</strong>. Right clicking on the extension icon can trigger a secondary menu.</li>
-<li><strong>Respond to shortcuts</strong>. Keyboard shortcuts can be associated to extension actions (i.e. CTRL+SHIFT+V).</li>
-<li><strong>Respond to actions in the URL bar</strong> (the so called omnibox). Text shortcuts can be used in the omnibox to trigger actions in the extension (i.e. “myext+<TAB>").</li>
-<li><strong>Respond to visiting some web page</strong>. For instance, modifying the icon state or popup content.
-Modify the content of a web site. For instance, modifying the DOM by a content script or applying additional CSS files.</li>
-<li><strong>Have an Options page</strong> for the extension configuration.</li>
-<li><strong>Replace the History page, Bookmarks page or New Tab page</strong> of Google Chrome.</li>
-<li><strong>Exchanging messages</strong> with a web site or with itself. A extension can use messaging to talk to some web page being browsed, or to communicate between parts of the extension itself.</li>
-<li><strong>Store information</strong> in local storage, Chrome storage (storage which is synchronized across different devices where the user is logged in) or any storage native to JS, for instance sessionStorage.</li>
-<li><strong>Show notifications</strong> as a toast.</li>
-<li><strong>Use several APIs provided by Google Chrome</strong>.</li>
-<li><strong>Be free or paid</strong>. When creating a paid extension, you can choose to use the Chrome store or your own payment means.</li>
+<li><strong>Mostrar un icono</strong>. El icono de la extensión puede ser modificado en tiempo de ejecución, o mostrar una insignia sobre él, con un fondo de color y un texto de 4 letras en él.</li>
+<li><strong>Mostrar un popup</strong>. Al hacer clic en el icono de la extensión se puede activar un popup con contenido.</li>
+<li><strong>Mostrar un menú secundario</strong>. Haciendo clic con el botón derecho del ratón en el icono de la extensión puede activar un menú secundario.</li>
+<li><strong>Responder a atajos de teclado</strong>. Los atajos de teclado pueden asociarse a las acciones de extensión (CTRL+SHIFT+V).</li>
+<li><strong>Responder a acciones de la barra de direcciones</strong> (la así llamada omnibox). Los atajos de texto pueden usarse en la omnibox para activar acciones en la extensión (p.ej. “myext+<TAB>").</li>
+<li><strong>Responder a la visita a cierta página web</strong>. Por ejemplo, modificar el estado del icono o el contenido de la ventana emergente
+Modifica el contenido de un sitio web. Por ejemplo, modificar el DOM por un script de contenido o aplicar archivos CSS adicionales.</li>
+<li><strong>Tener una página de opciones</strong> para la configuración de la extensión.</li>
+<li><strong>Reemplazar la página de Historial, Favoritos o Nueva Pestaña</strong> de Google Chrome.</li>
+<li><strong>Intercambiar mensajes</strong> con un sitio web o consigo mismo. Una extensión puede utilizar la mensajería para hablar con alguna página web que se esté navegando, o para comunicarse entre partes de la propia extensión.</li>
+<li><strong>Almacenar información</strong> en el almacenamiento local, el almacenamiento Chrome (almacenamiento que se sincroniza a través de diferentes dispositivos donde el usuario está conectado) o cualquier almacenamiento nativo de JS, por ejemplo sessionStoragef.</li>
+<li><strong>Mostrar notificaciones</strong> como un "toast".</li>
+<li><strong>Usar varias APIs proporcionadas por Google Chrome</strong>.</li>
+<li><strong>Ser gratis, o de pago</strong>. Al crear una extensión de pago, puedes elegir usar la tienda Chrome o tus propios medios de pago.</li>
 </ul>
-<h2 id="thebasics">The basics</h2>
-<p>The only mandatory file of a Chrome extension is the manifest. It has to be placed in the root directory, and it communicates the extension metadata, permissions and other files involved.</p>
-<p>The manifest format has a lot of options, which can be ckecked in this page (https://developer.chrome.com/extensions/manifest), but we will focus on the most important ones. Let’s introduce the Cat detector extension manifest:​</p>
+<h2 id="lobsico">Lo básico</h2>
+<p>El único archivo obligatorio de una extensión de Chrome es el manifiesto. Debe estar colocado en el directorio raíz, y comunica los metadatos de la extensión, los permisos y otros archivos involucrados.</p>
+<p>El formato del manifiesto tiene un montón de opciones, que se pueden ver en esta página (https://developer.chrome.com/extensions/manifest), pero nos centraremos en los más importantes. Presentemos el manifiesto de la extensión "Cat detector":</p>
 <pre><code class="json language-json">{
   "name": "Cat detector",
   "description": "Spots cats in the page you are browsing",
@@ -1017,17 +1017,17 @@ Modify the content of a web site. For instance, modifying the DOM by a content s
   "permissions": ["activeTab"]
 }
 </code></pre>
-<p>The manifest declares some capabilities that will be used by the extension:</p>
+<p>El manifiesto declara algunas capacidades que serán utilizadas por la extensión:</p>
 <ul>
-<li>It declares a background script. Background scripts can activate at any time, but don't have direct access to the tabs content.</li>
-<li>It declares a content script. Content scripts get injected in the same page that is being browsed and have access to the content. A matches expression is used to determine when the script is injected. In this case we chose <code>&lt;all urls&gt;</code>, meaning it will be injected in any web page.</li>
-<li>It declares a browser action, meaning a extension that is able to work independently of the current browsed page. If we wanted to create a extension that only activates when some conditions are met in the page you are browsing, we would use a "page action”. The reason we chose browser action is that cats can be seen almost everywhere on the internet. A second reason is that we want to display a badge over the extension icon, and that is only possible using a browser action.</li>
-<li>Inside the browser action, it declares a popup that will be open on clicking on the extension icon.</li>
-<li>It declares icons. The smaller ones used for the browser icon, depending on the display resolution, and the bigger ones used in the extensions menu of Chrome and the Chrome Store.</li>
+<li>Declara un background script. Los background scripts pueden activarse en cualquier momento, pero no tienen acceso directo al contenido de los tabs.</li>
+<li>Declara un content script. Los scripts de contenido se implementan en la misma página en la que se está navegando y tienen acceso al contenido. Una expresión de coincidencia es usada para determinar cuándo el script es inyectado. En este caso elegimos <code>&lt;all urls&gt;</code>, lo que significa que se implementa en cualquier página web.</li>
+<li>Declara una acción del navegador, es decir, una extensión que es capaz de funcionar independientemente de la página por la que se está navegando. Si quisiéramos crear una extensión que sólo se activa cuando se cumplen algunas condiciones en la página que se está navegando, utilizaríamos una "page action". La razón por la que elegimos la acción de navegación es que los gatos se pueden ver casi en todas partes en Internet. Una segunda razón es que queremos mostrar un badge sobre el icono de la extensión, y eso sólo es posible usando una acción del navegador.</li>
+<li>Dentro de la acción del navegador, declara un popup que se abrirá al hacer clic en el icono de la extensión.</li>
+<li>Declara los iconos. Los más pequeños se utilizan para el icono del navegador, dependiendo de la resolución de la pantalla, y los más grandes se usan en el menú de extensiones de Chrome y el Chrome Store.</li>
 </ul>
-<h2 id="oursampleextension">Our sample extension</h2>
-<p>Now, getting to the point of this post. This page action uses a background script that, on page load, calls sends a message to the content script, which in turn counts the number of times the words “cat”, “kitten” or “kitty” appear in our page. After receiving a response, the background task displays a badge over the icon to communicate the number of kittens spot. On clicking on the extension icon, a popup will be shown showing a happy kitten image together with the counter.</p>
-<p>Let’s present our extension file structure:</p>
+<h2 id="nuestraextensindeejemplo">Nuestra extensión de ejemplo</h2>
+<p>Vamos al grano de este post: esta page action utiliza un background script que, al cargar la página, envía un mensaje al content script, que a su vez cuenta el número de veces que las palabras "cat", "kitten" o "kitty" aparecen en nuestra página. Después de recibir una respuesta, la tarea de background muestra un badge sobre el icono para comunicar el número de gatitos que aparecen. Al hacer clic en el icono de la extensión, se mostrará un popup con una imagen de un gatito feliz junto con el contador.</p>
+<p>Echemos un vistazo a la estructura de los archivos de extensión:</p>
 <pre><code>-audios
  |-meow_0.mp3
  |-meow_1.mp3
@@ -1047,8 +1047,8 @@ Modify the content of a web site. For instance, modifying the DOM by a content s
 -popup.html
 -popup.js
 </code></pre>
-<p>It includes the extension icons, some audio files, the manifest, the background script, the content script, and the popup html and js files.</p>
-<p>This is how the background script looks like. Comments have been included to guide you through the important stuff:</p>
+<p>Incluye los iconos de extensión, algunos archivos de audio, el manifiesto, el background script, el content script y los archivos del popup html y js.</p>
+<p>Así queda el background script. Se han incluido comentarios para señalar las cosas importantes:</p>
 <pre><code>const maxMeows = 6;
 
 // The extension listens to the onUpdated event, and executes when the page is loaded
@@ -1107,7 +1107,7 @@ const updateBadge = (catIndex, delay) =&gt; {
   }, delay);
 };
 </code></pre>
-<p>The content script basically receives the <code>cat_count</code> message and responds to it. Some logic has been included to count the cats with a regex expression:</p>
+<p>El content script básicamente recibe el mensaje <code>cat_count</code> y responde a él. Se ha incluido algo de lógica para contar los gatos con una expresión regex:</p>
 <pre><code>chrome.runtime.onMessage.addListener((msg, sender, sendResponse) =&gt; {
   if (msg.text === "cat_count") {
     sendResponse(countCats());
@@ -1127,7 +1127,7 @@ const removeScriptsFromContent = (strCode) =&gt; {
   return strCode.replace(/&lt;script.*?&gt;.*?&lt;\/script&gt;/gim, "");
 };
 </code></pre>
-<p>The popup html file just displays an image and declares the javascript file:</p>
+<p>El archivo html del popup simplemente muestra una imagen y declara el fichero javascript:</p>
 <pre><code>&lt;html&gt;
   &lt;body&gt;
     &lt;img id="cat_image" /&gt;
@@ -1135,7 +1135,7 @@ const removeScriptsFromContent = (strCode) =&gt; {
   &lt;/body&gt;
 &lt;/html&gt;
 </code></pre>
-<p>The popup js file executes a function on load which in turn sends a message to the content script to count cats again. This is because popups do not live until they are open, so if some update on the popup needs to be done, it is the popup who needs to start the action:</p>
+<p>El archivo js ejecuta una función en la carga que a su vez envía un mensaje al content script para contar gatos de nuevo. Esto se debe a que los popups no "viven" hasta que se abren, así que si hay que hacer alguna actualización en el popup, es el popup el que debe iniciar la acción:</p>
 <pre><code>window.onload = () =&gt; {
   chrome.tabs.query({ active: true, currentWindow: true }, (activeTab) =&gt; {
     const tabId = activeTab[0].id;
@@ -1149,269 +1149,244 @@ const onCatCount = (catNumber) =&gt; {
   ).src = `https://cataas.com/c/s/${catNumber}%20happy%20cats%20detected?t=sq&amp;width=350`;
 };
 </code></pre>
-<p>Tadaaaa, this is the result of the cat detector extension in action:</p>
+<p>ChanChanChan, este es el resultado de la extensión del detector de gatos en acción:</p>
 <p><img src="/img/blog/2020-05_creating-a-chrome-extension/cat_extension.png" alt="Cat extension" /></p>
-<h2 id="testinglocallyourextension">Testing locally our extension</h2>
-<p>If you want to test your extension in your local machine, you just need to go to the menu item More Tools —&gt; Extensions, then click on Load Unpacked, and select the folder where your manifest and the rest of the files are.</p>
+<h2 id="probandolocalmentenuestraextensin">Probando localmente nuestra extensión</h2>
+<p>Si quieres probar tu extensión en tu máquina local, sólo tienes que ir al menu item More Tools —&gt; Extensions, luego hacer click en Load Unpacked, y seleccionar la carpeta donde está tu manifiesto y el resto de los archivos.</p>
 <p><img src="/img/blog/2020-05_creating-a-chrome-extension/load_extension.png" alt="Loading the extension for testing" /></p>
 <h2 id="debugging">Debugging</h2>
-<p>Debugging gets particularly complex since every bit of a extension has to be inspected in a different way.</p>
-<p>Regarding the background scripts, they are inspected in the extensions. To open the dev tools you need to click on the background page link in the extension details.</p>
+<p>El proceso de debugging se vuelve particularmente compleja ya que cada extensión debe ser inspeccionada de manera diferente.</p>
+<p>En cuanto a los background scripts, se inspeccionan en las extensiones. Para abrir las herramientas de desarrollo es necesario hacer clic en el enlace "página en segundo plano" en los detalles de la extensión.</p>
 <p><img src="/img/blog/2020-05_creating-a-chrome-extension/extension_info.png" alt="Opening the extension dev tools" /></p>
-<p>Content scripts are inspected in the web page that you are browsing, since they are injected to the page. They are shown in a <strong>Content Scripts</strong> tab.</p>
+<p>Los content scripts se inspeccionan en la página web que estás navegando, ya que se inyectan en la página. Se muestran en una pestaña de <strong>Content Scripts</strong>.</p>
 <p><img src="/img/blog/2020-05_creating-a-chrome-extension/debugging_content_scripts.png" alt="Debugging content scripts" /></p>
-<p>I could not found the way to inspect popup scripts, even the console logs got lost somewhere, so showing an alert was the only way to check that the popup was alive and doing stuff.</p>
-<h2 id="publishing">Publishing</h2>
-<p>To publish a Google Chrome extension you need to register as a Chrome developer, pay \$5 and fill in some information about your extension name, description and images or videos. The process is very similar than the one followed to publish an app in Google Play. After submitting your extension for approval, you need to wait for a response. Negative responses are quite fast -my first extension was rejected for no reason, and I had to send an email to ask for a human review-, positive ones can take a few hours or days.</p>
-<h2 id="goingfurther">Going further</h2>
-<p>The Chrome developer site for extensions provides a great number of sample extensions. These are simple extensions tackling very specific features that can help you learn build extensions.</p>
+<p>No pude encontrar la forma de inspeccionar los popup scripts, incluso los logs de la consola se perdían en algún lugar, así que mostrar una alerta fue la única forma de comprobar que el popup estaba "vivo" y activo.</p>
+<h2 id="publicandolaextensin">Publicando la extensión</h2>
+<p>Para publicar una extensión de Google Chrome es necesario registrarse como desarrollador de Chrome, pagar 5 dólares y rellenar algunos datos sobre el nombre de la extensión, la descripción y las imágenes o vídeos. El proceso es muy similar al que se sigue para publicar una aplicación en Google Play. Después de enviar tu extensión para la aprobación, tienes que esperar una respuesta. Las respuestas negativas son bastante rápidas -mi primera extensión fue rechazada sin razón alguna, y tuve que enviar un correo electrónico para pedir una revisión humana-, las positivas pueden tardar unas horas o días.</p>
+<h2 id="irmsall">Ir más allá…</h2>
+<p>El sitio de desarrollo de Chrome para extensiones proporciona un gran número de extensiones de muestra. Estas son extensiones simples que abordan características muy específicas que pueden ayudar a aprender a construir extensiones.</p>
 <p>https://developer.chrome.com/extensions/samples</p>
-<p>There are many boilerplate projects out there to help you develop more complex extensions using React, Angular or Vue. Take the following links as a starting point:</p>
+<p>Hay muchos proyectos de boilerplate por ahí para ayudarte a desarrollar extensiones más complejas usando React, Angular o Vue. Toma los siguientes enlaces como punto de partida:</p>
 <ul>
 <li>https://github.com/lxieyang/chrome-extension-boilerplate-react</li>
 <li>https://github.com/larscom/ng-chrome-extension</li>
 <li>https://github.com/Kocal/vue-web-extension</li>
 </ul>
 <h2 id="recap">Recap</h2>
-<p>Creating Chrome extensions can be fun, and you can also find many productive scenarios for them. Developing extensions is easy if you know basic web technologies as HTML, CSS and JavaScript. We showed you the basics of a Chrome extension and guided you through the creation of a simple extension.</p>
-<p>If you want to check the full extension code, please go to this <a href="https://github.com/jguix/chrome-cat-detector">github repository</a>.</p>
-<p>Can you imagine something that could be delivered as a Chrome extension? We would like to hear about your thoughts.</p>
-<h2 id="credits">Credits</h2>
-<p>Photo by Markus Winkler on <a href="https://unsplash.com/">Unsplash</a>.</p>]]></description><link>https://juanguijordan.com/blog/2020-05_creating-a-chrome-extension</link><guid isPermaLink="true">https://juanguijordan.com/blog/2020-05_creating-a-chrome-extension</guid><category><![CDATA[javascript]]></category><dc:creator><![CDATA[Juangui Jordán]]></dc:creator><pubDate>Mon, 01 Jun 2020 07:00:00 GMT</pubDate></item><item><title><![CDATA[Circular Design SPRINT]]></title><description><![CDATA[<p>In this post I tell you the experience of participating in a <strong>Design SPRINT</strong>, and how Ecoembes used the Design SPRINT methodology to explore new ideas in the context of circular economy and recycling.</p>
-<p>In order to do that, they recruited through scholarships an eclectic group of professionals, including entrepreneurs, marketing, design and technology professionals, among which I am included. During 5 days in July 2018, we worked together in <a href="https://www.thecircularlab.com">The Circular Lab</a>, an innovation space of Ecoembes located in Logroño, particularly prepared for creative and collaborative work.</p>
+<p>Crear extensiones de Chrome puede ser divertido, y también puedes encontrar muchos escenarios productivos para ellas. Desarrollar extensiones es fácil si conoces las tecnologías web básicas como HTML, CSS y JavaScript. Te mostramos los fundamentos de una extensión de Chrome y te guiamos en la creación de una simple extensión.</p>
+<p>Si quiere comprobar el código de extensión completo, ¡échale un vistazo! <a href="https://github.com/jguix/chrome-cat-detector">github repository</a>.</p>
+<p>¿Puedes imaginarte algo que pueda ser entregado como una extensión de Chrome? Compártenos tu idea…</p>
+<h2 id="crdits">Crédits</h2>
+<p>Fotografía de Markus Winkler en <a href="https://unsplash.com/">Unsplash</a>.</p>]]></description><link>https://juanguijordan.com/blog/2020-05_creating-a-chrome-extension</link><guid isPermaLink="true">https://juanguijordan.com/blog/2020-05_creating-a-chrome-extension</guid><category><![CDATA[javascript]]></category><dc:creator><![CDATA[Juangui Jordán]]></dc:creator><pubDate>Mon, 01 Jun 2020 07:00:00 GMT</pubDate></item><item><title><![CDATA[Circular Design SPRINT]]></title><description><![CDATA[<p>En este post os cuento la experiencia de participar en un&nbsp;<strong>Design Sprint</strong>, y cómo Ecoembes utilizó la metodología Design Sprint para explorar nuevas ideas en el contexto de la economía circular y el reciclaje.</p>
+<p>Para ello, reclutó mediante becas a un ecléctico grupo de profesionales, incluyendo emprendedores, profesionales del marketing, diseño, y tecnología, entre los que me encuentro. Durante 5 días en Julio de 2018, trabajamos conjuntamente en&nbsp;<a href="https://www.thecircularlab.com">The Circular Lab</a>, un espacio de innovación de Ecoembes localizado en Logroño, particularmente preparado para el trabajo creativo y colaborativo.</p>
 <p><img src="/img/blog/2019-05_circular-design-sprint/the_circular_lab_1-1-1024x668.jpg" alt="The Circular Lab" /></p>
-<p>The scholarship consisted of a course on Design SPRINT methodology, during which we made a real <strong>SPRINT</strong> for Ecoembes. Taught by <a href="https://www.uxerschool.com">UXER School</a>, we applied Design SPRINT to the world of recycling, and in just 5 days we were able to propose and develop innovative ideas that solve problems in a business that we did not know initially.</p>
-<h2 id="executivesummary">Executive Summary</h2>
-<p>This will be a long article, for which I have decided to create a summary so that the reader can understand the global idea, and then decide if he wants to go into all the details.</p>
-<p><a href="https://www.gv.com/sprint"><strong>Design SPRINT</strong></a> -or just SPRINT- is a surprisingly productive methodology, which allows to obtain excellent results in a short period of time.</p>
-<p>It can be applied to the development of a product or service at the beginning of a project, but also to the development of a functionality of an already existing product or service, or to the improvement of any process. It is a flexible methodology that has been applied successfully in many areas.</p>
-<p>Individual production and collective decision making are encouraged. This promotes, on the one hand, the generation of more open ideas. When thinking and producing we will do that individually, so that we do not receive negative feedback that restrains us or limits us. On the other hand, decision making is collective, using a flat hierarchy, which makes us support and engage even with ideas that we did not generate ourselves, but with which we agree.</p>
-<p>In my opinion, the success of the process is determined by several factors. In the first place, it is important to form a multidisciplinary team, which will provide us with different points of view in the generation of ideas. Another important aspect of the methodology is the short deadlines: most tasks have a very limited term of 5, 10 or 15 minutes, which makes us work under pressure, forcing us to quickly choose and discard ideas.</p>
+<p>La beca consistió en un curso sobre la metodología Design Sprint, durante el cual realizamos un&nbsp;<strong>SPRINT</strong>&nbsp;real para Ecoembes. Tutorizados por&nbsp;<a href="https://www.uxerschool.com">UXER School</a>, aplicamos Design Sprint al mundo del reciclaje, y en solo 5 días fuimos capaces de proponer y desarrollar ideas innovadoras que resuelven problemas en un negocio que inicialmente no conocíamos.</p>
+<h2 id="resumenejecutivo">Resumen ejecutivo</h2>
+<p>Este será un largo artículo, por lo cual he decidido crear un resumen para que el lector pueda entender la idea global, y ya decidir si quiere adentrarse en todos los detalles.</p>
+<p><a href="https://www.gv.com/sprint"><strong>Design SPRINT</strong></a>&nbsp;–o SPRINT, a secas– es una metodología sorprendentemente productiva, que permite obtener excelentes resultados en un breve período de tiempo.</p>
+<p>Se puede aplicar al desarrollo de un producto o servicio al inicio de un proyecto, pero también al desarrollo de una funcionalidad de un producto o servicio ya existente, o a la mejora de cualquier proceso. Es una metodología flexible que se ha aplicado con éxito en multitud de ámbitos.</p>
+<p>Se fomenta la producción individual y la toma de decisiones colectiva. Esto hace que, por un lado, la generación de ideas sea más abierta. En el momento de pensar y producir lo hacemos en general de forma individual, con lo cual no recibimos feedback negativo que nos cohiba o nos limite. Por otro lado, la toma de decisiones es colectiva, usando una jerarquía plana, lo cual nos hace partícipes incluso de ideas que no hemos generado nosotros mismos, pero con las que nos sentimos de acuerdo.</p>
+<p>En mi opinión, el éxito del proceso viene determinado por varios factores. En primer lugar, es importante conformar un equipo multidisciplinar, lo cual nos va a aportar diferentes puntos de vista en la generación de ideas. Otro aspecto importante de la metodología son los plazos cortos: la mayoría de tareas tienen un plazo muy limitado, de 5, 10 o 15 minutos, lo cual nos hace trabajar bajo presión, obligando a escoger y descartar rápidamente ideas.</p>
 <p><img src="/img/blog/2019-05_circular-design-sprint/dia1-reloj.jpg" alt="The famous Time Timer helps keep activities in term" /></p>
-<p>Another important aspect is to leave the egos aside, to do without the superheroes -focus on the collective work instead of giving all the prominence to the gurus or experts- and be able to give up to your own ideas -when the team decides that an idea is not going to be used, we must not press to include it again.</p>
-<p>To lead the process, set the guidelines, foster to prevail the collective spirit and unravel the blockages there is the figure of the facilitator. In this case the facilitator was Javier Larrea from UXER SCHOOL.</p>
-<p>Seen in retrospect, the process feels like an initially messy puzzle, in which little by little pieces are fitting together, almost automatically.</p>
-<p>Finally, it should be clarified that <strong>Design SPRINT</strong> is a methodology adaptable to each project and organization, therefore some processes may differ from what we find in the <a href="https://www.gv.com/sprint/#book">official book</a> or what we found in other SPRINTs.</p>
-<h2 id="designsprintinanutshell">Design SPRINT in a nutshell</h2>
-<p>Design SPRINT is a methodology that typically takes place over 5 days.</p>
+<p>Otro aspecto importante es dejar los egos a un lado, prescindir de los superhéroes –centrarse en el trabajo colectivo en lugar de dar todo el protagonismo a los gurús o expertos– y ser capaz de renunciar a tus propias ideas –cuando el equipo decide que una idea no se va a utilizar, no debemos presionar para volver a incluirla. Para conducir el proceso, marcar las pautas, favorecer que prevalezca el espíritu colectivo y desatascar los bloqueos existe la figura del facilitador. En este caso el facilitador era Javier Larrea de UXER SCHOOL.</p>
+<p>Visto en retrospectiva, el proceso se siente como un puzzle inicialmente desordenado, en el que poco a poco van encajando las piezas, de forma casi automática.</p>
+<p>Por último, aclarar que&nbsp;<strong>Design Sprint</strong>&nbsp;es una metodología adaptable a cada proyecto y organización, por tanto algunos procesos realizados pueden diferir de lo que encontramos en el&nbsp;<a href="https://www.gv.com/sprint/#book">libro oficial</a>&nbsp;o lo que hayamos encontrado en otros sprints.</p>
+<h2 id="designsprintdeunvistazo">Design Sprint de un vistazo</h2>
+<p>Design Sprint es una metodología que se desarrolla típicamente a lo largo de 5 días.</p>
 <p><img src="/img/blog/2019-05_circular-design-sprint/design-sprint-resumen.png" alt="Design SPRINT" /></p>
-<h3 id="day1map">Day 1. Map</h3>
-<p>We define the problem, articulating assumptions, identifying the consumer and achieving that all stakeholders are aligned on the same objective and with the same information.</p>
-<h3 id="day2sketch">Day 2. Sketch</h3>
-<p>We explore multiple ways of solving the problem, regardless of whether it is viable or not. This freedom to explore and be creative can often give us very novel concepts and ideas.</p>
-<h3 id="day3decide">Day 3. Decide</h3>
-<p>By not having time to prototype all ideas, it is necessary to have a process to decide which is the best idea and which ones we should abandon. Sometimes a single version will be chosen, while others we will decide to validate a few alternatives.</p>
-<h3 id="day4prototype">Day 4. Prototype</h3>
-<p>We want to build a prototype of medium fidelity, pretty much a facade, but we do not have content, or information architecture, or wireframes… We must work together to achieve a believable prototype that allows us gather quality information from testing.</p>
-<h3 id="day5test">Day 5. Test</h3>
-<p>Finally the day came! The aim here is to validate (or not to validate) the product ideas with real users, discover errors in the concept design, understand the users and, ultimately, create a product that people want to use.</p>
-<h2 id="day1map-1">Day 1. Map</h2>
-<h3 id="creationofteams">Creation of teams</h3>
-<p>The participants were divided into 3 groups, previously formed by the organizers. Each group was made up of a mix of profiles -designers, marketers, entrepreneurs, engineers-, also belonging to different age groups.</p>
-<p>Each participant made a brief presentation of who he is, what he is doing and why he signed up for the Circular Design SPRINT.</p>
-<h3 id="challenge">Challenge</h3>
-<p>The client presented us with the challenge, that is, a result that the client wants to obtain. This should be the focus of the solutions that we will create in the <strong>SPRINT</strong>.</p>
+<h3 id="da1comprendermap">Día 1. Comprender (Map)</h3>
+<p>Definimos el problema, articulando suposiciones, identificando al consumidor y logrando que todos los stakeholders estén alineados en el mismo objetivo y con la misma información.</p>
+<h3 id="da2idearsketch">Día 2. Idear (Sketch)</h3>
+<p>Exploramos múltiples formas de resolver el problema, sin importar si es viable o no. Esta libertad para explorar y ser creativos con la solución a menudo puede darnos conceptos e ideas muy novedosas.</p>
+<h3 id="da3decidirdecide">Día 3. Decidir (Decide)</h3>
+<p>Al no disponer de tiempo para prototipar todas las ideas, es necesario tener un proceso para decidir cuál es la mejor idea y cuáles debemos abandonar. A veces se escogerá una sola versión, mientras que otras se decidirá validar unas pocas alternativas.</p>
+<h3 id="da4prototiparprototype">Día 4. Prototipar (Prototype)</h3>
+<p>Nuestra idea es mucho más compleja que lo que podemos desarrollar en un día. Sin embargo, adoptando la mentalidad de prototipo construiremos una fachada, un prototipo de fidelidad media, lo bastante fidedigno como para que nos permita recopilar información de calidad de los tests.</p>
+<h3 id="da5testeartest">Día 5. Testear (Test)</h3>
+<p>¡Llegó el día! El objetivo aquí es validar (o no dar por buenas) las ideas del producto con usuarios reales, descubrir errores en el diseño de concepto, comprender a los usuarios y, en definitiva, crear un producto que las personas quieran usar.</p>
+<h2 id="da1entender">Día 1. Entender</h2>
+<h3 id="formacindelosequipos">Formación de los equipos</h3>
+<p>Los participantes se repartieron entre 3 grupos, previamente formados por los organizadores. Cada grupo fue conformado por una mezcla de perfiles –diseñadores, marketing, emprendedores, ingenieros– y de grupos de edad diferentes.</p>
+<p>Cada participante hizo una breve presentación de quién es, a qué se dedica y por qué se apuntó al Circular Design Sprint.</p>
+<h3 id="desafo">Desafío</h3>
+<p>El cliente nos presentó el desafío, esto es, un resultado que el cliente desea obtener. Este debía ser el foco de las soluciones a las que llegaremos en el&nbsp;<strong>SPRINT.</strong></p>
 <blockquote>
-  <p>Ecoembes Challenge: How can we encourage and motivate citizens to better recycle domestic packaging?</p>
+  <p>Desafío Ecoembes: ¿Cómo podríamos incentivar y motivar a los ciudadanos para que reciclen mejor los envases domésticos?_</p>
 </blockquote>
 <p><img src="/img/blog/2019-05_circular-design-sprint/dia1-desafio.jpg" alt="Ecoembes Challenge" /></p>
-<p>The challenge could be focused on both citizens as well as the <em>HORECA</em> channel (HOtels, REstaurants and CAtering).</p>
-<p>Then several activities were carried out in order to approach the context of the challenge: the world of recycling.</p>
-<h3 id="interviews">Interviews</h3>
-<p>In pairs, we carried out two interviews among the participants, trying to find out what their consumption habits were, as well as their environmental awareness and recycling patterns.</p>
-<h3 id="presentationoftheclient">Presentation of the client</h3>
-<p>Introduction to the origin, work and objectives of Ecoembes, by Zacarías Torbado.</p>
-<h3 id="stakeholdersmap">Stakeholders map</h3>
-<p>In a graph with 3 concentric circles we had to place the stakeholders related to the recycling process, in the following way:</p>
+<p>El desafío podía estar enfocado tanto a ciudadanos como al canal&nbsp;<em>HORECA</em>&nbsp;(HOtel, CAtering y REstaurantes).</p>
+<p>Seguidamente se llevaron acabo varias actividades para entrar en contacto con el contexto del desafío: el mundo del reciclaje.</p>
+<h3 id="entrevistas">Entrevistas</h3>
+<p>En parejas, hicimos dos entrevistas entre los participantes, tratando de averiguar cuáles son los hábitos de consumo, conciencia medioambiental y patrones de reciclado.</p>
+<h3 id="presentacindelcliente">Presentación del cliente</h3>
+<p>Introducción al origen, labor y objetivos de Ecoembes, a cargo de Zacarías Torbado.</p>
+<h3 id="mapadestakeholders">Mapa de Stakeholders</h3>
+<p>En un gráfico con 3 círculos concéntricos debíamos colocar los stakeholders (partes implicadas) en el proceso de reciclado, de la siguiente manera:</p>
 <ul>
-<li>In the inner circle we had to put the internal stakeholders, that is, the direct users: citizens or restaurants in the case of HORECA.</li>
-<li>In the intermediate circle went the direct stakeholders, those who deal directly with the user.</li>
-<li>In the outer circle went the indirect ones, those who do not deal directly with the user.</li>
+<li>En el círculo interior se sitúan los stakeholders internos, esto es, los usuarios directos: ciudadanos o restaurantes en el caso de HORECA.</li>
+<li>En el círculo intermedio los stakeholders directos, aquellos que tratan directamente con el usuario.</li>
+<li>En el círculo exterior los indirectos, aquellos que no tratan directamente con el usuario.</li>
 </ul>
 <p><img src="/img/blog/2019-05_circular-design-sprint/dia1-stakeholders-1.jpg" alt="Sticking sticky notes on the stakeholders map" /></p>
-<p>Each participant had to add sticky notes with the stakeholders that came to his mind, without discussing it with the others. In this step the amount should prevail over quality, regardless of whether two sticky notes had almost the same content. It took approximately 10 minutes.</p>
+<p>Cada participante debía disponer postits con los stakeholders que se le ocurrieran, sin discutirlo con los demás. En este paso debía prevalecer la cantidad, sin importar que dos postits dijeran casi lo mismo. Aproximadamente 10 minutos.</p>
 <p><img src="/img/blog/2019-05_circular-design-sprint/dia1-stakeholders-2.jpg" alt="Stakeholders map" /></p>
-<h3 id="context">Context</h3>
-<p>This is the moment in which experts on the client's side help to understand the context of the problem to be solved. Three presentations were made by Ecoembes, in which we were told about the operation of waste separation plants, and previous research activities in Spain and other countries on improvements in the process of collection, separation of waste and recycling (payment by generation, incentive to recycling, tracking bags through RFID, smartag, NFC, etc.).</p>
-<h3 id="stakeholdersmapreview">Stakeholders map review</h3>
-<p>After knowing the context, the stakeholder map was reviewed, adding those that were missing. Then they were grouped by type -producer, generator, collector, processor, transformator-, arranging them radially, dividing the circles like a cheese.</p>
-<h3 id="nbsphowmightwe">&nbsp;How Might We</h3>
-<p>This is a very important activity on the first day of the <strong>SPRINT</strong>. We are going to start exploring ideas openly. Each participant must formulate, in sticky notes, questions starting with "How Might We…?". That is, how could we improve this or that, motivate the users to do this or that thing, and so on. Again, without interfering each other, and giving more importance on quantity over quality.</p>
-<p>They are then arranged on a large paper and are sorted and grouped vertically by affinity.</p>
+<h3 id="contexto">Contexto</h3>
+<p>Momento en que los expertos del lado del cliente ayudan a entender el contexto del problema a resolver. Se realizaron tres presentaciones a cargo de Ecoembes, en las cuales se nos explicó el funcionamiento de las plantas de separación de residuos, e investigaciones previas en España y otros países sobre mejoras en el proceso de recogida, separación de residuos y reciclaje (pago por generación, incentivo al reciclado, trazado de bolsas mediante RFID, smartag, NFC, etc.)</p>
+<h3 id="revisindestakeholders">Revisión de stakeholders</h3>
+<p>Tras conocer el contexto se revisó el mapa de stakeholders, pudiendo añadir los que se considera que faltan. Después se agruparon por tipo, disponiéndolos de forma radial, dividiendo los círculos como si fuera un queso.</p>
+<h3 id="howmightwe">How Might We</h3>
+<p>Esta es una actividad muy importante en el primer día del&nbsp;<strong>SPRINT</strong>. Vamos a comenzar la exploración de ideas de forma abierta. Cada participante debe formular, en postits, preguntas del estilo “How Might We…?”, esto es, cómo podríamos mejorar esto o aquello, motivar a los usuarios a realizar tal o cual cosa… De nuevo sin interferir y valorando la cantidad por encima de la calidad.</p>
+<p>Se disponen en un papel grande y se van ordenando y agrupando verticalmente por afinidad.</p>
 <p><img src="/img/blog/2019-05_circular-design-sprint/dia1-hmw-1.jpg" alt="How Might We…?" /></p>
-<p>Afterwards, categories are created and similar sticky notes are placed underneath categories, putting one on top of another the ones that match exactly. Once grouped, we have an idea of the most repeated questions and the topics that we have given more importance to.</p>
-<p>Then each person has 3 votes in the form of stickers. The votes must be placed on the board at the same time, in order not to influence others.</p>
+<p>Después, se crean categorías y se colocan debajo los postits similares, donde juntamos uno encima de otro los que coincidan exactamente. Una vez agrupados, tenemos una idea de las preguntas que más se repiten y los temas a los que hemos dado más importancia. Cada persona tiene 3 votos en forma de pegatinas. Los votos se colocan en el tablero a la vez, con el fin de no influenciar a los demás.</p>
 <p><img src="/img/blog/2019-05_circular-design-sprint/dia1-hmw-3.jpg" alt="How Might We by categories" /></p>
-<p>The sticky notes that have obtained votes are passed to the stakeholder map, placing them in the corresponding quadrant, according to the categories created.</p>
+<p>Los postits que han obtenido votos se pasan al mapa de stakeholders, colocándolos en el cuadrante que corresponda, según las categorías creadas.</p>
 <p><img src="/img/blog/2019-05_circular-design-sprint/dia1-stakeholders-3.jpg" alt="Stakeholders map + How Might We" /></p>
-<p>After ordering the stakeholders, it was decided on what type of user and stakeholders we were going to work with. In my group, we selected the HORECA channel (HOtels, REstaurants and CAtering), and the so called waste GENERATORS quadrant.</p>
-<h3 id="userinterviews">User interviews</h3>
-<p>A user interview script was prepared. These interviews should allow us to validate our first hypotheses.</p>
-<p>These hypotheses included the type of average user that we intended to serve, which we decided would be <strong>restaurants with between 2 and 6 employees who had problems to recycle containers, due to lack of motivation, time or space</strong>.</p>
-<p>The objective is not to direct the interview, nor to try to sell them a solution, but to find out their motivations and frustrations related to the recycling of domestic packaging. Finally we can ask some questions about the solution we have in mind.</p>
-<p>The interview should not take more than 10 minutes.</p>
-<p>In the afternoon we conduct the interviews, on the street or by Skype/telephone.</p>
-<p>Each participant made 1-2 interviews, the objective being a total of 6 or more, a number that is considered representative. Among these 6 there will usually be 3-4 average users, 1 end up sample user (large restaurants) and 1 end down sample user (bars with only one employee).</p>
+<p>Tras la ordenación de los stakeholders, se decidió sobre qué tipo de usuario y stakeholders íbamos a trabajar. En mi grupo seleccionamos el canal HORECA (HOteles, REstaurantes y CAtering), y el cuadrante que denominamos GENERADORES de residuos.</p>
+<h3 id="entrevistasausuarios">Entrevistas a usuarios</h3>
+<p>Se preparó un guion de entrevistas para los usuarios. Estas entrevistas nos debían permitir validar nuestras primeras hipótesis.</p>
+<p>Estas hipótesis incluían el tipo de usuario promedio al que pretendíamos dar servicio, que decidimos que sería&nbsp;<strong>restaurantes de entre 2 y 6 empleados que tuvieran problemas para reciclar envases, por falta de motivación, tiempo o espacio</strong>. El objetivo es no dirigir la entrevista, ni tratar de venderles una solución, sino averiguar sus motivaciones y frustraciones relacionados con el reciclaje de envases domésticos. Finalmente se puede hacer alguna pregunta sobre la solución que tenemos en mente. La entrevista no debería tomar más de 10 minutos.Por la tarde realizamos las entrevistas propiamente dichas, en la calle o por Skype/teléfono.</p>
+<p>Cada participante hizo 1-2 entrevistas, siendo el objetivo un total de 6 o más, número que ya se considera representativo. Entre estos 6 normalmente habrá 3-4 usuarios promedio, 1 extremo por arriba (restaurantes grandes) y 1 extremo por debajo (bares con un solo empleado).</p>
 <h2 id="da2divergir">Día 2. Divergir</h2>
-<h3 id="generate_persona_">Generate <em>persona</em></h3>
-<p>The first exercise was to collect and synthesize the information from the previous day's interviews. The tool used was an Excel sheet, where all the responses of each of the users were collected, classified and then patterns were detected. Finally the frustrations of the user, their motivations and the verbatim (literal phrases full of emotions, anger, anger, etc., ideas with power) were identified.</p>
-<p>This information was passed to a synthesis matrix, ordering the most repeated phrases and patterns in:</p>
+<h3 id="generarnbsppersona">Generar&nbsp;<em>persona</em></h3>
+<p>El primer ejercicio fue recopilar y sintetizar la información de las entrevistas del día anterior. La herramienta utilizada fue una hoja Excel, donde se recopilaron todas las respuestas de cada uno de los usuarios, clasificándolas y buscando patrones. Finalmente se identificaron las frustraciones del usuario, sus motivaciones y los verbatim (frases literales cargadas de emociones, rabia, ira, etc., ideas con fuerza).</p>
+<p>Dicha información se pasó a una matriz de síntesis, ordenando las frases y patrones más repetidos en:</p>
 <ul>
-<li>Behavior patterns.</li>
-<li>Motivations (Gains).</li>
-<li>Frustrations (Pains).</li>
+<li>Patrones de comportamiento.</li>
+<li>Motivaciones (Gains).</li>
+<li>Frustraciones (Pains).</li>
 <li>Verbatims.</li>
 </ul>
-<p>After detecting the most repeated patterns, the person was generated, with following structure:</p>
+<p>Tras detectar los patrones que más se repiten se genera la persona, que tendrá la siguiente estructura:</p>
 <ul>
-<li>Name and basic demographic data.</li>
-<li>History.</li>
-<li>Needs.</li>
-<li>Reasons/origins for that needs.</li>
+<li>Nombre y datos demográficos básicos.</li>
+<li>Historia.</li>
+<li>Necesidad.</li>
+<li>Razón.</li>
 </ul>
-<p>The model should look like this sentence (our persona was named Mario Kempes after the nickname of a bar owner from my quarter):</p>
+<p>El modelo debería ser parecido a esta frase:</p>
 <blockquote>
-  <p>Mario Kempes is a 35-year-old chef who works in a bar that has 3 employees. He recycles oil and glass because they get paid for it and someone comes to pick it up, but he does not recycle plastics or cardboard for lack of economic incentives and space inside the bar. He needs to be paid, to be fined or getting the space issue solved in order to recycle more.</p>
+  <p>Mario Kempes es un jefe de cocina de 35 años que trabaja en un bar que tiene 3 empleados. Recicla aceite y vidrio porque se lo pagan y se lo vienen a buscar, pero no recicla ni plásticos ni cartón por falta de incentivos económicos y espacio dentro del bar. Necesita que le paguen, le multen o le resuelvan el tema del espacio para poder reciclar más._</p>
 </blockquote>
-<p>After analyzing the interviews, we verified that our initial assumptions were not validated, and our initial idea -a kind of label for responsible restaurants regarding the disposal and recycling of waste, which would serve to reward those who recycle the most- did not convince the owners of restaurants, so that we should pivot towards new solutions.</p>
+<p>Tras analizar las entrevistas, comprobamos que nuestros supuestos iniciales no fueron validados, y nuestra idea inicial -una especie de etiqueta de restaurante responsable con los residuos, que sirviera para premiar a los que más reciclan- no convencía a los dueños de locales, por lo que debíamos pivotar hacia nuevas soluciones.</p>
 <h3 id="lightningdemos">Lightning demos</h3>
-<p>Searching for projects, prototypes, products or services already developed, whose general idea is similar to the one chosen by the team, as a source of inspiration.</p>
+<p>Búsqueda de proyectos, prototipos, productos o servicios ya desarrollados o implantados, cuya idea general sea similar a la que ha escogido el equipo, como fuente de inspiración.</p>
 <h3 id="brainstorming">Brainstorming</h3>
-<p>During the stipulated time (about 10 minutes), each team member individually generated all the ideas that came to his mind, in sticky notes and under the following premises:</p>
+<p>Durante el tiempo estipulado (unos 10 minutos), cada miembro del equipo generó de forma individual todas las ideas que se le ocurrieron, en postits y bajo las siguientes premisas:</p>
 <ul>
-<li>Quantity should prevail over quality.</li>
-<li>Visuals should prevail over text.</li>
-<li>Each idea should be expressed in approximately 6 words.</li>
-<li>Ambitious ideas.</li>
-<li>Do not judge.</li>
-<li>You can build on other's ideas.</li>
+<li>Debe primar la cantidad sobre la calidad.</li>
+<li>Debe primar lo visual sobre el texto.</li>
+<li>Cada idea debe expresarse en aproximadamente 6 palabras.</li>
+<li>Ideas ambiciosas.</li>
+<li>No juzgar.</li>
+<li>Se puede construir sobre las ideas de los demás.</li>
 </ul>
-<p>Once generated, each one reads aloud his sticky notes to the rest, and doubts are clarified.</p>
-<p>They are then arranged on the board and ordered.</p>
+<p>Una vez generadas, se leen en voz alta a los demás miembros del equipo y se aclaran dudas.</p>
+<p>Seguidamente se disponen en el tablero y se ordenan.</p>
 <ul>
-<li>They are put one on another when they say exactly the same.</li>
-<li>They are grouped by theme.</li>
-<li>Above each group of related sticky notes, a diagonal sticky note is used as a title.</li>
+<li>Se ponen una sobre otra aquellas que son exactamente iguales.</li>
+<li>Se agrupan por temática.</li>
+<li>Sobre cada grupo de postits relacionados se dispone un postit en diagonal (rombo) como título.</li>
 </ul>
 <p><img src="/img/blog/2019-05_circular-design-sprint/dia2-brainstorming-1.jpg" alt="Brainstorming" /></p>
-<p>It's time to vote! Each member of the team takes 3 stickers to vote for 3 different ideas. The ideas that don't receive any votes are discarded.</p>
+<p>¡Llega el momento de votar! Cada miembro del equipo toma 3 pegatinas para votar 3 ideas diferentes. Se vota y se descartan las ideas que no han recibido ningún voto.</p>
 <p><img src="/img/blog/2019-05_circular-design-sprint/dia2-brainstorming-2.jpg" alt="Voting" /></p>
-<p>Among the ideas that received votes, a few are selected with which we will work, and the rest are discarded. It is not necessary to discard the least voted, although in principle it is logical, but the group can decide to incorporate some idea that has received few votes but that makes sense along with the rest. These ideas are arranged on the board, where we can see the <em>big picture</em> of our future solution.</p>
+<p>Entre las ideas que han recibido votos, se seleccionan unas pocas con las que vamos a trabajar, y se descarta el resto. No se tiene por qué descartar las menos votadas, aunque en principio es lo lógico, pero el grupo puede decidir incorporar alguna idea que haya recibido pocos votos pero que tenga sentido junto con el resto. Se reúnen estas ideas en el tablero, donde ya podremos visualizar el&nbsp;<em>big picture</em>&nbsp;de nuestra futura solución.</p>
 <p><img src="/img/blog/2019-05_circular-design-sprint/dia2-brainstorming-4.jpg" alt="Stakeholders map + voted ideas from brainstorming" /></p>
 <h3 id="crazy8">Crazy 8</h3>
-<p>Each member of the team had to take a folio and fold it in 8 quadrants. In each of these quadrants we have to draw a step of the outline of the solution to developed. In this exercise, every minute we write or draw a quadrant. At the end of the 8 minutes you should have a sketch of the prototype.</p>
-<p>This was my <strong>crazy 8</strong> for the idea that we decided in the previous step.</p>
+<p>Cada miembro del equipo debía tomar un folio y doblarlo en 8 cuadrantes. En cada uno de estos cuadrantes debe hacer un esbozo de la solución que se va a desarrollar. Para ello, cada minuto escribirá o dibujará un cuadrante. Al final de los 8 minutos deberá tener un boceto del prototipo. Este fue mi <strong>crazy 8</strong> para la idea que conjuntamente habíamos decidido en el paso anterior.</p>
 <p><img src="/img/blog/2019-05_circular-design-sprint/dia2-crazy8.jpg" alt="Crazy 8" /></p>
-<h3 id="individualprototype">Individual prototype</h3>
-<p>Each member of the team, for approximately 1 hour, had to make a prototype of the solution to be developed. It should be done on paper, using one or several sheets, with text, diagrams, drawings and sticky notes.</p>
-<p>When the time was over, the prototype was handed over to the facilitator, who the next day arranged it in the form of an Art Museum on the board, for its exhibition.</p>
-<h2 id="nbspday3decide">&nbsp;Day 3. Decide</h2>
+<h3 id="prototipoindividual">Prototipo individual</h3>
+<p>Cada miembro del equipo, durante aproximadamente 1 hora, debía realizar un prototipo de la solución a desarrollar. Debía hacerlo en papel, usando una o varias hojas, con texto, diagramas, dibujos y postits. Una vez pasado el tiempo se entregó el prototipo al facilitador, que al día siguiente lo dispuso en forma de Art Museum en el tablero, para su exhibición.</p>
+<h2 id="da3decidir">Día 3. Decidir</h2>
 <h3 id="artmuseum">Art Museum</h3>
-<p>In each group board, the individual prototypes were exhibited. The members of the group read to themselves each proposal, without knowing who had made it.</p>
-<p>One by one, it was revealed who designed each proposal and everyone could ask questions to clarify doubts.</p>
-<p>Next, each member of the team had to take 5 stickers to vote on the aspects of each prototype that they liked the most. The procedure to follow is thinking first and then voting at the same time to avoid influencing others.</p>
-<p>Subsequently, each member of the team took a larger blue sticker and cast a vote on their preferred idea. You also should think first and vote later, all at once.</p>
+<p>En cada tablero de grupo se exhibieron los prototipos individuales. Los miembros del grupo leyeron cada propuesta sin conocer quién la había realizado. Una a una se desveló quién diseñó cada propuesta y se le pudieron formular preguntas para aclarar dudas. Seguidamente, cada integrante del equipo debía tomar 5 pegatinas para votar los aspectos de cada prototipo que más le gustaban. Se debe pensar primero y votar a la vez para evitar influenciar a los demás. Posteriormente, cada miembro del equipo tomó una pegatina azul más grande y emitió un voto sobre su idea preferida. También se piensa primero y se vota después, todos a la vez.</p>
 <p><img src="/img/blog/2019-05_circular-design-sprint/dia3-art-museum-1.jpg" alt="Art Museum and votes" /></p>
-<h3 id="individualpitch">Individual pitch</h3>
-<p>Each member of the team had to present their idea to the client in a minute and a half.</p>
+<h3 id="pitchindividual">Pitch individual</h3>
+<p>Cada integrante del equipo debía realizar la presentación de su idea al cliente, en un minuto y medio.</p>
 <p><img src="/img/blog/2019-05_circular-design-sprint/dia3-pitch-1.jpg" alt="Individual pitch" /></p>
-<p>Once all the proposals were presented and after a time of reflection, the client (called <strong>decisor</strong> in the Design SPRINT methodology) indicated which aspects he valued positively of each proposal and signaled with yellow stickers what were the 2 or 3 ideas that he wanted to include in the final prototype.</p>
+<p>Una vez presentadas todas las propuestas y después de un tiempo de reflexión, el cliente (llamado&nbsp;<strong>decisor</strong>&nbsp;en la metodología Design Sprint) señaló qué aspectos valoraba positivamente de cada propuesta e indicó mediante pegatinas amarillas cuáles eran las 2 o 3 ideas que deseaba incluir en el prototipo final.</p>
 <h3 id="userjourney">User journey</h3>
-<p>Individually, and taking as input the most voted points of the prototypes and the customer feedback, each member had to generate a user journey in 8 steps. Using 8 sticky notes, in each one we write a phrase summarizing a step of the user journey of our product or service. Conceptually, we distribute them in 3 phases:</p>
+<p>De forma individual, y tomando como input los puntos más votados de los prototipos y el feedback del cliente, cada integrante debía generar un user journey en 8 pasos. Utilizando 8 postits, en cada uno apuntamos una frase resumiendo un paso del user journey de nuestro producto o servicio. Conceptualmente los repartimos en 3 fases:</p>
 <ul>
-<li><em>Before</em>: steps that are taken before using the product or service</li>
-<li><em>During</em>: steps that occur during use</li>
-<li><em>After</em>: steps that occur after use</li>
+<li><em>Antes</em>: pasos que se dan antes de usar el producto o servicio</li>
+<li><em>Durante</em>: pasos que se dan durante el uso</li>
+<li><em>Después</em>: pasos que se dan después del uso</li>
 </ul>
-<p>Once the individual user journeys are worked out, on the board, we distribute in 8 columns the user journeys of all the members of the team. Initially each user journey will use the 8 columns, along a row.</p>
-<p>Then we order them, grouping similar steps or steps that identify the same action, and placing them under the one that best summarizes it. We must have a user journey with 8 steps, and in each column we will only have a few sticky notes (one or two) for the different ideas that have arisen for this step.</p>
+<p>Una vez trabajados los user journeys individuales, en el tablero, disponemos en 8 columnas los user journeys de todos los integrantes del equipo. Inicialmente cada user journey utilizará las 8 columnas, a lo largo de una fila. Seguidamente los ordenamos, agrupando los pasos similares o que identifican la misma acción, y poniéndolos debajo de aquel que mejor la resuma. Nos debe quedar un user journey con 8 pasos, y en cada columna solo tendremos unos pocos postits (uno o dos) para las diferentes ideas surgidas para dicho paso.</p>
 <p><img src="/img/blog/2019-05_circular-design-sprint/dia3-user-journey.jpg" alt="User Journey" /></p>
-<h3 id="userjourneypitch">User journey pitch</h3>
-<p>A member designated by the team had to make a new one and a half minute pitch describing the user journey.</p>
-<h3 id="nbspprototypedraft">&nbsp;Prototype draft</h3>
-<p>Team members had to work on creating a new draft of the prototype, incorporating the received feedback and the generated user journey. At this point you can distribute the work among team members.</p>
-<h2 id="day4prototype-1">Day 4. Prototype</h2>
-<h3 id="roledesignation">Role designation</h3>
-<p>The team had to designate several roles for the realization of the prototype, where a person could assume several roles:</p>
+<h3 id="pitchdeuserjourney">Pitch de user journey</h3>
+<p>Un miembro designado por el equipo debía realizar un nuevo pitch de un minuto y medio describiendo el user journey de la idea tal y como se ha decidió en el punto anterior.</p>
+<h3 id="borradordeprototipo">Borrador de prototipo</h3>
+<p>Los integrantes del equipo debían trabajar en la creación de un nuevo borrador del prototipo, incorporando el feedback recibido y el user journey generado. En este punto se puede repartir el trabajo entre los miembros del equipo.</p>
+<h2 id="da4prototipar">Día 4. Prototipar</h2>
+<h3 id="eleccinderoles">Elección de roles</h3>
+<p>El equipo debía designar varios roles para la realización del prototipo, donde una persona podía asumir varios roles:</p>
 <ul>
-<li><em>Designers</em>: graphic design of product, presentation, landing page or application mockups.</li>
-<li><em>Creators of content</em>: images and texts for presentation, landing pages or application mockups.</li>
-<li><em>Copys</em>: texts for calls to action and other creative texts.</li>
-<li><em>Stitcher</em>: the one that is in charge of assembling the pieces, and makes sure that what others produce makes sense together.</li>
+<li><em>Diseñadores</em>: diseño gráfico de producto, presentación, landing page o mockups de aplicación.</li>
+<li><em>Creadores de contenido</em>: imágenes y textos para presentación, landing pages o mockups de aplicación.</li>
+<li><em>Copys</em>: textos para llamadas a la acción y otros textos creativos.</li>
+<li><em>Stitcher</em>: aquel que se encarga de ensamblar las piezas y que lo que producen los demás tenga sentido en conjunto.</li>
 </ul>
-<h3 id="prototyping">Prototyping</h3>
-<p>The members of the team had to work on the creation of the prototype, individually, in subgroups or as deemed appropriate. Finally the stitcher had to be in charge of the coordination and union of the pieces.</p>
-<p>Said prototype is only a facade of the product or service to be designed, in no case is it intended to implement a product exhaustively, since time is extremely limited. The objective of this prototype is to be able to validate our assumptions through the tests that will be carried out the next day.</p>
-<p>In the case of my team, the prototype had to portray a plastic collection service in the restaurants. This service included the use of a mobile app, but this app was not the central part of the application, so we decided to make a commercial presentation instead of a navigable prototype.</p>
+<h3 id="creacindelprototipo">Creación del prototipo</h3>
+<p>Los integrantes del equipo debían trabajar en la creación del prototipo, de manera individual, en subgrupos o como estimaran conveniente. Finalmente el stitcher debía encargarse de la coordinación y unión de las piezas.</p>
+<p>Dicho prototipo es tan solo una fachada del producto o servicio a diseñar, en ningún caso se pretende implementar un producto de manera exhaustiva, ya que el tiempo es extremadamente limitado. El objetivo de este prototipo es poder validar nuestras suposiciones mediante los tests que se realizarán el día siguiente.</p>
+<p>En el caso de mi equipo, el prototipo debía mostrar un servicio de recogida de plásticos en los restaurantes. Dicho servicio incluía el uso de una app móvil, pero esta app no era la parte central de la aplicación, por lo que decidimos hacer una presentación comercial en lugar de un prototipo navegable.</p>
 <p><img src="/img/blog/2019-05_circular-design-sprint/dia4-prototipo.png" alt="Prototype" /></p>
-<p>Other teams estimated making physical prototypes by means of boxes, paper, etc., since they had to simulate electronic devices that do not exist.</p>
-<h2 id="nbspday5test">&nbsp;Day 5. Test</h2>
-<h3 id="validationinterviewscript">Validation interview script</h3>
-<p>In the first place, it was necessary to write a script for an interview for the final user, including how he will be addressed, in case of cold-door interviews.</p>
-<p>Once again, the interviews should seek validation of the product, not its acceptance by the user.</p>
+<p>Otros equipos estimaron hacer prototipos físicos mediante cajas, papel, etc., ya que debían simular dispositivos electrónicos que no existen.</p>
+<h2 id="da5validar">Día 5. Validar</h2>
+<h3 id="guiondeentrevistadevalidacin">Guion de entrevista de validación</h3>
+<p>En primer lugar era necesario redactar un guion de entrevista al usuario final, incluyendo cómo se le va a abordar, en caso de ser entrevistas a puerta fría. Una vez más, las entrevistas deben buscar la validación del producto, no su aceptación por parte del usuario.</p>
 <ul>
-<li>Does our solution meet your needs?</li>
-<li>Are you able to use our interface / service?</li>
-<li>What do you like or do not like about what we have done?</li>
-<li>What would you like to improve?</li>
+<li>¿Cumple nuestra solución con sus necesidades?</li>
+<li>¿Son capaces de usar nuestra interfaz/servicio?</li>
+<li>¿Qué le gusta o no le gusta de lo que hemos hecho?</li>
+<li>¿Qué le gustaría mejorar?</li>
 </ul>
-<p>Consequently, this the methodology will look for:</p>
+<p>Para ello la metodología buscará:</p>
 <ul>
-<li>Use open questions instead of directed questions.</li>
-<li>If there is a usable or clickable prototype, let the user interact with it, find out if he understands it, and find his blockages or frustrations regarding the interaction.</li>
-<li>Provide the minimum context explanation before facing the user to the prototype, instead of telling everything, to see if he understands it, and avoid conditioning him.</li>
+<li>Usar preguntas abiertas en lugar de preguntas dirigidas.</li>
+<li>Si existe un prototipo utilizable o clicable, dejar al usuario interactuar con él para ver si lo entiende y encontrar sus bloqueos o frustraciones con respecto a la interacción.</li>
+<li>Realizar la mínima explicación de contexto necesaria antes de enfrentar al usuario al prototipo, en lugar de contarle todo, para ver si lo entiende, y evitar condicionarlo.</li>
 </ul>
-<p>In our case, there was no clickable prototype, as it was more of a service than the application itself, so we chose to show the full presentation and find out later what he thought of the solution.</p>
-<h3 id="validationinterviews">Validation interviews</h3>
-<p>In order to conduct interviews, depending on whether they are cold-weather or previously arranged, you will have to go outside or use an interview room, or Skype.</p>
-<p>The ideal case would be to arrange a series of face-to-face interviews with end users, and to have a room in which only one person speaks with the user, without taking notes, in order to maintain visual contact. From the outside, other people would observe the interview, including the screen that the user is handling if that is the case, and they would take notes of everything relevant of what the user says and what he actually does. Ideally, everything would be recorded on video to be available for later review.</p>
-<p>Alternatives to this ideal situation include conducting the interview by Skype and recording it, or conducting the interview in person, 2 or more people, of which one will speak with the user without losing visual contact, while others will record in audio/video (if the person can be self-conscious, audio may be better, since the recording is not perceived) and write down comments.</p>
-<p>The number of validation interviews is about 10, among which we must target our target user (persona) at least 80%.</p>
-<h3 id="validationconclusionslessonslearned">Validation conclusions. Lessons learned</h3>
-<p>The team meets again and patterns are extracted from the interviews. For this we will classify the interviewed users according to their profile and we will group the received answers.</p>
-<p>From this learning we will draw conclusions about which parts of the solution can work and which do not, as well as the solution on a global level.</p>
+<p>En nuestro caso, no había prototipo clicable ya que se trataba más de un servicio que de la propia aplicación, por lo que optamos por mostrarle la presentación completa y averiguar más tarde qué pensaba de la solución.</p>
+<h3 id="entrevistasdevalidacin">Entrevistas de validación</h3>
+<p>Para la realización de entrevistas, según sean a puerta fría o previamente concertadas, habrá que salir a la calle o bien usar una sala de entrevistas, o Skype.</p>
+<p>El caso ideal consistiría en concertar una serie de entrevistas presenciales con usuarios finales, y disponer de una sala en la que solo una persona hable con él, sin apuntar nada, para poder mantener contacto visual. Desde fuera otras personas observarían la entrevista, incluyendo la pantalla que esté manejando el usuario si es el caso, y apuntarían todo lo que observen de lo que el usuario dice y lo que realmente hace. Idealmente se grabaría todo en vídeo para poder repasarlo posteriormente.</p>
+<p>Alternativas a esta situación ideal incluyen realizar la entrevista por Skype y grabarla, o bien que realicen la entrevista de forma presencial 2 o más personas, de las cuales una hablará con el usuario sin perder contacto visual, mientras que otras grabarán en audio/video (si la persona se puede mostrar cohibida puede ser mejor audio, ya que no se percibe cómo te graban) y anotarán los comentarios. El número de entrevistas de validación suficiente es de unas 10, entre las cuales debemos apuntar a nuestro usuario objetivo (persona) al menos en un 80%.</p>
+<h3 id="conclusionesdelavalidacinaprendizaje">Conclusiones de la validación. Aprendizaje</h3>
+<p>Se reúne de nuevo el equipo y se extraen patrones de las entrevistas. Para ello clasificaremos a los usuarios entrevistados según su perfil y agruparemos las respuestas recibidas. A partir de este aprendizaje sacaremos conclusiones sobre qué partes de la solución pueden funcionar y cuáles no, así como la solución a nivel global.</p>
 <ul>
-<li>Does our proposal make sense for users?</li>
-<li>Do you know how to interact with her?</li>
-<li>Can we improve it? How?</li>
-<li>Should we keep with this approach or discard it?</li>
+<li>¿Tiene sentido nuestra propuesta para los usuarios?</li>
+<li>¿Saben interactuar con ella?</li>
+<li>¿La podemos mejorar? ¿Cómo?</li>
+<li>¿Seguimos con ella o la descartamos?</li>
 </ul>
-<h3 id="finalpitch">Final pitch</h3>
-<p>The team had to prepare a final pitch to present to the client the prototype, along with the lessons learned from the validation. This final pitch should last 5 minutes.</p>
-<p>The pitch was made to the client, who in turn provided feedback to the teams.</p>
-<h2 id="conclusions">Conclusions</h2>
-<p>The final impression was that, in a very short space of time a high quality result was achieved, where a lot of creativity and original solutions were put into play. At several points, it was necessary to change of direction, when the initial assumptions were not validated, and it was possible to do that without too much resistance coming from the authors of these initial ideas. Apparently, the ideas did not have a single author and, in some way, all the members of the team felt involved and made their contribution, both in the generation of ideas and in decision-making.</p>
-<p>It is a rather surprising process from the inside, since at the beginning we come up with a lot of disparate ideas, that are gradually sorted out and discarded, under a lot of time pressure, until finally everything starts to converge in a way that seems natural.</p>
-<p>Also, due to the philosophy of exploration without censorship, the solutions start being very ambitious and not feasible, but as the process progresses some ideas are canceled, recombined with others or degraded solutions are found for the more science-fiction ideas, so that the final solution is feasible. This allows us to get to put into practice ideas that initially we would have discarded because they seemed impossible.</p>]]></description><link>https://juanguijordan.com/blog/2019-05_circular-design-sprint</link><guid isPermaLink="true">https://juanguijordan.com/blog/2019-05_circular-design-sprint</guid><category><![CDATA[design-sprint]]></category><category><![CDATA[ux]]></category><dc:creator><![CDATA[Juangui Jordán]]></dc:creator><pubDate>Tue, 25 Jun 2019 07:00:00 GMT</pubDate></item><item><title><![CDATA[Using Stencil Built Web Components with Ionic]]></title><description><![CDATA[<p>This post aims at providing clear instructions on how to use components created and compiled with Stencil on an Ionic application.
-I will guide you in the process of making your web component available in your Ionic templates,
-without the need of registering them in the npm registry or adding ugly script tags to your index file.</p>
-<h2 id="motivation">Motivation</h2>
-<p>Being created by the <a href="http://ionicframework.com/">Ionic Framework team</a>,
-one would expect that using Stencil web components in Ionic projects would be,
-if not automatic and integrated in the framework by means of some CLI command,
-at least well documented.</p>
-<p>Well, that it not the case, since the Ionic guys provide <a href="https://stenciljs.com/docs/framework-integration">framework integration instructions</a> for Angular,
-React, Vue and Ember, but they do not provide them for Ionic.
-Maybe I neglected some obvious thing, but I had to do some research to get my Stencil components working on an Ionic project,
-and the effort was big enough to make me think about creating a post of it,
-hoping that it may help someone.</p>
-<h2 id="requirements">Requirements</h2>
-<p>As a requirement, you need to create a Stencil component, a task for which you can find proper documentation in the Stencil site. The Stencil component doesn't need either to be registered in the npm registry.</p>
-<h2 id="integrationprocess">Integration process</h2>
-<p>If we integrate web components that are registered in npm, the process is simpler. Let's face in this section the case in which we developed a custom component, but we are not publishing it in the npm register. We are aiming at a clean integration without script tags in the <code>index.html</code> file.</p>
-<p>The process takes three steps.</p>
+<h3 id="pitchfinal">Pitch final</h3>
+<p>El equipo debía preparar un pitch final para presentar al cliente el prototipo realizado junto con las el aprendizaje obtenido de la validación. Este pitch final debía durar 5 minutos. Se realizó el pitch ante el cliente y se escuchó el feedback por parte de este.</p>
+<h2 id="conclusiones">Conclusiones</h2>
+<p>La impresión final fue que en un muy breve espacio de tiempo se alcanzó un resultado de gran calidad, donde se puso en juego mucha creatividad y soluciones originales. En varios puntos hubo que dar un golpe de timón, cuando se vio que los supuestos iniciales no eran validados, y se logró hacer sin demasiada resistencia por parte de los autores de dichas ideas iniciales. Aparentemente, las ideas no tenían un único autor y, de alguna manera, todos los miembros del equipo se sentían partícipes y realizaron su aportación, tanto en la generación de ideas como en la toma de decisiones.</p>
+<p>Resulta un proceso bastante sorprendente desde dentro, ya que al principio hay una multitud de ideas dispares a las que poco a poco se va poniendo orden y descartando, bajo mucha presión de tiempo, hasta que finalmente todo va convergiendo de una forma que parece natural.</p>
+<p>Asimismo, debido a la filosofía de exploración sin censura, las soluciones empiezan siendo muy ambiciosas y poco factibles, pero a medida que avanza el proceso se cancelan algunas ideas, se recombinan con otras o se encuentran soluciones degradadas a las ideas más de ciencia ficción, de modo que la solución final es factible. Esto nos permite llegar a poner en práctica ideas que inicialmente habríamos descartado por parecernos imposibles.</p>]]></description><link>https://juanguijordan.com/blog/2019-05_circular-design-sprint</link><guid isPermaLink="true">https://juanguijordan.com/blog/2019-05_circular-design-sprint</guid><category><![CDATA[design-sprint]]></category><category><![CDATA[ux]]></category><dc:creator><![CDATA[Juangui Jordán]]></dc:creator><pubDate>Tue, 25 Jun 2019 07:00:00 GMT</pubDate></item><item><title><![CDATA[Usando componentes web generados con Stencil en Ionic]]></title><description><![CDATA[<p>Esta publicación tiene como objetivo proporcionar instrucciones claras sobre cómo usar componentes creados y compilados con Stencil en una aplicación Ionic. Te guiaré en el proceso de hacer que un componente web esté disponible en tus templates Ionic, sin necesidad de registrarlos en el registro npm o agregar feos tags script a tu índice.</p>
+<h2 id="motivacin">Motivación</h2>
+<p>Creado por el <a href="http://ionicframework.com/">equipo de Ionic Framework</a>, uno esperaría que el uso de componentes web Stencil en proyectos Ionic sería, si no automático e integrado en el framework mediante algún comando CLI, al menos bien documentado.</p>
+<p>Bueno, ese no es el caso, ya que los chicos de Ionic proporcionan <a href="https://stenciljs.com/docs/framework-integration">instrucciones de integración del framework</a> para Angular, React, Vue y Ember, pero no los proporcionan para Ionic. Tal vez descuidé algo obvio, pero tuve que investigar un poco para que mis componentes Stencil funcionaran en un proyecto Ionic, y el esfuerzo fue lo suficientemente grande como para hacerme pensar en crear una publicación, esperando que pueda ayudar a alguien.</p>
+<h2 id="requisitos">Requisitos</h2>
+<p>Como requisito, debes crear un componente Stencil, una tarea para la que puedes encontrar la documentación adecuada en el sitio web de Stencil. El componente Stencil tampoco necesita estar registrado en el registro npm.</p>
+<h2 id="procesodeintegracin">Proceso de integración</h2>
+<p>Si integramos componentes web registrados en npm, el proceso es más sencillo. Afrontemos en esta sección el caso en el que desarrollamos un componente personalizado, pero no lo estamos publicando en el registro npm. Nuestro objetivo es una integración limpia sin etiquetas de script en el archivo <code>index.html</code>.</p>
+<p>El proceso consta de tres pasos.</p>
 <ul>
-<li>First we build the component and copy the distribution files to our project.</li>
-<li>Then we tell the Angular side of things how to use the component.</li>
-<li>Last, we tell the Ionic side of things to include the component when it builds the bundle. The way we talk to Angular (really Ionic-Angular) depends on whether we are <em>eagerly</em> loading pages, or <em>lazily</em> loading them.</li>
+<li>Primero construimos el componente y copiamos los archivos de distribución a nuestro proyecto.</li>
+<li>Luego le decimos al lado Angular de las cosas cómo usar el componente.</li>
+<li>Por último, le decimos al lado Ionic de las cosas que incluya el componente cuando construya el paquete. La forma en que hablamos con Angular (realmente Ionic-Angular) depende de si estamos cargando páginas de forma <em>anticipada</em> o de forma <em>diferida</em>.</li>
 </ul>
-<h3 id="step1buildandcopycomponent">Step 1. Build and copy component</h3>
-<p>Build the component and copy the contents of the dist folder to a folder in our project.
-In this example we chose the folder <code>@img/lib/components/my-google-maps</code>.</p>
-<h3 id="step2importintoappmodulets">Step 2. Import into app.module.ts</h3>
-<p>First, you need to import the <code>CUSTOM_ELEMENTS_SCHEMA</code>, and add it to the <code>schemas</code> section of the <code>@NgModule</code>. If you import <code>CUSTOM_ELEMENTS_SCHEMA</code> into one of your page modules, the Angular compiler will accept elements it does not recognize (otherwise, it will throw an error). If you are lazy loading, you need to import this schema into each page module where you want to use the web component. If you are eagerly loading, you only need to import the schema into <code>app.module.ts</code>.</p>
-<p>Then, add an import to your <code>dist/mycomponent</code> folder. This import statement does not load the entire web component. It only loads a small piece of code that then allows Ionic to load the full web component later, when a template requests it.</p>
-<p>When you've performed both steps, your <code>app.module.ts</code> should look like this if you are eagerly loading.</p>
+<h3 id="paso1generarycopiarcomponente">Paso 1. Generar y copiar componente</h3>
+<p>Construya el componente y copie el contenido de la carpeta dist a una carpeta en nuestro proyecto. En este ejemplo, elegimos la carpeta <code>@img/lib/components/my-google-maps</code>.</p>
+<h3 id="paso2importarenelappmodulets">Paso 2. Importar en el app.module.ts</h3>
+<p>Primero, necesitas importar el <code>CUSTOM_ELEMENTS_SCHEMA</code>, y agregarlo a la sección<code>schemas</code> del <code>@NgModule</code>. Si importas <code>CUSTOM_ELEMENTS_SCHEMA</code> en uno de los módulos de tu página, el compilador Angular aceptará elementos que no reconoce (de lo contrario, arrojará un error). Si realizas una carga diferida, debes importar este esquema en cada módulo de página en el que desees utilizar el componente web. Si estás cargando con anticipación, solo necesitas importar el esquema en <code>app.module.ts</code>.</p>
+<p>Luego, agrega un import a la carpeta <code>dist/mycomponent</code>. Este import no carga todo el componente web. Solo carga una pequeña parte del código que permite a Ionic cargar el componente web completo más tarde, cuando una plantilla lo solicita.</p>
+<p>Cuando hayas realizado ambos pasos, tu <code>app.module.ts</code> debería parecerse al siguiente si estás cargando con anticipación.</p>
 <pre><code class="typescript language-typescript">import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core"; // add this import
 import "@img/lib/components/my-google-maps/dist/mycomponent"; // add this import
 
@@ -1425,15 +1400,15 @@ import "@img/lib/components/my-google-maps/dist/mycomponent"; // add this import
 })
 export class AppModule {}
 </code></pre>
-<p>If you are lazy loading, import just the web component in <code>app.module.ts</code>, and just the schema in the individual lazily loaded modules.</p>
-<h3 id="step3tellionicappscriptstoincludethecomponentinthebuild">Step 3. Tell ionic-app-scripts to include the component in the build</h3>
-<p>We will create a <code>copy.config.js</code> file that will define some rules to copy the web component to our final build. A good practice is to create it in a config folder, to separate it from other standard files like <code>package.json</code> or <code>ionic.config.json</code>.</p>
-<p>This file can tell ionic app-scripts to include extra content when it builds an Ionic app. If you are creating the file, put it in a folder named <code>config</code> that is at the same directory level as your <code>src</code> folder. In the first place, let's declare the file in <code>package.json</code>. This will tell the app-scripts to use this file. Add the following field to your <code>package.json</code>:</p>
+<p>Si usas lazy loading, importa solo el componente web en <code>app.module.ts</code>, y solo el esquema en los módulos individuales cargados de forma diferida.</p>
+<h3 id="paso3usarionicappscriptsparaincluirelcomponenteenelbuild">Paso 3. Usar ionic-app-scripts para incluir el componente en el build</h3>
+<p>Crearemos un archivo <code>copy.config.js</code> que definirá algunas reglas para copiar el componente web a nuestra compilación final. Una buena práctica es crearlo en una carpeta de configuración, para separarlo de otros archivos estándar como <code>package.json</code> o <code>ionic.config.json</code>.</p>
+<p>Este archivo puede indicarle a los scripts de aplicaciones Ionic que incluyan contenido adicional cuando compile una aplicación iónica. Si creas el archivo, ponlo en una carpeta llamada <code>config</code> que esté en el mismo nivel de directorio que la carpeta <code>src</code>. En primer lugar, declaremos el archivo en <code>package.json</code>. Esto le dirá a los scripts de la aplicación que usen este archivo. Agrega el siguiente campo a tu <code>package.json</code>:</p>
 <pre><code class="json language-json">"config": {
     "ionic_copy": "./config/copy.config.js"
 }
 </code></pre>
-<p>Then, put this inside <code>config\copy.config.js</code>:</p>
+<p>Luego, pon esto dentro de <code>config\copy.config.js</code>:</p>
 <pre><code class="javascript language-javascript">module.exports = {
   copyTimeAgoWebComponent: {
     src: [
@@ -1443,69 +1418,65 @@ export class AppModule {}
   },
 };
 </code></pre>
-<p>Once you've made those changes, app-scripts will know how to include the web component in your builds.
-You can now use your Stencil web components in your Ionic templates as any other web component.</p>]]></description><link>https://juanguijordan.com/blog/2018-08_ionic-stencil-integration</link><guid isPermaLink="true">https://juanguijordan.com/blog/2018-08_ionic-stencil-integration</guid><category><![CDATA[javascript]]></category><dc:creator><![CDATA[Juangui Jordán]]></dc:creator><pubDate>Wed, 12 Sep 2018 07:00:00 GMT</pubDate></item><item><title><![CDATA[Versioning features in an angular app]]></title><description><![CDATA[<p>Imagine a scenario where your app needs to show different versions of a component or services to different groups of users.
-If it sounds a bit farfetched, take the following scenario that was proposed to our development team in some real project:</p>
+<p>Una vez que hayas realizado esos cambios, los app-scripts sabrán cómo incluir el componente web en sus compilaciones.
+Ahora puedes utilizar componentes web Stencil en tus plantillas Ionic como cualquier otro componente web.</p>]]></description><link>https://juanguijordan.com/blog/2018-08_ionic-stencil-integration</link><guid isPermaLink="true">https://juanguijordan.com/blog/2018-08_ionic-stencil-integration</guid><category><![CDATA[javascript]]></category><dc:creator><![CDATA[Juangui Jordán]]></dc:creator><pubDate>Wed, 12 Sep 2018 07:00:00 GMT</pubDate></item><item><title><![CDATA[Versionar características en una aplicación angular]]></title><description><![CDATA[<p>Imagina un escenario en el que tu aplicación debe mostrar diferentes versiones de un componente o servicios a diferentes grupos de usuarios. Si suena un poco traído por los pelos, toma el siguiente escenario que se propuso a nuestro equipo de desarrollo en cierto proyecto real:</p>
 <ul>
-<li>The app is downloaded from <strong>Google Play/App Store</strong>, and will be deployed in different countries, using the same app ID.</li>
-<li>Different countries have different regulations as to whether the app can display user photographies, specific fields, and so on.
-Also, some features should be totally disabled in some countries.</li>
-<li>The app will keep growing in functionality, but not necessarily at the same time for all countries:
-some countries may decide not to upgrade some feature, or upgrade it later;
-some countries may take more time to review if some particular new feature follows their privacy regulations…</li>
+<li>La aplicación se descarga desde <strong>Google Play/App Store</strong> y se implementará en diferentes países, utilizando el mismo app ID.</li>
+<li>Los diferentes países tienen diferentes regulaciones sobre si la aplicación puede mostrar fotografías de usuarios, campos específicos, etc. Además, algunas funciones deberían estar totalmente deshabilitadas en algunos países.</li>
+<li>La aplicación seguirá creciendo en funcionalidad, pero no necesariamente al mismo tiempo para todos los países:
+algunos países pueden decidir no actualizar alguna función o actualizarla más tarde;
+algunos países pueden tomar más tiempo para revisar si alguna característica nueva en particular sigue sus regulaciones de privacidad …</li>
 </ul>
-<p>The naive approach of having <code>ngIf</code> directives all over the place can work for the simpler cases
-but it would be hard to maintain and would also clutter our beautiful templates.
-Also, components using different services when switching from one version to another would be very difficult to maintain.</p>
-<p>So we came up to the following approach, to cope with all those situations:</p>
+<p>El enfoque ingenuo de tener directivas <code>ngIf</code> por todas partes puede funcionar para los casos más simples
+pero sería difícil de mantener y también saturaría nuestras hermosas plantillas.
+Además, los componentes que utilizan diferentes servicios al cambiar de una versión a otra serían muy difíciles de mantener.</p>
+<p>Así que decidimos utilizar el siguiente enfoque para hacer frente a todas esas situaciones:</p>
 <ul>
-<li>Create a directive to show/hide parts of a template depending on the country and version.
-That would be like an extension of <code>ngIf</code> with our <code>country</code> and <code>version</code> parameters,
-and would give an answer to simple problems like hiding a whole feature in some countries,
-or hiding a particular field for some countries/versions.</li>
-<li>Create a directive that returns a dynamic component, depending on the <code>country</code> and <code>version</code> parameters.
-This directive would be used for more general cases,
-where a component version can provide very different functionality from another version.</li>
+<li>Crear una directiva para mostrar/ocultar partes de una plantilla según el país y la versión.
+Eso sería como una extensión de <code>ngIf</code> con nuestros parámetros <code>country</code> y <code>version</code>,
+y daría una respuesta a problemas simples como ocultar una funcionalidad completa en algunos países,
+u ocultar un campo en particular para algunos países/versiones.</li>
+<li>Crear una directiva que devuelva un componente dinámico, según los parámetros <code>country</code> y <code>version</code>.
+Esta directiva se utilizaría para casos más generales,
+donde una versión de componente puede proporcionar una funcionalidad muy diferente a otra versión.</li>
 </ul>
-<p>To illustrate this post, we created an app. Our app proudly shows some country data,
-like a country flag, area and population.
-We made contact with governments all over the world and kindly asked them to join our non-profit revolutionary app,
-providing some basic data:</p>
+<p>Para ilustrar este post, hemos creado una aplicación. Nuestra aplicación muestra con orgullo algunos datos de países,
+como la bandera de un país, el área y la población.
+Nos pusimos en contacto con gobiernos de todo el mundo y les pedimos amablemente que se unieran a nuestra revolucionaria aplicación sin fines de lucro. proporcionando algunos datos básicos:</p>
 <ul>
-<li>Country name</li>
-<li>Area</li>
-<li>Population</li>
+<li>Nombre del país</li>
+<li>Área</li>
+<li>Población</li>
 </ul>
-<p>Some of these countries have really severe regulations and wanted to join the app,
-but without revealing their area and population initially,
-until their lawyers would determine if this data could be displayed.
-So we designed the first version of the app with a single screen,
-where the user would select the country from a select combo box,
-and a component with two subcomponents displaying the country data:</p>
+<p>Algunos de estos países tienen regulaciones muy severas y querían unirse a la aplicación,
+pero sin revelar su área y población inicialmente,
+hasta que sus abogados determinen si estos datos podrían mostrarse.
+Por eso diseñamos la primera versión de la aplicación con una sola pantalla,
+donde el usuario seleccionaría el país de un combo box,
+y un componente con dos subcomponentes que muestran los datos del país:</p>
 <ul>
-<li>A header component for the country name</li>
-<li>A content component for the data</li>
+<li>Un componente de encabezado para el nombre del país</li>
+<li>Un componente de contenido para los datos.</li>
 </ul>
-<p>The content component should be optional, and will display depending on the country’s regulations.</p>
-<p><img src="/img/blog/2018-04_versioning-features-in-an-angular-app/features_v1.png" alt="Design of the first version of the components" /></p>
-<p>These are some screenshots of the app at this point:</p>
-<p><img src="/img/blog/2018-04_versioning-features-in-an-angular-app/features_v1_screenshots.png" alt="Screenshots of the first version of the app" /></p>
-<p>After the kick off, some users were so excited that started to ask for some new features:</p>
+<p>El componente de contenido debe ser opcional y se mostrará según las normativas del país.</p>
+<p><img src="/img/blog/2018-04_versioning-features-in-an-angular-app/features_v1.png" alt="Diseño de la primera versión de los componentes" /></p>
+<p>Estas son algunas capturas de pantalla de la aplicación en este punto:</p>
+<p><img src="/img/blog/2018-04_versioning-features-in-an-angular-app/features_v1_screenshots.png" alt="Capturas de pantalla de la primera versión de la aplicación." /></p>
+<p>Después de la puesta en marcha, algunos usuarios estaban tan emocionados que empezaron a pedir algunas funcionalidades nuevas:</p>
 <ul>
-<li>They wanted to get the country flag displayed in the header</li>
-<li>Some more data like country capital and wait for it… the national anthem, of course</li>
+<li>Querían que se mostrara la bandera del país en el encabezado.</li>
+<li>Algunos datos más como capital del país y ¿qué más…? el himno nacional, claro.</li>
 </ul>
-<p>The development team agreed that, given that some countries still had not provided their area and population,
-it was reasonable to think that some of them would not provide instantly their flag, capital and anthem.
-So we decided to version the header and content components, so we could give them a smooth path to upgrade their data,
-while still looking good in the app, showing the old components instead of new components with empty fields.</p>
-<p><img src="/img/blog/2018-04_versioning-features-in-an-angular-app/features_v2.png" alt="Design of the final version of the components" /></p>
-<p>These are some screenshots of the final version of the app:</p>
+<p>El equipo de desarrollo estuvo de acuerdo en que, dado que algunos países aún no habían proporcionado su área y población,
+Era razonable pensar que algunos de ellos no entregarían instantáneamente su bandera, capital e himno.
+Así que decidimos versionar el encabezado y los componentes de contenido, de modo que pudiéramos darles un camino sencillo para actualizar sus datos sin dejar de verse bien en la aplicación, mostrando los componentes antiguos en lugar de los componentes nuevos con campos vacíos.</p>
+<p><img src="/img/blog/2018-04_versioning-features-in-an-angular-app/features_v2.png" alt="Diseño de la versión final de los componentes" /></p>
+<p>Estas son algunas capturas de pantalla de la versión final de la aplicación:</p>
 <p><img src="/img/blog/2018-04_versioning-features-in-an-angular-app/features_v2_screenshots.png" alt="Screenshots of the final version of the app" /></p>
-<p>Our app builds on two directives, as we said.
-The first one will show/hide an element depending on the feature availability for a certain country,
-where the features will be <code>COUNTRY_HEADER</code> and <code>COUNTRY_CONTENT</code>.
-This directive will get the feature availability from a service, the so called <code>CountryConfigService</code>.</p>
+<p>Nuestra aplicación se basa en dos directivas, como dijimos.
+La primera mostrará/ocultará un elemento dependiendo de la disponibilidad de funciones para un determinado país,
+donde las características serán <code>COUNTRY_HEADER</code> y <code>COUNTRY_CONTENT</code>.
+Esta directiva obtendrá la disponibilidad de funciones de un servicio, el llamado <code>CountryConfigService</code>.</p>
 <pre><code class="typescript language-typescript">import {
   CountryConfigDictionary,
   DEFAULT_COUNTRY_CONFIG,
@@ -1530,9 +1501,9 @@ export class CountryConfigService {
   }
 }
 </code></pre>
-<p>The <code>config</code> is an object following a <code>CountryConfigDictionary</code> model
-that lets us define which version of the <code>COUNTRY_HEADER</code> and <code>COUNTRY_CONTENT</code> components,
-if any, is using each country:</p>
+<p>La <code>config</code> es un objeto que sigue un modelo <code>CountryConfigDictionary</code>
+que nos permite definir qué versión de los componentes <code>COUNTRY_HEADER</code> y <code>COUNTRY_CONTENT</code>,
+si hay alguno, está usando cada país:</p>
 <pre><code class="typescript language-typescript">export const DEFAULT_COUNTRY_CONFIG: CountryConfigDictionary = {
   es: {
     features: {
@@ -1565,12 +1536,12 @@ if any, is using each country:</p>
   },
 };
 </code></pre>
-<h2 id="thefeatureifdirective">The FeatureIf directive</h2>
-<p>With that in mind, let’s see the <code>FeatureIf</code> directive.
-It will display an element if the feature is enabled for the country.
-Optionally, we can define the minimum version implemented by the country,
-meaning that if the country uses a lower version, the element will be hidden.
-I will skip the standard imports to save space in the listing:</p>
+<h2 id="ladirectivafeatureif">La directiva FeatureIf</h2>
+<p>Con eso en mente, veamos la directiva <code>FeatureIf</code>.
+Mostrará un elemento si la función está habilitada para el país.
+Opcionalmente, podemos definir la versión mínima implementada por el país,
+lo que significa que si el país usa una versión más baja, el elemento estará oculto.
+Omitiré los imports estándar para ahorrar espacio en el listado:</p>
 <pre><code class="typescript language-typescript">import { CountryConfigService } from "../../services/country-config/country-config.service";
 
 @Directive({
@@ -1639,17 +1610,17 @@ export class FeatureIfDirective implements OnChanges {
   }
 }
 </code></pre>
-<p>This structural directive makes use of 4 parameters: <code>featureName</code>, <code>countryCode</code>, <code>featureVersion</code> and <code>else</code>.
-Pay attention on how we define input properties in a structural directive:</p>
+<p>Esta directiva estructural hace uso de 4 parámetros: <code>featureName</code>, <code>countryCode</code>, <code>featureVersion</code> y <code>else</code>.
+Presta atención a cómo definimos las propiedades de entrada en una directiva estructural:</p>
 <ul>
-<li>The first input takes the name of the very same directive: <code>appFeatureIf</code>.
-We use a setter to internally save it as <code>_featureName</code>.</li>
-<li>The rest of the inputs take the name of the directive plus the name of the parameter.
-For instance, the input <code>appFeatureIfCountryCode</code> references the directive parameter <code>countryCode</code>.
-We also use here a setter to map the input to the private variable <code>_countryCode</code>.</li>
+<li>La primera entrada toma el nombre de la misma directiva: <code>appFeatureIf</code>.
+Usamos un setter para guardarlo internamente como <code>_featureName</code>.</li>
+<li>El resto de entradas toman el nombre de la directiva más el nombre del parámetro.
+Por ejemplo, la entrada <code>appFeatureIfCountryCode</code> hace referencia al parámetro de directiva <code>countryCode</code>.
+También usamos aquí un setter para mapear la entrada a la variable privada <code>_countryCode</code>.</li>
 </ul>
-<p>Please remark below how the directive is used in a template.
-The first parameter doesn’t need a key, while the rest is passed with <code>"key: value"</code> tuples, separated by a semicolon (<code>;</code>).</p>
+<p>Observa a continuación cómo se utiliza la directiva en una plantilla.
+El primer parámetro no necesita una clave, mientras que el resto se pasa con tuplas <code>"key: value"</code>, separadas por un punto y coma (<code>;</code>).</p>
 <pre><code class="html language-html">&lt;div *appFeatureIf="'COUNTRY_HEADER';countryCode:code;version:2"&gt;
   Show only for countries implementing the COUNTRY_HEADER feature with version
   &gt;= 2
@@ -1659,26 +1630,26 @@ The first parameter doesn’t need a key, while the rest is passed with <code>"k
   Show otherwise
 &lt;/div&gt;
 </code></pre>
-<p>What the directive basically does is:</p>
+<p>Lo que básicamente hace la directiva es:</p>
 <ul>
-<li>Registers for changes in any of the inputs.</li>
-<li>When the directive is instantiated or any of the input changes, executes <code>applyChanges()</code>.</li>
-<li>Computes if the feature is enabled according to <code>featureName</code>, <code>countryCode</code> and <code>minVersion</code>.</li>
-<li>Computes if the element has to be displayed.
-If the <code>else</code> parameter is defined and <code>true</code>, then it will be displayed if the feature is disabled.</li>
-<li>Executes <code>embedTemplate()</code>, which creates the embedded view into the view container if the element should be displayed,
-or clears the view container otherwise.</li>
+<li>Registra cambios en cualquiera de los inputs.</li>
+<li>Cuando se crea una instancia de la directiva o cualquiera de los inputs cambia, ejecuta <code>applyChanges()</code>.</li>
+<li>Calcula si la funcionalidad está habilitada de acuerdo con <code>featureName</code>,<code>countryCode</code> y <code>minVersion</code>.</li>
+<li>Calcula si el elemento debe mostrarse.
+Si el parámetro <code>else</code> está definido y es <code>true</code>, se mostrará si la función está deshabilitada.</li>
+<li>Ejecuta <code>embedTemplate()</code>, que crea la vista embebida en el contenedor de la vista si el elemento debe mostrarse,
+o borra el contenedor de vista de lo contrario.</li>
 </ul>
-<p>We use this directive in two cases in our app.
-In the header, we use it to hide the flag for countries implementing <code>COUNTRY_HEADER</code> version 1.</p>
+<p>Usamos esta directiva en dos casos en nuestra aplicación.
+En el encabezado, lo usamos para ocultar la bandera de los países que implementan la versión 1 de <code>COUNTRY_HEADER</code>.</p>
 <pre><code class="html language-html">&lt;div
   *appFeatureIf="'COUNTRY_HEADER';countryCode:country.code;
   version:2"
   class="flag {{country.code}}"
 &gt;&lt;/div&gt;
 </code></pre>
-<p>In the parent component, we use the directive with the <code>else</code> parameter set to <code>true</code>,
-to display an informative text when the content component is not available.</p>
+<p>En el componente padre, usamos la directiva con el parámetro <code>else</code> a <code>true</code>,
+para mostrar un texto informativo cuando el componente de contenido no está disponible.</p>
 <pre><code class="html language-html">&lt;div
   class="no-feature"
   *appFeatureIf="'COUNTRY_CONTENT';
@@ -1687,8 +1658,8 @@ to display an informative text when the content component is not available.</p>
   This feature is not yet available in {{country.name}}.
 &lt;/div&gt;
 </code></pre>
-<h2 id="thefeatureversiondirective">The FeatureVersion directive</h2>
-<p>Our second directive will allow us to dynamically inject a component or another, depending on some parameters.</p>
+<h2 id="ladirectivafeatureversion">La directiva FeatureVersion</h2>
+<p>Nuestra segunda directiva nos permitirá inyectar dinámicamente un componente u otro, dependiendo de algunos parámetros.</p>
 <pre><code class="typescript language-typescript">import { CountryConfigService } from "../../services/country-config/country-config.service";
 import { DynamicComponentService } from "../../services/dynamic-component/dynamic-component.service";
 import { DynamicComponent } from "../../services/dynamic-component/dynamic-component.model";
@@ -1766,26 +1737,26 @@ export class FeatureVersionDirective implements OnChanges {
   }
 }
 </code></pre>
-<p>This time, the directive takes three parameters: <code>featureName</code>, <code>countryCode</code> and <code>data</code>.
-The <code>data</code> parameter will be used to pass data to our dynamic component.
-Since different components may have different inputs,
-we took the approach of receiving any external data through this <code>data</code> object.
-Dynamic components may also receive external data through services, as we will see later.</p>
-<p>So basically, what this directive does is:</p>
+<p>Esta vez, la directiva toma tres parámetros: <code>featureName</code>, <code>countryCode</code> y <code>data</code>.
+El parámetro <code>data</code> se utilizará para pasar datos a nuestro componente dinámico.
+Dado que los diferentes componentes pueden tener diferentes entradas,
+tomamos el enfoque de recibir cualquier dato externo a través de este objeto <code>data</code>.
+Los componentes dinámicos también pueden recibir datos externos a través de servicios, como veremos más adelante.</p>
+<p>Entonces, básicamente, lo que hace esta directiva es:</p>
 <ul>
-<li>Registers for changes in any of the inputs.</li>
-<li>When the directive is instantiated or any of the input changes, executes <code>applyChanges()</code>.</li>
-<li>Computes if the feature is enabled according to feature name and country code.</li>
-<li>Gets the dynamic component type for the feature name and version from the <code>DynamicComponentService</code>.</li>
-<li>Clears the view container.</li>
-<li>If a dynamic component type was retrieved successfully, executes <code>embedTemplate()</code>,
-which resolves a factory for this type of component and creates the embedded view into the view container.</li>
-<li>Finally, it injects the data object into the dynamically instantiated component.</li>
+<li>Registra cambios en alguna de los inputs.</li>
+<li>Cuando se instancia la directiva o cualquiera de los inputs cambia, ejecuta <code>applyChanges()</code>.</li>
+<li>Calcula si la función está habilitada según el nombre de la funcionalidad y el código de país.</li>
+<li>Obtiene el tipo de componente dinámico para el nombre de la funcionalidad y la versión de <code>DynamicComponentService</code>.</li>
+<li>Borra el view container.</li>
+<li>Si se recuperó con éxito un tipo de componente dinámico, ejecuta <code>embedTemplate()</code>,
+que resuelve una factoría para este tipo de componente y crea la vista embebida en el view container.</li>
+<li>Finalmente, inyecta el objeto de datos en el componente instanciado dinámicamente.</li>
 </ul>
-<p>Let’s see the code for those <code>DynamicComponent</code> and <code>DynamicComponentService</code> classes.</p>
-<p>The <code>DynamicComponent</code> is just a class with a public <code>data</code> property.
-We will also create a dictionary interface and a constant with the current dynamic component classes
-(country content version 1 and 2) that will be used by the service.</p>
+<p>Veamos el código para esas clases <code>DynamicComponent</code> y <code>DynamicComponentService</code>.</p>
+<p>El <code>DynamicComponent</code> es solo una clase con una propiedad pública <code>data</code>.
+También crearemos una interfaz de diccionario y una constante con las clases de componentes dinámicos actuales
+(versiones de contenido del país 1 y 2) que será utilizado por el servicio.</p>
 <pre><code class="typescript language-typescript">import { CountryContentV1Component } from "../../../country/components/country-content/v1/country-content.v1.component";
 import { CountryContentV2Component } from "../../../country/components/country-content/v2/country-content.v2.component";
 
@@ -1806,8 +1777,8 @@ export const DEFAULT_DYNAMIC_COMPONENT_DICTIONARY: DynamicComponentDictionary = 
   },
 };
 </code></pre>
-<p>The <code>DynamicComponentService</code> simply returns the appropriate component class,
-depending on the <code>featureName</code> and <code>version</code> parameters.</p>
+<p><code>DynamicComponentService</code> simplemente devuelve la clase de componente adecuada,
+dependiendo de los parámetros <code>featureName</code> y <code>version</code>.</p>
 <pre><code class="typescript language-typescript">import {
   DEFAULT_DYNAMIC_COMPONENT_DICTIONARY,
   DynamicComponent,
@@ -1826,14 +1797,14 @@ export class DynamicComponentService {
   }
 }
 </code></pre>
-<p>Let’s see how this directive is used in the parent component.</p>
+<p>Veamos cómo se usa esta directiva en el componente principal.</p>
 <pre><code class="html language-html">&lt;ng-template
   *appFeatureVersion="'COUNTRY_CONTENT';
   countryCode:country.code;data:{country: country}"
 &gt;
 &lt;/ng-template&gt;
 </code></pre>
-<p>This is the code for the <code>CountryContentV1Component</code> class.</p>
+<p>Este es el código de la clase <code>CountryContentV1Component</code>.</p>
 <pre><code class="typescript language-typescript">import { DynamicComponent } from "../../../../shared/services/dynamic-component/dynamic-component.model";
 import { Country } from "../../../services/country.model";
 
@@ -1846,7 +1817,7 @@ export class CountryContentV1Component implements DynamicComponent {
   data: { country: Country };
 }
 </code></pre>
-<p>And this is how the template uses the <code>data</code> property to display the country data.</p>
+<p>Y así es como la plantilla usa la propiedad <code>data</code> para mostrar los datos del país.</p>
 <pre><code class="html language-html">&lt;div class="country-content"&gt;
   &lt;div class="data-row"&gt;
     &lt;span class="data-label"&gt; Area: &lt;/span&gt;
@@ -1858,69 +1829,69 @@ export class CountryContentV1Component implements DynamicComponent {
   &lt;/div&gt;
 &lt;/div&gt;
 </code></pre>
-<p>You can see a demo of the application here:<br />
+<p>Puedes ver una demo de la aplicación aquí:<br />
 https://stackblitz.com/edit/component-version-demo</p>
-<h2 id="versionedservices">Versioned services</h2>
-<p>The situation can get a bit more complicated if services are also versioned.
-Let’s imagine that the first version of the service providing country data just included the country name,
-area and population, and that a new version should be created to include the new data,
-while still providing the old version for backward compatibility.</p>
-<p>In this case we can inject the corresponding service version in the versioned components.
-We won’t be using the <code>data</code> property from <code>DynamicComponent</code>, but will get the data from the service instead.
-We could also use <em>injection tokens</em> to dynamically inject the versioned service depending on certain conditions.</p>
-<p>The following demo is a simple approach using versioned services:<br />
+<h2 id="serviciosversionados">Servicios versionados</h2>
+<p>La situación puede complicarse un poco más si los servicios también están versionados.
+Imaginemos que la primera versión del servicio que proporciona datos del país solo incluye el nombre del país,
+área y población, y que se debe crear una nueva versión para incluir los nuevos datos,
+al mismo tiempo que proporciona la versión anterior para compatibilidad con versiones anteriores.</p>
+<p>En este caso podemos inyectar la versión de servicio correspondiente en los componentes versionados.
+No usaremos la propiedad <code>data</code> de <code>DynamicComponent</code>, sino que obtendremos los datos del servicio.
+También podríamos usar <em>injection tokens</em> para inyectar dinámicamente el servicio versionado dependiendo de ciertas condiciones.</p>
+<p>La siguiente demo es un enfoque simple que utiliza servicios versionados:<br />
 https://stackblitz.com/edit/component-version-demo-services</p>
-<h2 id="finalconsiderations">Final considerations</h2>
-<p>The demo app is probably too simple for that kind of solution.
-We could still smartly use some <code>ngIf</code> and <code>ngTemplate</code> stuff to get to the same solution.
-But think of a case where the user doesn’t select the country from a combo box,
-but the country gets auto detected from your device settings,
-and think of a more complicated UI with a dashboard with several widgets that should be displayed or hidden,
-or have different content according to the country, and then this approach will make much more sense.</p>
-<p>This post is long enough to get into more details.
-If you have suggestions to enhance it, please include them in your comments&nbsp;:)</p>]]></description><link>https://juanguijordan.com/blog/2018-04_versioning-features-in-an-angular-app</link><guid isPermaLink="true">https://juanguijordan.com/blog/2018-04_versioning-features-in-an-angular-app</guid><category><![CDATA[javascript]]></category><dc:creator><![CDATA[Juangui Jordán]]></dc:creator><pubDate>Tue, 24 Apr 2018 07:00:00 GMT</pubDate></item><item><title><![CDATA[Deploying an Angular CLI project on Github Pages and Stackblitz]]></title><description><![CDATA[<p>Can’t wait to show to the world your proof of concept, side project, idea…?
-This 5-line bash recipe will put your work on the showcase in a matter of seconds.</p>
-<p>So you just finished creating the coolest project with <a href="https://cli.angular.io/">Angular CLI</a> and want to share it with your colleagues, or perhaps write a post about it, but you want to skip the pain to your colleagues of checking out the code, installing dependencies and launching the app — I know, it almost can’t get any easier nowadays — and you don’t own a web server, or perhaps you are as lazy as your colleagues and don’t feel like putting much effort on deploying your code anywhere.</p>
-<p>Well, <a href="https://pages.github.com/">Github Pages</a> to the rescue!</p>
+<h2 id="consideracionesfinales">Consideraciones finales</h2>
+<p>La aplicación de demo probablemente sea demasiado simple para ese tipo de solución.
+Podríamos haber usado inteligentemente algunas combinación de <code>ngIf</code> y <code>ngTemplate</code> para llegar a la misma solución.
+Pero piensa en un caso en el que el usuario no selecciona el país de un cuadro combinado,
+sino que el país se detecta automáticamente desde la configuración de su dispositivo,
+y piensa en una interfaz de usuario más complicada con un panel con varios widgets que deberían mostrarse u ocultarse,
+o tener contenido diferente según el país, y entonces este enfoque tendrá mucho más sentido.</p>
+<p>Este post es lo suficientemente largo para entrar en más detalles.
+Si tienes sugerencias para mejorarlo, inclúyelas en tus comentarios :)</p>]]></description><link>https://juanguijordan.com/blog/2018-04_versioning-features-in-an-angular-app</link><guid isPermaLink="true">https://juanguijordan.com/blog/2018-04_versioning-features-in-an-angular-app</guid><category><![CDATA[javascript]]></category><dc:creator><![CDATA[Juangui Jordán]]></dc:creator><pubDate>Tue, 24 Apr 2018 07:00:00 GMT</pubDate></item><item><title><![CDATA[Desplegando un proyecto Angular CLI en Github Pages y Stackblitz]]></title><description><![CDATA[<p>¿Estás ansioso por mostrarle al mundo tu prueba de concepto, proyecto paralelo, idea…?
+Esta receta de bash de 5 líneas pondrá tu trabajo en el escaparate en cuestión de segundos.</p>
+<p>Así que acabas de terminar de crear el proyecto más genial con <a href="https://cli.angular.io/">Angular CLI</a> y quieres compartirlo con tus colegas, o quizás escribir una publicación al respecto, pero quieres evitarles a tus colegas el dolor de bajarse el código, instalar dependencias y ejecutar la aplicación (lo sé, casi no puede ser más fácil hoy en día) y no tienes un servidor web, o tal vez eres tan vago como tus colegas y no te apetece poner mucho esfuerzo en desplegar el código en algún sitio.</p>
+<p>Bien, ¡<a href="https://pages.github.com/">Github Pages</a> al rescate!</p>
 <h2 id="githubpages">GitHub Pages</h2>
-<p>I am assuming that you already created your project with Angular CLI, so your project is already versioned with git.
-Let’s assume too that you already have a <strong>GitHub account</strong> with some <code>NICKNAME</code>.
-Head yourself to GitHub and create a new project, let’s call it <code>MY_PROJECT</code>.
-Don’t put any files in it, you can come back later and add the <code>README</code> and the desired license,
-but for now it will be easier if you just leave it blank.</p>
-<p>Then, connect your local git repository with the new remote repository and push the changes:</p>
+<p>Voy a asumir que ya creaste el proyecto con Angular CLI, por lo que tu proyecto ya está versionado con git.
+Supongamos también que ya tienes una <strong>cuenta de GitHub</strong> con cierto <code>NICKNAME</code>.
+Dirígete a GitHub y crea un nuevo proyecto, llamémoslo <code>MY_PROJECT</code>.
+No coloques ningún archivo en él, puedes volver más tarde y agregar el <code>README</code> y la licencia deseada,
+pero por ahora será más fácil si lo dejas en blanco.</p>
+<p>Luego, conecta tu repositorio de git local con el nuevo repositorio remoto y haz push de los cambios:</p>
 <pre><code class="bash language-bash">git remote add origin https://github.com/NICKNAME/MY_PROJECT.git
 git push origin master
 </code></pre>
-<p>Now, if you already knew about GitHub Pages, you’d be tempted to manually activate them on the <code>index.html</code> file of your project.
-<strong>DON’T DO THAT! It won’t work!!</strong></p>
-<p>Your project still needs to be built for production,
-then a <code>dist</code> folder will be created from which you could serve your GitHub pages but <strong>DON’T! It won’t work!!!</strong></p>
-<p>It looks like GitHub Pages is not suited for SPAs, since it redirects any paths in your app to a 404 page.
-But some really nice guys developed <a href="https://www.npmjs.com/package/angular-cli-ghpages">angular-cli-ghpages</a>.
-This npm package will fill the gaps and make your app work in GitHub Pages.</p>
-<p>Install it with:</p>
+<p>Ahora, si ya conocíaa GitHub Pages, estarás tentado a activarlas manualmente en el archivo <code>index.html</code> de tu proyecto.
+<strong>¡NO HAGAS ESO! ¡¡No funcionará!!</strong></p>
+<p>Tu proyecto aún debe ser generado para producción,
+lo cual creará una carpeta <code>dist</code> desde la cual podrás servir tus páginas de GitHub, pero <strong>¡NO LO HAGAS! ¡¡¡No funcionará!!!</strong></p>
+<p>Parece que GitHub Pages no son adecuadas para SPA, ya que redirigen las rutas de su aplicación a una página 404.
+Pero algunos tipos muy majos desarrollaron <a href="https://www.npmjs.com/package/angular-cli-ghpages">angular-cli-ghpages</a>.
+Este paquete npm llenará los huecos y hará que tu aplicación funcione en GitHub Pages.</p>
+<p>Instálalo con:</p>
 <pre><code class="bash language-bash">npm install -g angular-cli-ghpages
 </code></pre>
-<p>Then execute these 2 commands:</p>
+<p>Luego ejecuta estos 2 comandos:</p>
 <pre><code class="bash language-bash">ng build --prod --base-href "https://NICKNAME.github.io/MY_PROJECT/"
 angular-cli-ghpages
 </code></pre>
-<p>The second command has a bunch of options, but they are all optional as the word <code>option</code> states,
-and you don’t need much more to get your app up and running on GitHub Pages. Enjoy!</p>
-<p>Well, certainly you’ll need the URL of your app to share it with the world.
-This URL is exactly the one that we used on the <code>ng build</code> command:</p>
-<p><a href="#">https://NICKNAME.github.io/MY_PROJECT/</a></p>
-<h3 id="deployingionicprojects">Deploying ionic projects</h3>
-<p>Update: 2018-05-07</p>
-<p>What about Ionic projects.
-They are deployed to <code>www</code> instead of the <code>dist</code> folder, and they use Ionic CLI instead of Angular CLI,
-so a couple of changes will need to be done.</p>
+<p>El segundo comando tiene un montón de opciones, pero todas son opcionales como dice la palabra <code>option</code>,
+y no necesitas mucho más para poner en marcha tu aplicación en GitHub Pages. ¡A disfrutar!</p>
+<p>Bueno, ciertamente necesitarás la URL de tu aplicación para compartirla con el mundo.
+Esta URL es exactamente la que usamos en el comando <code>ng build</code>:<br />
+<a href="#">https://NICKNAME.github.io/MY_PROJECT/</a></p>
+<h3 id="desplegandoproyectosionic">Desplegando proyectos Ionic</h3>
+<p>Actualización: 2018-05-07</p>
+<p>¿Qué pasa con los proyectos Ionic?
+Se despliegan en <code>www</code> en lugar de la carpeta <code>dist</code>, y usan Ionic CLI en lugar de Angular CLI,
+por lo que será necesario realizar un par de cambios.</p>
 <pre><code class="bash language-bash">ionic build --prod
 </code></pre>
-<p>The <code>--base-href</code> is not available in Ionic CLI (not that I'm aware of),
-so you will need to open the <code>index.html</code> file and write the base tag on your own, after the build is finished.
-You can put it after the title tag, for instance:</p>
+<p>El <code>--base-href</code> no está disponible en Ionic CLI (que yo sepa),
+por lo que deberá abrir el archivo <code>index.html</code> y escribir la etiqueta base por tu cuenta, una vez finalizada la compilación.
+Puedes ponerlo después de la etiqueta del título, por ejemplo:</p>
 <pre><code class="html language-html">&lt;title&gt;Ionic App&lt;/title&gt;
 &lt;base href="https://NICKNAME.github.io/MY_PROJECT/" /&gt;
 &lt;meta
@@ -1928,19 +1899,19 @@ You can put it after the title tag, for instance:</p>
   content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
 /&gt;
 </code></pre>
-<p>Now, as I said, the output of the build is not the default for Angular CLI, which would be the <code>dist</code> folder.
-Use the <code>--dir</code> flag to specify the <code>www</code> folder as the source for GitHub Pages.</p>
+<p>Ahora, como dije, la salida de la compilación no es la predeterminada para Angular CLI, que sería la carpeta <code>dist</code>.
+Usa el flag <code>--dir</code> para especificar la carpeta <code>www</code> como fuente para las páginas de GitHub.</p>
 <pre><code class="bash language-bash">angular-cli-ghpages --dir www
 </code></pre>
 <h2 id="stackblitz">Stackblitz</h2>
-<p>Now for the <a href="https://stackblitz.com/">Stackblitz</a> part of the post… wouldn’t it be nice to enable our colleagues or followers, to actually interact with our code and see the impact of the modifications in almost-real-time?</p>
-<p>The guys from Stackblitz have created this sort of online IDE where you can create projects and see the build at the same time.
-It’s like <strong>JSfiddler</strong> on steroids!</p>
+<p>Ahora, para la parte de <a href="https://stackblitz.com/">Stackblitz</a> del post… ¿no sería bueno permitir que nuestros colegas o seguidores interactúen realmente con nuestro código y vean el impacto de las modificaciones en casi-tiempo-real?</p>
+<p>Los chicos de Stackblitz han creado este tipo de IDE en línea donde puedes crear proyectos y ver la generación al mismo tiempo.
+¡Es como <strong>JSfiddler</strong> con esteroides!</p>
 <p><img src="/img/blog/2018-03_angular-cli-github-pages-stackblitz/stackblitz.png" alt="Stackblitz" /></p>
-<p>Even simpler than registering on Stackblitz, creating a project and uploading your project files,
-this one line trick will load your GitHub project on the Stackblitz IDE.</p>
-<p>Just share this URL, using again your GitHub nickname and project name:</p>
-<p><a href="#">https://stackblitz.com/github/NICKNAME/MY_PROJECT</a></p>
-<p>This is valid also for branches, tags or specific commits. Just use the following scheme for the URL:</p>
-<p><a href="#">https://stackblitz.com/github/NICKNAME/MY_PROJECT/tree/{TAG|BRANCH|COMMIT}</a></p>
-<p>I hope this post helped you to release your projects in a place where they can be seen, enjoyed and edited by others.</p>]]></description><link>https://juanguijordan.com/blog/2018-03_angular-cli-github-pages-stackblitz</link><guid isPermaLink="true">https://juanguijordan.com/blog/2018-03_angular-cli-github-pages-stackblitz</guid><category><![CDATA[javascript]]></category><dc:creator><![CDATA[Juangui Jordán]]></dc:creator><pubDate>Mon, 26 Mar 2018 07:00:00 GMT</pubDate></item></channel></rss>
+<p>Aún más simple que registrarte en Stackblitz, crear un proyecto y cargar los archivos de tu proyecto,
+este truco de una línea cargará tu proyecto de GitHub en el IDE de Stackblitz.</p>
+<p>Simplemente comparte esta URL, usando nuevamente tu apodo de GitHub y el nombre del proyecto:<br />
+<a href="#">https://stackblitz.com/github/NICKNAME/MY_PROJECT</a></p>
+<p>Esto también es válido para ramas, etiquetas o commits específicos. Simplemente use el siguiente esquema para la URL:<br />
+<a href="#">https://stackblitz.com/github/NICKNAME/MY_PROJECT/tree/{TAG|BRANCH|COMMIT}</a></p>
+<p>Espero que esta publicación te haya ayudado a publicar tus proyectos en un lugar donde otros puedan verlos, disfrutarlos y editarlos.</p>]]></description><link>https://juanguijordan.com/blog/2018-03_angular-cli-github-pages-stackblitz</link><guid isPermaLink="true">https://juanguijordan.com/blog/2018-03_angular-cli-github-pages-stackblitz</guid><category><![CDATA[javascript]]></category><dc:creator><![CDATA[Juangui Jordán]]></dc:creator><pubDate>Mon, 26 Mar 2018 07:00:00 GMT</pubDate></item></channel></rss>

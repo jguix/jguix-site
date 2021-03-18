@@ -1,10 +1,10 @@
-import React, { FC } from 'react';
+import React, { FC } from "react";
 
-import { PostData } from '../loader';
-import { Author } from './Author';
-import { Markdown } from './Markdown';
-import { PostMeta } from './PostMeta';
-import { Tag } from './Tag';
+import { PostData } from "../loader";
+import { Author } from "./Author";
+import { Markdown } from "./Markdown";
+import { PostMeta } from "./PostMeta";
+import { Tag } from "./Tag";
 
 export const BlogPost: FC<{ post: PostData }> = ({ post }) => {
   if (!post) return <></>;
@@ -24,7 +24,7 @@ export const BlogPost: FC<{ post: PostData }> = ({ post }) => {
         <br />
         {
           <div className="tag-container">
-            {tags && (tags || []).map((tag) => <Tag tag={tag} />)}
+            {tags && (tags || []).map((tag) => <Tag key={tag} tag={tag} />)}
           </div>
         }
       </div>
