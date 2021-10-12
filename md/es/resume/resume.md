@@ -93,25 +93,28 @@ _Escuela Oficial de Idiomas de Valencia_
 _Università per Stranieri di Perugia_  
 [Credencial](https://drive.google.com/file/d/1Ofg8nM0cvC_dDlD-EsQftJJv-zC1kRor/view)
 
+**Certificado de Alemán Nivel B1**  
+_Escuela Oficial de Idiomas de Valencia_
+
 ## Idiomas
 
 **Español**  
 Nativo or Bilingüe
 
 **Catalán**  
-Competencia Profesional Completa
+Competencia Profesional Completa (C1)
 
 **Inglés**  
-Competencia Profesional Completa
+Competencia Profesional Completa (C1)
 
 **Francés**  
-Competencia Profesional Completa
+Competencia Profesional Completa (B2)
 
 **Italiano**  
-Competencia Profesional Completa
+Competencia Profesional Completa (B2)
 
 **Alemán**  
-Elemental
+Competencia Profesional Limitada (B1)
 
 ## Premios & Reconocimientos
 

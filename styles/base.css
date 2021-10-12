@@ -426,11 +426,16 @@ hr {
     zoom: 0.7;
   }
 
-  .header {
+  .header,
+  .footer {
     display: none;
   }
 
   .introduction {
     max-width: 800px;
+  }
+
+  .devii-markdown a {
+    display: none;
   }
 }
