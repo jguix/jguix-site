@@ -1,7 +1,8 @@
-import React from 'react';
+import { FC } from 'react';
+
 import { globals } from '../globals';
 
-export const Footer: React.FC = () => (
+export const Footer: FC = () => (
   <div className="footer">
     <p>{`© ${globals.yourName} ${new Date().getFullYear()}`}</p>
     <a href="/rss.xml">

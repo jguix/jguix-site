@@ -1,26 +1,50 @@
-import React, { FC } from "react";
+import React, { FC } from 'react';
 
-import { PostData } from "../loader";
-import { Author } from "./Author";
-import { Markdown } from "./Markdown";
-import { PostMeta } from "./PostMeta";
-import { Tag } from "./Tag";
+import { PostData } from '../loader';
+import { Author } from './Author';
+import { Markdown } from './Markdown';
+import { Meta } from './Meta';
+import { Tag } from './Tag';
 
-export const BlogPost: FC<{ post: PostData }> = ({ post }) => {
+type Props = {
+  post: PostData;
+};
+
+export const BlogPost: FC<Props> = ({ post }) => {
   if (!post) return <></>;
 
-  const { bannerPhoto, content, subtitle, tags, title } = post;
+  const {
+    author,
+    authorPhoto,
+    authorTwitter,
+    bannerPhoto,
+    content,
+    datePublished,
+    subtitle,
+    tags,
+    title,
+  } = post;
 
   return (
     <div className="blog-post">
-      <PostMeta post={post} />
+      <Meta
+        title={post?.title}
+        desc={post?.description}
+        link={post?.canonicalUrl}
+        image={post?.bannerPhoto}
+      />
       {bannerPhoto && <img className="blog-post-image" src={bannerPhoto} />}
 
       <div className="blog-post-title">
         {title && <h1>{title}</h1>}
         {subtitle && <h2>{subtitle}</h2>}
         <br />
-        <Author post={post} />
+        <Author
+          author={author}
+          authorPhoto={authorPhoto}
+          authorTwitter={authorTwitter}
+          datePublished={datePublished}
+        />
         <br />
         {
           <div className="tag-container">

@@ -1,48 +1,30 @@
-import React from 'react';
-import { format } from 'fecha';
-import { PostData } from '../loader';
+import { FC } from 'react';
 
-export const FollowButton = () => {
-  return (
-    <a href="/newsletter">
-      <div className="follow-button">Follow</div>
-    </a>
-  );
+import { AuthorLines } from './AuthorLines';
+
+type Props = {
+  author?: string;
+  authorPhoto?: string;
+  authorTwitter?: string;
+  datePublished: number;
 };
 
-export const Author: React.FC<{ post: PostData }> = (props) => {
+export const Author: FC<Props> = ({
+  author,
+  authorPhoto,
+  authorTwitter,
+  datePublished,
+}) => {
   return (
     <div className="author-container">
       <div className="author">
-        {props.post.authorPhoto && (
-          <img src={props.post.authorPhoto} className="author-image" />
-        )}
-        <AuthorLines post={props.post} />
+        {authorPhoto && <img src={authorPhoto} className="author-image" />}
+        <AuthorLines
+          author={author}
+          authorTwitter={authorTwitter}
+          datePublished={datePublished}
+        />
       </div>
-    </div>
-  );
-};
-
-export const AuthorLines: React.FC<{ post: PostData }> = (props) => {
-  return (
-    <div>
-      <p className="author-line">
-        {props.post.author && <span>{props.post.author}</span>}
-
-        {props.post.authorTwitter && (
-          <span>
-            {' '}
-            <a
-              href={`https://twitter.com/${props.post.authorTwitter}`}
-            >{`@${props.post.authorTwitter}`}</a>{' '}
-          </span>
-        )}
-      </p>
-      <p className="author-line subtle">
-        {props.post.datePublished
-          ? format(new Date(props.post.datePublished), 'MMMM Do, YYYY')
-          : ''}
-      </p>
     </div>
   );
 };

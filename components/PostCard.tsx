@@ -1,18 +1,16 @@
 import { format } from 'fecha';
 import Link from 'next/link';
-import React from 'react';
+import { FC } from 'react';
 
 import { PostData } from '../loader';
 
-export const PostCard: React.FC<{ post: PostData }> = ({ post }) => {
-  const {
-    datePublished,
-    description,
-    path,
-    subtitle,
-    title,
-    thumbnailPhoto,
-  } = post;
+type Props = {
+  post: PostData;
+};
+
+export const PostCard: FC<Props> = ({ post }) => {
+  const { datePublished, description, path, subtitle, title, thumbnailPhoto } =
+    post;
 
   return (
     <Link href={`/${path}`}>
@@ -29,12 +27,12 @@ export const PostCard: React.FC<{ post: PostData }> = ({ post }) => {
             {subtitle && <p>{subtitle}</p>}
             <p>
               {datePublished
-                ? format(new Date(datePublished), "MMMM Do, YYYY")
-                : ""}
+                ? format(new Date(datePublished), 'MMMM Do, YYYY')
+                : ''}
             </p>
             <div className="flex-spacer">
               {description?.substring(0, 92)}
-              {description && description?.length > 80 && "..."}
+              {description && description?.length > 80 && '...'}
             </div>
           </div>
         </div>

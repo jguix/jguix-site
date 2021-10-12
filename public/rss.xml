@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Juangui Jordán]]></title><description><![CDATA[This is my site where I gather my blog posts and some other random stuff]]></description><link>https://juanguijordan.com</link><image><url>https://juanguijordan.com/icon.png</url><title>Juangui Jordán</title><link>https://juanguijordan.com</link></image><generator>RSS for Node</generator><lastBuildDate>Tue, 12 Oct 2021 16:43:17 GMT</lastBuildDate><atom:link href="https://juanguijordan.com/rss.xml" rel="self" type="application/rss+xml"/><pubDate>Wed, 17 Feb 2021 08:00:00 GMT</pubDate><copyright><![CDATA[2021 Juangui Jordán]]></copyright><language><![CDATA[en]]></language><managingEditor><![CDATA[juangui@gmail.com]]></managingEditor><webMaster><![CDATA[juangui@gmail.com]]></webMaster><ttl>60</ttl><item><title><![CDATA[Using redux with relational data (2/3)]]></title><description><![CDATA[<h2 id="part2implementingthereduxstore">Part 2. Implementing the redux store</h2>
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Juangui Jordán]]></title><description><![CDATA[This is my site where I gather my blog posts and some other random stuff]]></description><link>https://juanguijordan.com</link><image><url>https://juanguijordan.com/icon.png</url><title>Juangui Jordán</title><link>https://juanguijordan.com</link></image><generator>RSS for Node</generator><lastBuildDate>Tue, 12 Oct 2021 17:30:59 GMT</lastBuildDate><atom:link href="https://juanguijordan.com/rss.xml" rel="self" type="application/rss+xml"/><pubDate>Wed, 17 Feb 2021 08:00:00 GMT</pubDate><copyright><![CDATA[2021 Juangui Jordán]]></copyright><language><![CDATA[en]]></language><managingEditor><![CDATA[juangui@gmail.com]]></managingEditor><webMaster><![CDATA[juangui@gmail.com]]></webMaster><ttl>60</ttl><item><title><![CDATA[Using redux with relational data (2/3)]]></title><description><![CDATA[<h2 id="part2implementingthereduxstore">Part 2. Implementing the redux store</h2>
 <p>In this series of posts we will create an application using <strong>react</strong> and <strong>redux</strong>, in which we will handle relational data. In this second part we will be implementing the store.</p>
 <p>We ended up the last part of this series modelling the store. Check part 1 if you need more context on that: <a href="https://blog.mimacom.com/redux-normalized-store-part-1/">Using redux with relational data (1/3)</a>.</p>
 <p>Our store will have two main reducers, the <code>entities</code> store and the <code>ui</code> store.</p>
@@ -217,7 +217,7 @@ export const userReducer: Reducer&lt;UserState&gt; = combineReducers({
 <pre><code class="javascript language-javascript">// shared.types.ts
 export type NumberIndexed&lt;T&gt; = { [index: number]: T };
 export type StringIndexed&lt;T&gt; = { [index: string]: T };
-export type OrderType = "asc" | "desc";
+export type OrderType = 'asc' | 'desc';
 </code></pre>
 <p>Similarly, the <code>post</code> reducer has a reducer related to the <code>LoadPost</code> action ans a reducer taking care of the <code>LoadCommentsAction</code>.</p>
 <pre><code class="javascript language-javascript">// post.reducer.ts
@@ -470,23 +470,23 @@ export const friendsReducer: Reducer&lt;FriendsState&gt; = combineReducers({
 </code></pre>
 <p>The <code>root</code> store is composed of the <code>entities</code> store and <code>ui</code> store as follows:</p>
 <pre><code class="javascript language-javascript">// store.ts
-import { combineReducers, createStore, Reducer } from "redux";
-import { userReducer, UserStore } from "../modules/user/user.reducer";
+import { combineReducers, createStore, Reducer } from 'redux';
+import { userReducer, UserStore } from '../modules/user/user.reducer';
 import {
   commentReducer,
   CommentStore,
-} from "../modules/comment/comment.reducer";
-import { postReducer, PostStore } from "../modules/post/post.reducer";
+} from '../modules/comment/comment.reducer';
+import { postReducer, PostStore } from '../modules/post/post.reducer';
 import {
   friendsReducer,
   FriendsStore,
-} from "../modules/friends/friends.reducer";
+} from '../modules/friends/friends.reducer';
 import {
   FriendWallStore,
   friendWallReducer,
-} from "../modules/friend-wall/friend-wall.reducer";
-import { wallReducer, WallStore } from "../modules/wall/wall.reducer";
-import { composeWithDevTools } from "redux-devtools-extension";
+} from '../modules/friend-wall/friend-wall.reducer';
+import { wallReducer, WallStore } from '../modules/wall/wall.reducer';
+import { composeWithDevTools } from 'redux-devtools-extension';
 
 export type EntitiesStore = CommentStore &amp; PostStore &amp; UserStore;
 
@@ -518,83 +518,83 @@ export const store = createStore(rootReducer, composeWithDevTools());
 </code></pre>
 <p>Finally, let's throw some data into this store, dispatch some actions and see the results. We will use some mocked data and will display the results using some <code>console.log</code> messages and printing the contents of the store in the main page. Alternatively, you can debug these actions with a Chrome plugin like <a href="https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd">Redux DevTools</a>.</p>
 <pre><code class="javascript language-javascript">// App.tsx
-import React from "react";
-import "./App.css";
-import { store } from "./store/store";
-import { userActions } from "./modules/user/user.actions";
-import { User } from "./modules/user/user.types";
-import { Post } from "./modules/post/post.types";
-import { postActions } from "./modules/post/post.actions";
-import { Comment } from "./modules/comment/comment.types";
-import { commentActions } from "./modules/comment/comment.actions";
-import { friendsActions } from "./modules/friends/friends.actions";
-import { wallActions } from "./modules/wall/wall.actions";
-import { friendWallActions } from "./modules/friend-wall/friend-wall.actions";
+import React from 'react';
+import './App.css';
+import { store } from './store/store';
+import { userActions } from './modules/user/user.actions';
+import { User } from './modules/user/user.types';
+import { Post } from './modules/post/post.types';
+import { postActions } from './modules/post/post.actions';
+import { Comment } from './modules/comment/comment.types';
+import { commentActions } from './modules/comment/comment.actions';
+import { friendsActions } from './modules/friends/friends.actions';
+import { wallActions } from './modules/wall/wall.actions';
+import { friendWallActions } from './modules/friend-wall/friend-wall.actions';
 
 const users: User[] = [
   {
     id: 1,
-    name: "Josh Martin",
-    email: "josh.martin@gmail.com",
-    avatar: "http://placekitten.com/g/500/400",
+    name: 'Josh Martin',
+    email: 'josh.martin@gmail.com',
+    avatar: 'http://placekitten.com/g/500/400',
   },
   {
     id: 2,
-    name: "Emily Matthews",
-    email: "emily.matthews@gmail.com",
-    avatar: "http://placekitten.com/g/400/400",
+    name: 'Emily Matthews',
+    email: 'emily.matthews@gmail.com',
+    avatar: 'http://placekitten.com/g/400/400',
   },
   {
     id: 3,
-    name: "Sonia Lee",
-    email: "sonia.lee@gmail.com",
-    avatar: "http://placekitten.com/g/400/500",
+    name: 'Sonia Lee',
+    email: 'sonia.lee@gmail.com',
+    avatar: 'http://placekitten.com/g/400/500',
   },
 ];
 const posts: Post[] = [
-  { id: 1, body: "Blah", date: new Date(), userId: 1 },
-  { id: 2, body: "Bleh", date: new Date(), userId: 1 },
-  { id: 3, body: "Blih", date: new Date(), userId: 2 },
-  { id: 4, body: "Bloh", date: new Date(), userId: 2 },
-  { id: 5, body: "Bluh", date: new Date(), userId: 3 },
+  { id: 1, body: 'Blah', date: new Date(), userId: 1 },
+  { id: 2, body: 'Bleh', date: new Date(), userId: 1 },
+  { id: 3, body: 'Blih', date: new Date(), userId: 2 },
+  { id: 4, body: 'Bloh', date: new Date(), userId: 2 },
+  { id: 5, body: 'Bluh', date: new Date(), userId: 3 },
 ];
 const comments: Comment[] = [
-  { id: 1, body: "No", date: new Date(), postId: 1, userId: 2 },
-  { id: 2, body: "Yes", date: new Date(), postId: 1, userId: 3 },
-  { id: 3, body: "Yes!", date: new Date(), postId: 1, userId: 1 },
-  { id: 4, body: "No!", date: new Date(), postId: 2, userId: 3 },
+  { id: 1, body: 'No', date: new Date(), postId: 1, userId: 2 },
+  { id: 2, body: 'Yes', date: new Date(), postId: 1, userId: 3 },
+  { id: 3, body: 'Yes!', date: new Date(), postId: 1, userId: 1 },
+  { id: 4, body: 'No!', date: new Date(), postId: 2, userId: 3 },
 ];
 
 const App = () =&gt; {
   store.subscribe(() =&gt; {
-    console.log("New state", store.getState());
+    console.log('New state', store.getState());
   });
 
-  console.log("Loading users");
+  console.log('Loading users');
   store.dispatch(
     userActions.loadUsersAction({
       users,
     })
   );
-  console.log("Loading posts");
+  console.log('Loading posts');
   store.dispatch(
     postActions.loadPostsAction({
       posts,
     })
   );
-  console.log("Loading comments");
+  console.log('Loading comments');
   store.dispatch(
     commentActions.loadCommentsAction({
       comments,
     })
   );
-  console.log("Loading friends");
+  console.log('Loading friends');
   store.dispatch(
     friendsActions.loadFriendsAction({
       userIds: [2, 3],
     })
   );
-  console.log("Loading wall posts");
+  console.log('Loading wall posts');
   store.dispatch(
     wallActions.loadWallPostsAction({
       postIds: [1, 2, 3, 4, 5],
@@ -1412,8 +1412,8 @@ In this example we chose the folder <code>@img/lib/components/my-google-maps</co
 <p>First, you need to import the <code>CUSTOM_ELEMENTS_SCHEMA</code>, and add it to the <code>schemas</code> section of the <code>@NgModule</code>. If you import <code>CUSTOM_ELEMENTS_SCHEMA</code> into one of your page modules, the Angular compiler will accept elements it does not recognize (otherwise, it will throw an error). If you are lazy loading, you need to import this schema into each page module where you want to use the web component. If you are eagerly loading, you only need to import the schema into <code>app.module.ts</code>.</p>
 <p>Then, add an import to your <code>dist/mycomponent</code> folder. This import statement does not load the entire web component. It only loads a small piece of code that then allows Ionic to load the full web component later, when a template requests it.</p>
 <p>When you've performed both steps, your <code>app.module.ts</code> should look like this if you are eagerly loading.</p>
-<pre><code class="typescript language-typescript">import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core"; // add this import
-import "@img/lib/components/my-google-maps/dist/mycomponent"; // add this import
+<pre><code class="typescript language-typescript">import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core'; // add this import
+import '@img/lib/components/my-google-maps/dist/mycomponent'; // add this import
 
 @NgModule({
   declarations: [],
@@ -1437,9 +1437,9 @@ export class AppModule {}
 <pre><code class="javascript language-javascript">module.exports = {
   copyTimeAgoWebComponent: {
     src: [
-      "{{ROOT}}/src/img/lib/components/my-google-maps/dist/mycomponent**/*",
+      '{{ROOT}}/src/img/lib/components/my-google-maps/dist/mycomponent**/*',
     ],
-    dest: "{{BUILD}}",
+    dest: '{{BUILD}}',
   },
 };
 </code></pre>
@@ -1510,7 +1510,7 @@ This directive will get the feature availability from a service, the so called <
   CountryConfigDictionary,
   DEFAULT_COUNTRY_CONFIG,
   FeatureVersionDictionary,
-} from "./country-config.model";
+} from './country-config.model';
 
 @Injectable()
 export class CountryConfigService {
@@ -1571,10 +1571,10 @@ It will display an element if the feature is enabled for the country.
 Optionally, we can define the minimum version implemented by the country,
 meaning that if the country uses a lower version, the element will be hidden.
 I will skip the standard imports to save space in the listing:</p>
-<pre><code class="typescript language-typescript">import { CountryConfigService } from "../../services/country-config/country-config.service";
+<pre><code class="typescript language-typescript">import { CountryConfigService } from '../../services/country-config/country-config.service';
 
 @Directive({
-  selector: "[appFeatureIf]",
+  selector: '[appFeatureIf]',
 })
 export class FeatureIfDirective implements OnChanges {
   private _featureName: string;
@@ -1689,12 +1689,12 @@ to display an informative text when the content component is not available.</p>
 </code></pre>
 <h2 id="thefeatureversiondirective">The FeatureVersion directive</h2>
 <p>Our second directive will allow us to dynamically inject a component or another, depending on some parameters.</p>
-<pre><code class="typescript language-typescript">import { CountryConfigService } from "../../services/country-config/country-config.service";
-import { DynamicComponentService } from "../../services/dynamic-component/dynamic-component.service";
-import { DynamicComponent } from "../../services/dynamic-component/dynamic-component.model";
+<pre><code class="typescript language-typescript">import { CountryConfigService } from '../../services/country-config/country-config.service';
+import { DynamicComponentService } from '../../services/dynamic-component/dynamic-component.service';
+import { DynamicComponent } from '../../services/dynamic-component/dynamic-component.model';
 
 @Directive({
-  selector: "[appFeatureVersion]",
+  selector: '[appFeatureVersion]',
 })
 export class FeatureVersionDirective implements OnChanges {
   private _featureName: string;
@@ -1755,9 +1755,8 @@ export class FeatureVersionDirective implements OnChanges {
   }
 
   private embedComponent(component: Type&lt;DynamicComponent&gt;): void {
-    const componentFactory = this.componentFactoryResolver.resolveComponentFactory(
-      component
-    );
+    const componentFactory =
+      this.componentFactoryResolver.resolveComponentFactory(component);
     this.componentRef = this.viewContainerRef.createComponent(componentFactory);
   }
 
@@ -1786,8 +1785,8 @@ which resolves a factory for this type of component and creates the embedded vie
 <p>The <code>DynamicComponent</code> is just a class with a public <code>data</code> property.
 We will also create a dictionary interface and a constant with the current dynamic component classes
 (country content version 1 and 2) that will be used by the service.</p>
-<pre><code class="typescript language-typescript">import { CountryContentV1Component } from "../../../country/components/country-content/v1/country-content.v1.component";
-import { CountryContentV2Component } from "../../../country/components/country-content/v2/country-content.v2.component";
+<pre><code class="typescript language-typescript">import { CountryContentV1Component } from '../../../country/components/country-content/v1/country-content.v1.component';
+import { CountryContentV2Component } from '../../../country/components/country-content/v2/country-content.v2.component';
 
 export class DynamicComponent {
   data: any;
@@ -1799,12 +1798,13 @@ export interface DynamicComponentDictionary {
   };
 }
 
-export const DEFAULT_DYNAMIC_COMPONENT_DICTIONARY: DynamicComponentDictionary = {
-  COUNTRY_CONTENT: {
-    1: CountryContentV1Component,
-    2: CountryContentV2Component,
-  },
-};
+export const DEFAULT_DYNAMIC_COMPONENT_DICTIONARY: DynamicComponentDictionary =
+  {
+    COUNTRY_CONTENT: {
+      1: CountryContentV1Component,
+      2: CountryContentV2Component,
+    },
+  };
 </code></pre>
 <p>The <code>DynamicComponentService</code> simply returns the appropriate component class,
 depending on the <code>featureName</code> and <code>version</code> parameters.</p>
@@ -1812,11 +1812,12 @@ depending on the <code>featureName</code> and <code>version</code> parameters.</
   DEFAULT_DYNAMIC_COMPONENT_DICTIONARY,
   DynamicComponent,
   DynamicComponentDictionary,
-} from "./dynamic-component.model";
+} from './dynamic-component.model';
 
 @Injectable()
 export class DynamicComponentService {
-  private componentDictionary: DynamicComponentDictionary = DEFAULT_DYNAMIC_COMPONENT_DICTIONARY;
+  private componentDictionary: DynamicComponentDictionary =
+    DEFAULT_DYNAMIC_COMPONENT_DICTIONARY;
 
   getComponent(featureName: string, version: number): Type&lt;DynamicComponent&gt; {
     const selectedComponent = this.componentDictionary[featureName]
@@ -1834,13 +1835,13 @@ export class DynamicComponentService {
 &lt;/ng-template&gt;
 </code></pre>
 <p>This is the code for the <code>CountryContentV1Component</code> class.</p>
-<pre><code class="typescript language-typescript">import { DynamicComponent } from "../../../../shared/services/dynamic-component/dynamic-component.model";
-import { Country } from "../../../services/country.model";
+<pre><code class="typescript language-typescript">import { DynamicComponent } from '../../../../shared/services/dynamic-component/dynamic-component.model';
+import { Country } from '../../../services/country.model';
 
 @Component({
-  selector: "app-country-content-v1",
-  templateUrl: "./country-content.v1.component.html",
-  styleUrls: ["./country-content.v1.component.scss"],
+  selector: 'app-country-content-v1',
+  templateUrl: './country-content.v1.component.html',
+  styleUrls: ['./country-content.v1.component.scss'],
 })
 export class CountryContentV1Component implements DynamicComponent {
   data: { country: Country };
