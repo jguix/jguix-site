@@ -1,15 +1,16 @@
 ---
-title: "Deploying an Angular CLI project on Github Pages and Stackblitz"
-description: "Learn how to easily deploy an angular CLI project on Github Pages, as well as sharing a live edit mode version with Stackblitz"
+title: 'Deploying an Angular CLI project on Github Pages and Stackblitz'
+description: 'Learn how to easily deploy an angular CLI project on Github Pages, as well as sharing a live edit mode version with Stackblitz'
 published: true
 datePublished: 1522047600000
-date: "2018-03-26T10:00:00.000Z"
+date: '2018-03-26T10:00:00.000Z'
 author: Juangui Jordán
 tags:
   - javascript
 authorPhoto: /img/authors/jguix.jpeg
-bannerPhoto: "/img/blog/2018-03_angular-cli-github-pages-stackblitz/angular-cli-github-pages-stackblitz.jpg"
-thumbnailPhoto: "/img/blog/2018-03_angular-cli-github-pages-stackblitz/angular-cli-github-pages-stackblitz.jpg"
+authorTwitter: jguixer
+bannerPhoto: '/img/blog/2018-03_angular-cli-github-pages-stackblitz/angular-cli-github-pages-stackblitz.jpg'
+thumbnailPhoto: '/img/blog/2018-03_angular-cli-github-pages-stackblitz/angular-cli-github-pages-stackblitz.jpg'
 canonicalUrl: https://juanguijordan.com/blog/2018-03_angular-cli-github-pages-stackblitz
 ---
 

@@ -1,15 +1,16 @@
 ---
-title: "Usando componentes web generados con Stencil en Ionic"
-description: "Esta publicación tiene como objetivo proporcionar instrucciones claras sobre cómo usar componentes creados y compilados con Stencil en una aplicación Ionic. Te guiaré en el proceso de hacer que un componente web esté disponible en tus templates Ionic, sin necesidad de registrarlos en el registro npm o agregar feos tags script a tu índice."
+title: 'Usando componentes web generados con Stencil en Ionic'
+description: 'Esta publicación tiene como objetivo proporcionar instrucciones claras sobre cómo usar componentes creados y compilados con Stencil en una aplicación Ionic. Te guiaré en el proceso de hacer que un componente web esté disponible en tus templates Ionic, sin necesidad de registrarlos en el registro npm o agregar feos tags script a tu índice.'
 published: true
 datePublished: 1536735600000
-date: "2018-09-12T10:00:00.000Z"
+date: '2018-09-12T10:00:00.000Z'
 author: Juangui Jordán
 tags:
   - javascript
 authorPhoto: /img/authors/jguix.jpeg
-bannerPhoto: "/img/blog/2018-08_ionic-stencil-integration/ionic-stencil-integration.jpg"
-thumbnailPhoto: "/img/blog/2018-08_ionic-stencil-integration/ionic-stencil-integration.jpg"
+authorTwitter: jguixer
+bannerPhoto: '/img/blog/2018-08_ionic-stencil-integration/ionic-stencil-integration.jpg'
+thumbnailPhoto: '/img/blog/2018-08_ionic-stencil-integration/ionic-stencil-integration.jpg'
 canonicalUrl: https://juanguijordan.com/blog/2018-08_ionic-stencil-integration
 ---
 
@@ -48,8 +49,8 @@ Luego, agrega un import a la carpeta `dist/mycomponent`. Este import no carga to
 Cuando hayas realizado ambos pasos, tu `app.module.ts` debería parecerse al siguiente si estás cargando con anticipación.
 
 ```typescript
-import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core"; // add this import
-import "@img/lib/components/my-google-maps/dist/mycomponent"; // add this import
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core'; // add this import
+import '@img/lib/components/my-google-maps/dist/mycomponent'; // add this import
 
 @NgModule({
   declarations: [],
@@ -82,9 +83,9 @@ Luego, pon esto dentro de `config\copy.config.js`:
 module.exports = {
   copyTimeAgoWebComponent: {
     src: [
-      "{{ROOT}}/src/img/lib/components/my-google-maps/dist/mycomponent**/*",
+      '{{ROOT}}/src/img/lib/components/my-google-maps/dist/mycomponent**/*',
     ],
-    dest: "{{BUILD}}",
+    dest: '{{BUILD}}',
   },
 };
 ```

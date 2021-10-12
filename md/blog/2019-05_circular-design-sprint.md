@@ -1,16 +1,17 @@
 ---
-title: "Circular Design SPRINT"
-description: "In this post I tell you about the experience of participating in a Design Sprint, and how Ecoembes used the Design Sprint methodology to explore new ideas in the context of circular economy and recycling. In order to do that, they recruited through scholarships an eclectic group of professionals who, with the help of UXER School, applied Design Sprint to the world of recycling. In just 5 days we were able to propose and develop innovative ideas that solve problems, for a business that we initially did not know about."
+title: 'Circular Design SPRINT'
+description: 'In this post I tell you about the experience of participating in a Design Sprint, and how Ecoembes used the Design Sprint methodology to explore new ideas in the context of circular economy and recycling. In order to do that, they recruited through scholarships an eclectic group of professionals who, with the help of UXER School, applied Design Sprint to the world of recycling. In just 5 days we were able to propose and develop innovative ideas that solve problems, for a business that we initially did not know about.'
 published: true
 datePublished: 1561446000000
-date: "2019-06-25T09:00:00.000Z"
+date: '2019-06-25T09:00:00.000Z'
 author: Juangui Jordán
 tags:
   - design-sprint
   - ux
 authorPhoto: /img/authors/jguix.jpeg
-bannerPhoto: "/img/blog/2019-05_circular-design-sprint/circular-design-sprint.png"
-thumbnailPhoto: "/img/blog/2019-05_circular-design-sprint/circular-design-sprint.png"
+authorTwitter: jguixer
+bannerPhoto: '/img/blog/2019-05_circular-design-sprint/circular-design-sprint.png'
+thumbnailPhoto: '/img/blog/2019-05_circular-design-sprint/circular-design-sprint.png'
 canonicalUrl: https://juanguijordan.com/blog/2019-05_circular-design-sprint
 ---
 

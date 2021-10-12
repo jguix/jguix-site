@@ -1,16 +1,17 @@
 ---
-title: "Using redux with relational data (1/3)"
-description: "In this post, I will show you how to create a simple Chrome extension, using just JavaScript, HTML and CSS. I will also summarize all what a Chrome extension can do, and I will introduce how to create more complex extensions based on modern JavaScript frameworks like React, Angular or Vue."
+title: 'Using redux with relational data (1/3)'
+description: 'In this post, I will show you how to create a simple Chrome extension, using just JavaScript, HTML and CSS. I will also summarize all what a Chrome extension can do, and I will introduce how to create more complex extensions based on modern JavaScript frameworks like React, Angular or Vue.'
 published: true
 datePublished: 1604390400000
-date: "2020-11-03T09:00:00.000Z"
+date: '2020-11-03T09:00:00.000Z'
 author: Juangui Jordán
 tags:
   - javascript
   - frontend
 authorPhoto: /img/authors/jguix.jpeg
-bannerPhoto: "/img/blog/2020-08_redux-normalized-store-part-1/redux-normalized-store-part-1.jpg"
-thumbnailPhoto: "/img/blog/2020-08_redux-normalized-store-part-1/redux-normalized-store-part-1.jpg"
+authorTwitter: jguixer
+bannerPhoto: '/img/blog/2020-08_redux-normalized-store-part-1/redux-normalized-store-part-1.jpg'
+thumbnailPhoto: '/img/blog/2020-08_redux-normalized-store-part-1/redux-normalized-store-part-1.jpg'
 canonicalUrl: https://juanguijordan.com/blog/2020-08_redux-normalized-store-part-1
 ---
 

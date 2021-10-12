@@ -1,15 +1,16 @@
 ---
-title: "Versioning features in an angular app"
-description: "Versioning components and instantiating the appropriate version dynamically is not only possible but also has some use cases. Check this post where I explain how to accomplish that using a ComponentFactoryResolver and structural directives."
+title: 'Versioning features in an angular app'
+description: 'Versioning components and instantiating the appropriate version dynamically is not only possible but also has some use cases. Check this post where I explain how to accomplish that using a ComponentFactoryResolver and structural directives.'
 published: true
 datePublished: 1524553200000
-date: "2018-04-24T09:00:00.000Z"
+date: '2018-04-24T09:00:00.000Z'
 author: Juangui Jordán
 tags:
   - javascript
 authorPhoto: /img/authors/jguix.jpeg
-bannerPhoto: "/img/blog/2018-04_versioning-features-in-an-angular-app/versioning-features-in-an-angular-app.png"
-thumbnailPhoto: "/img/blog/2018-04_versioning-features-in-an-angular-app/versioning-features-in-an-angular-app.png"
+authorTwitter: jguixer
+bannerPhoto: '/img/blog/2018-04_versioning-features-in-an-angular-app/versioning-features-in-an-angular-app.png'
+thumbnailPhoto: '/img/blog/2018-04_versioning-features-in-an-angular-app/versioning-features-in-an-angular-app.png'
 canonicalUrl: https://juanguijordan.com/blog/2018-04_versioning-features-in-an-angular-app
 ---
 
@@ -90,7 +91,7 @@ import {
   CountryConfigDictionary,
   DEFAULT_COUNTRY_CONFIG,
   FeatureVersionDictionary,
-} from "./country-config.model";
+} from './country-config.model';
 
 @Injectable()
 export class CountryConfigService {
@@ -158,10 +159,10 @@ meaning that if the country uses a lower version, the element will be hidden.
 I will skip the standard imports to save space in the listing:
 
 ```typescript
-import { CountryConfigService } from "../../services/country-config/country-config.service";
+import { CountryConfigService } from '../../services/country-config/country-config.service';
 
 @Directive({
-  selector: "[appFeatureIf]",
+  selector: '[appFeatureIf]',
 })
 export class FeatureIfDirective implements OnChanges {
   private _featureName: string;
@@ -289,12 +290,12 @@ to display an informative text when the content component is not available.
 Our second directive will allow us to dynamically inject a component or another, depending on some parameters.
 
 ```typescript
-import { CountryConfigService } from "../../services/country-config/country-config.service";
-import { DynamicComponentService } from "../../services/dynamic-component/dynamic-component.service";
-import { DynamicComponent } from "../../services/dynamic-component/dynamic-component.model";
+import { CountryConfigService } from '../../services/country-config/country-config.service';
+import { DynamicComponentService } from '../../services/dynamic-component/dynamic-component.service';
+import { DynamicComponent } from '../../services/dynamic-component/dynamic-component.model';
 
 @Directive({
-  selector: "[appFeatureVersion]",
+  selector: '[appFeatureVersion]',
 })
 export class FeatureVersionDirective implements OnChanges {
   private _featureName: string;
@@ -355,9 +356,8 @@ export class FeatureVersionDirective implements OnChanges {
   }
 
   private embedComponent(component: Type<DynamicComponent>): void {
-    const componentFactory = this.componentFactoryResolver.resolveComponentFactory(
-      component
-    );
+    const componentFactory =
+      this.componentFactoryResolver.resolveComponentFactory(component);
     this.componentRef = this.viewContainerRef.createComponent(componentFactory);
   }
 
@@ -391,8 +391,8 @@ We will also create a dictionary interface and a constant with the current dynam
 (country content version 1 and 2) that will be used by the service.
 
 ```typescript
-import { CountryContentV1Component } from "../../../country/components/country-content/v1/country-content.v1.component";
-import { CountryContentV2Component } from "../../../country/components/country-content/v2/country-content.v2.component";
+import { CountryContentV1Component } from '../../../country/components/country-content/v1/country-content.v1.component';
+import { CountryContentV2Component } from '../../../country/components/country-content/v2/country-content.v2.component';
 
 export class DynamicComponent {
   data: any;
@@ -404,12 +404,13 @@ export interface DynamicComponentDictionary {
   };
 }
 
-export const DEFAULT_DYNAMIC_COMPONENT_DICTIONARY: DynamicComponentDictionary = {
-  COUNTRY_CONTENT: {
-    1: CountryContentV1Component,
-    2: CountryContentV2Component,
-  },
-};
+export const DEFAULT_DYNAMIC_COMPONENT_DICTIONARY: DynamicComponentDictionary =
+  {
+    COUNTRY_CONTENT: {
+      1: CountryContentV1Component,
+      2: CountryContentV2Component,
+    },
+  };
 ```
 
 The `DynamicComponentService` simply returns the appropriate component class,
@@ -420,11 +421,12 @@ import {
   DEFAULT_DYNAMIC_COMPONENT_DICTIONARY,
   DynamicComponent,
   DynamicComponentDictionary,
-} from "./dynamic-component.model";
+} from './dynamic-component.model';
 
 @Injectable()
 export class DynamicComponentService {
-  private componentDictionary: DynamicComponentDictionary = DEFAULT_DYNAMIC_COMPONENT_DICTIONARY;
+  private componentDictionary: DynamicComponentDictionary =
+    DEFAULT_DYNAMIC_COMPONENT_DICTIONARY;
 
   getComponent(featureName: string, version: number): Type<DynamicComponent> {
     const selectedComponent = this.componentDictionary[featureName]
@@ -448,13 +450,13 @@ Let’s see how this directive is used in the parent component.
 This is the code for the `CountryContentV1Component` class.
 
 ```typescript
-import { DynamicComponent } from "../../../../shared/services/dynamic-component/dynamic-component.model";
-import { Country } from "../../../services/country.model";
+import { DynamicComponent } from '../../../../shared/services/dynamic-component/dynamic-component.model';
+import { Country } from '../../../services/country.model';
 
 @Component({
-  selector: "app-country-content-v1",
-  templateUrl: "./country-content.v1.component.html",
-  styleUrls: ["./country-content.v1.component.scss"],
+  selector: 'app-country-content-v1',
+  templateUrl: './country-content.v1.component.html',
+  styleUrls: ['./country-content.v1.component.scss'],
 })
 export class CountryContentV1Component implements DynamicComponent {
   data: { country: Country };

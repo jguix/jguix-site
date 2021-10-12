@@ -1,15 +1,16 @@
 ---
-title: "Creating a Chrome extension"
-description: "In this post, I will show you how to create a simple Chrome extension, using just JavaScript, HTML and CSS. I will also summarize all what a Chrome extension can do, and I will introduce how to create more complex extensions based on modern JavaScript frameworks like React, Angular or Vue."
+title: 'Creating a Chrome extension'
+description: 'In this post, I will show you how to create a simple Chrome extension, using just JavaScript, HTML and CSS. I will also summarize all what a Chrome extension can do, and I will introduce how to create more complex extensions based on modern JavaScript frameworks like React, Angular or Vue.'
 published: true
 datePublished: 1590994800000
-date: "2020-06-01T09:00:00.000Z"
+date: '2020-06-01T09:00:00.000Z'
 author: Juangui Jordán
 tags:
   - javascript
 authorPhoto: /img/authors/jguix.jpeg
-bannerPhoto: "/img/blog/2020-05_creating-a-chrome-extension/creating-a-chrome-extension.jpg"
-thumbnailPhoto: "/img/blog/2020-05_creating-a-chrome-extension/creating-a-chrome-extension.jpg"
+authorTwitter: jguixer
+bannerPhoto: '/img/blog/2020-05_creating-a-chrome-extension/creating-a-chrome-extension.jpg'
+thumbnailPhoto: '/img/blog/2020-05_creating-a-chrome-extension/creating-a-chrome-extension.jpg'
 canonicalUrl: https://juanguijordan.com/blog/2020-05_creating-a-chrome-extension
 ---
 

@@ -1,16 +1,17 @@
 ---
-title: "Usando redux con datos relacionales (1/3)"
-description: "En esta serie de posts crearemos una aplicación usando react y redux, en la que manejaremos datos relacionales. En esta primera parte modelaremos la store."
+title: 'Usando redux con datos relacionales (1/3)'
+description: 'En esta serie de posts crearemos una aplicación usando react y redux, en la que manejaremos datos relacionales. En esta primera parte modelaremos la store.'
 published: true
 datePublished: 1604390400000
-date: "2020-11-03T09:00:00.000Z"
+date: '2020-11-03T09:00:00.000Z'
 author: Juangui Jordán
 tags:
   - javascript
   - frontend
 authorPhoto: /img/authors/jguix.jpeg
-bannerPhoto: "/img/blog/2020-08_redux-normalized-store-part-1/redux-normalized-store-part-1.jpg"
-thumbnailPhoto: "/img/blog/2020-08_redux-normalized-store-part-1/redux-normalized-store-part-1.jpg"
+authorTwitter: jguixer
+bannerPhoto: '/img/blog/2020-08_redux-normalized-store-part-1/redux-normalized-store-part-1.jpg'
+thumbnailPhoto: '/img/blog/2020-08_redux-normalized-store-part-1/redux-normalized-store-part-1.jpg'
 canonicalUrl: https://juanguijordan.com/blog/2020-08_redux-normalized-store-part-1
 ---
 
