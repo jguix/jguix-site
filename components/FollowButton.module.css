@@ -1,0 +1,10 @@
+.button {
+  display: inline-block;
+  border: 1px solid turquoise;
+  border-radius: 4px;
+  padding: 2px 10px;
+  color: turquoise;
+  font-size: 10pt;
+  margin-bottom: 2px;
+  margin-left: 4px;
+}

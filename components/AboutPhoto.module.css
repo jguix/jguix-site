@@ -1,0 +1,26 @@
+.container {
+  width: 320px;
+  max-width: 320px;
+  margin: auto;
+  padding-top: 50px;
+  padding-left: 25px;
+  padding-right: 25px;
+}
+
+.imageContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.image {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 160px;
+}
+
+.name {
+  text-align: center;
+}

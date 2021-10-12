@@ -1,7 +1,9 @@
+import classes from './FollowButton.module.css';
+
 export const FollowButton = () => {
   return (
     <a href="/newsletter">
-      <div className="follow-button">Follow</div>
+      <div className={classes.button}>Follow</div>
     </a>
   );
 };

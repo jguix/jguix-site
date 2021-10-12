@@ -1,0 +1,10 @@
+.line {
+  line-height: 1.2;
+  margin: 2px;
+  padding: 0;
+}
+
+.lineSubtle {
+  composes: line;
+  opacity: 0.6;
+}

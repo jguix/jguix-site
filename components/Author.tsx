@@ -1,5 +1,6 @@
 import { FC } from 'react';
 
+import classes from './Author.module.css';
 import { AuthorLines } from './AuthorLines';
 
 type Props = {
@@ -16,9 +17,9 @@ export const Author: FC<Props> = ({
   datePublished,
 }) => {
   return (
-    <div className="author-container">
-      <div className="author">
-        {authorPhoto && <img src={authorPhoto} className="author-image" />}
+    <div className={classes.container}>
+      <div className={classes.author}>
+        {authorPhoto && <img src={authorPhoto} className={classes.image} />}
         <AuthorLines
           author={author}
           authorTwitter={authorTwitter}

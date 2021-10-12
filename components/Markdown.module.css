@@ -1,0 +1,9 @@
+.markdown {
+  width: '100%';
+}
+
+@media print {
+  .markdown a {
+    display: none;
+  }
+}

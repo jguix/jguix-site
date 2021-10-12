@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { FC } from 'react';
 
 import { PostData } from '../loader';
+import classes from './PostCard.module.css';
 
 type Props = {
   post: PostData;
@@ -14,15 +15,15 @@ export const PostCard: FC<Props> = ({ post }) => {
 
   return (
     <Link href={`/${path}`}>
-      <a className="post-card">
-        <div className="post-card-inner">
+      <a className={classes.linkContainer}>
+        <div className={classes.container}>
           {thumbnailPhoto && (
             <div
-              className="post-card-thumbnail"
+              className={classes.thumbnail}
               style={{ backgroundImage: `url(${thumbnailPhoto})` }}
             />
           )}
-          <div className="post-card-title">
+          <div className={classes.title}>
             {title && <h2>{title}</h2>}
             {subtitle && <p>{subtitle}</p>}
             <p>

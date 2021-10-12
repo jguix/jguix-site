@@ -2,6 +2,7 @@ import React, { FC } from 'react';
 
 import { PostData } from '../loader';
 import { Author } from './Author';
+import classes from './BlogPost.module.css';
 import { Markdown } from './Markdown';
 import { Meta } from './Meta';
 import { Tag } from './Tag';
@@ -26,16 +27,16 @@ export const BlogPost: FC<Props> = ({ post }) => {
   } = post;
 
   return (
-    <div className="blog-post">
+    <div className={classes.container}>
       <Meta
         title={post?.title}
         desc={post?.description}
         link={post?.canonicalUrl}
         image={post?.bannerPhoto}
       />
-      {bannerPhoto && <img className="blog-post-image" src={bannerPhoto} />}
+      {bannerPhoto && <img className={classes.image} src={bannerPhoto} />}
 
-      <div className="blog-post-title">
+      <div className={classes.title}>
         {title && <h1>{title}</h1>}
         {subtitle && <h2>{subtitle}</h2>}
         <br />
@@ -53,7 +54,7 @@ export const BlogPost: FC<Props> = ({ post }) => {
         }
       </div>
 
-      <div className="blog-post-content">
+      <div className={classes.content}>
         <Markdown source={content} />
       </div>
     </div>

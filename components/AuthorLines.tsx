@@ -1,6 +1,8 @@
 import { format } from 'fecha';
 import { FC } from 'react';
 
+import classes from './AuthorLines.module.css';
+
 type Props = {
   author?: string;
   authorTwitter?: string;
@@ -14,7 +16,7 @@ export const AuthorLines: FC<Props> = ({
 }) => {
   return (
     <div>
-      <p className="author-line">
+      <p className={classes.line}>
         {author && <span>{author}</span>}
 
         {authorTwitter && (
@@ -27,7 +29,7 @@ export const AuthorLines: FC<Props> = ({
           </span>
         )}
       </p>
-      <p className="author-line subtle">
+      <p className={classes.lineSubtle}>
         {datePublished ? format(new Date(datePublished), 'MMMM Do, YYYY') : ''}
       </p>
     </div>

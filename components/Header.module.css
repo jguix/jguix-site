@@ -1,0 +1,26 @@
+.header {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  background-color: turquoise;
+  color: white;
+}
+
+.header a {
+  color: #fff;
+  padding: 15px;
+  text-decoration: none;
+}
+
+.header p {
+  margin: 0;
+  padding: 15px;
+}
+
+@media print {
+  .header {
+    display: none;
+  }
+}

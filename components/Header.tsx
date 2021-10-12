@@ -4,13 +4,14 @@ import { useRouter } from 'next/router';
 import { FC } from 'react';
 
 import { globals } from '../globals';
+import classes from './Header.module.css';
 
 export const Header: FC = () => {
   const { t } = useTranslation('common', { useSuspense: false });
   const router = useRouter();
 
   return (
-    <div className="header">
+    <div className={classes.header}>
       <Link href="/">
         <a href="/">{globals.siteName}</a>
       </Link>
