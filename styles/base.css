@@ -162,14 +162,6 @@ hr {
 }
 
 /* utilities */
-.centered {
-  text-align: center;
-}
-
-.alternate {
-  background-color: #eee;
-}
-
 .flex-spacer {
   flex: 1;
 }
