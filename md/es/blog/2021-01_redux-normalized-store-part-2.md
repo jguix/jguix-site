@@ -265,7 +265,7 @@ export type StringIndexed<T> = { [index: string]: T };
 export type OrderType = 'asc' | 'desc';
 ```
 
-De manera similar, el reducer `post` tiene un reducer relacionado con la acción` LoadPost` y un reducer que se encarga de la `LoadCommentsAction`.
+De manera similar, el reducer `post` tiene un reducer relacionado con la acción `LoadPost` y un reducer que se encarga de la `LoadCommentsAction`.
 
 ```javascript
 // post.reducer.ts
