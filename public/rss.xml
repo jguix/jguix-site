@@ -1,4 +1,301 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Juangui Jordán]]></title><description><![CDATA[This is my site where I gather my blog posts and some other random stuff]]></description><link>https://juanguijordan.com</link><image><url>https://juanguijordan.com/icon.png</url><title>Juangui Jordán</title><link>https://juanguijordan.com</link></image><generator>RSS for Node</generator><lastBuildDate>Tue, 12 Oct 2021 22:48:52 GMT</lastBuildDate><atom:link href="https://juanguijordan.com/rss.xml" rel="self" type="application/rss+xml"/><pubDate>Wed, 17 Feb 2021 08:00:00 GMT</pubDate><copyright><![CDATA[2021 Juangui Jordán]]></copyright><language><![CDATA[en]]></language><managingEditor><![CDATA[juangui@gmail.com]]></managingEditor><webMaster><![CDATA[juangui@gmail.com]]></webMaster><ttl>60</ttl><item><title><![CDATA[Usando redux con datos relacionales (2/3)]]></title><description><![CDATA[<h2 id="parte2implementandolastorederedux">Parte 2. Implementando la store de redux</h2>
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Juangui Jordán]]></title><description><![CDATA[This is my site where I gather my blog posts and some other random stuff]]></description><link>https://juanguijordan.com</link><image><url>https://juanguijordan.com/icon.png</url><title>Juangui Jordán</title><link>https://juanguijordan.com</link></image><generator>RSS for Node</generator><lastBuildDate>Fri, 22 Oct 2021 22:22:20 GMT</lastBuildDate><atom:link href="https://juanguijordan.com/rss.xml" rel="self" type="application/rss+xml"/><pubDate>Wed, 17 Feb 2021 08:00:00 GMT</pubDate><copyright><![CDATA[2021 Juangui Jordán]]></copyright><language><![CDATA[en]]></language><managingEditor><![CDATA[juangui@gmail.com]]></managingEditor><webMaster><![CDATA[juangui@gmail.com]]></webMaster><ttl>60</ttl><item><title><![CDATA[Desplegar una demo con una API JSON en Heroku]]></title><description><![CDATA[<h1 id="desplegarunademoconunaapijsonenheroku">Desplegar una demo con una API JSON en Heroku</h1>
+<p>En este post presentaré algunos trucos que he aprendido al crear demos para publicaciones de blogs y PoC. Aprenderás a configurar una API usando JSON-server y desplegarlo en el mismo sitio Heroku que la aplicación frontend. También aprenderás a utilizar Faker para generar datos falsos para JSON-server.</p>
+<p>A menudo he usado <a href="https://github.com/typicode/json-server">JSON-server</a> para crear rápidamente una simple API como backend para una demo o prueba de concepto. No me malinterpretes: no estoy animando a nadie a usar esto como servidor de producción, sino solo para ese tipo de proyectos pequeños.</p>
+<p><code>JSON server</code> proporciona una API REST completa desde un único archivo <code>db.json</code>, que incluye rutas <code>GET</code>, <code>POST</code>, <code>PUT</code>, <code>PATCH</code> y <code>DELETE</code> para obtener y modificar tus entidades.</p>
+<p>En este escenario suelo encontrar dos problemas:</p>
+<ol>
+<li><p>Tener suficientes datos. Si creas los datos JSON manualmente, te cansarás después de haber creado 10 entidades. Imagínate si necesitas cientos de entidades con diferentes modelos.</p></li>
+<li><p>Servir los datos. Si deseas implementar tu demo en Heroku, necesitas un sitio para alojar tu aplicación y un segundo para alojar la API.</p></li>
+</ol>
+<p>Con respecto al primer problema, usaremos <a href="https://github.com/marak/Faker.js">Faker</a> para crear programáticamente el archivo <code>db.json</code>. Esto también simplificará la modificación de los modelos, es decir, si el modelo cambia, no es necesario cambiar manualmente varios cientos de entidades.</p>
+<p>En cuanto al segundo, usaremos <code>concurrently</code> para lanzar las aplicaciones frontend y backend en diferentes puertos, y agregaremos configuraciones específicas para Heroku.</p>
+<h2 id="inicializacindelaapp">Inicialización de la app</h2>
+<p>Para este post vamos a generar una app react de ejemplo. Podríamos hacer configuraciones similares con otros frameworks Javascript.</p>
+<p>Creamos una app react con template typescript:</p>
+<pre><code class="bash language-bash">npx create-react-app json-server-demo --template typescript
+</code></pre>
+<p>Vamos a añadir <code>json-server</code>, <code>concurrently</code> y <code>axios</code> como dependencias, y <code>faker</code> como dependencia de desarrollo del proyecto:</p>
+<pre><code class="bash language-bash">yarn
+yarn add json-server concurrently axios
+yarn add --dev faker
+</code></pre>
+<p>Probamos nuestra app de ejemplo:</p>
+<pre><code class="bash language-bash">yarn start
+</code></pre>
+<p>Abre el navegador en <a href="http://localhost:3000/">http://localhost:3000/</a> y podrás ver la app React de ejemplo.</p>
+<h2 id="creandolaapi">Creando la API</h2>
+<p>Nuestra app de ejemplo mostrará una lista de empleados, con su nombre, email y residencia.</p>
+<p>Crearemos un fichero <code>db.json</code> con <code>faker</code> con no menos de 1000 empleados, porque pensamos a lo grande 😏</p>
+<p>Crea un fichero en la carpeta <code>src/db/index.json</code> con el siguiente contenido:</p>
+<pre><code class="javascript language-javascript">var fs = require('fs');
+var faker = require('faker/locale/es');
+faker.locale = 'es';
+
+let employees = [];
+
+for (let i = 1; i &lt;= 1000; i++) {
+  const firstName = faker.name.firstName();
+  const lastName = faker.name.lastName();
+  employees.push({
+    address: `${faker.address.streetAddress()}, ${faker.address.zipCode()}, ${faker.address.city()}, ${faker.address.country()}`,
+    email: faker.internet.email(firstName, lastName),
+    id: i,
+    name: faker.name.findName(firstName, lastName),
+  });
+}
+
+const data = {
+  employees,
+};
+
+fs.writeFile('src/db/db.json', JSON.stringify(data, null, 2), (err) =&gt; {
+  if (err) return console.log(err);
+  console.log('Created database at src/db/db.json');
+});
+</code></pre>
+<p>El código es fácilmente legible. Este script creará un archivo <code>src/db/db.json</code> con 1000 empleados, generando <code>name</code>, <code>address</code> e <code>email</code> aleatorios para cada empleado. La configuración regional utilizada es <code>"es"</code>, esto es, los nombres y correos electrónicos se crearán en español. Presta atención a cómo se crean los campos <code>name</code> e <code>email</code> usando el mismo <code>firstName</code> y <code>lastName</code>, para que sean coherentes.</p>
+<p>Ahora añadimos el siguiente script a la sección <code>"scripts"</code> en el <code>package.json</code>:</p>
+<pre><code class="json language-json">  "create-db": "node src/db/index.js",
+</code></pre>
+<p>Para correr el script, simplemente ejecuta:</p>
+<pre><code class="bash language-bash">yarn create-db
+</code></pre>
+<p>Y ya estamos listos para crear la API <code>json-server</code> con nuestra flamante nueva base de datos JSON de empleados.</p>
+<p>Podemos probarlo ahora mismo desde la línea de comandos. Usaremos la opción <code>--port</code> para configurarlo en el puerto 3001, de modo que no entre en conflicto con nuestra app react que ya se está ejecutando en el puerto 3000:</p>
+<pre><code class="bash language-bash">json-server src/db/db.json --port 3001
+</code></pre>
+<p>Si abres <a href="http://localhost:3001/employees">http://localhost:3001/employees</a> en tu navegador podrás ver la lista completa de empleados.</p>
+<pre><code class="json language-json">[
+  {
+    "address": "92349 Hurtado Ramal, 88648, Fuengirola Alejandrotown, Gabón",
+    "email": "JosEmilio57@gmail.com",
+    "id": 21,
+    "name": "José Emilio Pizarro"
+  },
+  {
+    "address": "536 Margarita Ronda, 45257, Las Vegas, Eslovenia",
+    "email": "Dorotea_Ocasio72@hotmail.com",
+    "id": 22,
+    "name": "Dorotea Ocasio"
+  },
+  {
+    "address": "69354 Candelaria Chalet, 17110, Archuletaburgh, Sri Lanka",
+    "email": "Benjamn_Menchaca65@yahoo.com",
+    "id": 23,
+    "name": "Sta. Benjamín Menchaca"
+  },
+  ...
+]
+</code></pre>
+<p>Puedes también probar varias URLs con parámetros, como paginación o búsqueda completa de texto:</p>
+<p>http://localhost:3001/employees/1</p>
+<p>http://localhost:3001/employees?_page=3&amp;_limit=10</p>
+<p>http://localhost:3001/employees?q=Pedro</p>
+<h2 id="consumiendolaapi">Consumiendo la API</h2>
+<p>Crearemos una simple app que presenta un cuadro de búsqueda y una lista de resultados. Omitiremos el contenido del archivo CSS, que solo agrega algunos estilos a la aplicación. Puedes encontrarlo en el repositorio que se encuentra al final de esta publicación.</p>
+<pre><code class="typescript language-typescript">import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import './App.css';
+
+type Employee = {
+  address: string;
+  email: string;
+  id: number;
+  name: string;
+};
+
+const App = () =&gt; {
+  const [query, setQuery] = useState('');
+  const [employees, setEmployees] = useState&lt;Employee[]&gt;([]);
+
+  useEffect(() =&gt; {
+    loadEmployees(1, 20);
+  }, []);
+
+  useEffect(() =&gt; {
+    loadEmployees(1, 20, query.length &gt; 2 ? query : '');
+  }, [query]);
+
+  const loadEmployees = async (page: number, limit: number, query = '') =&gt; {
+    const url = `http://localhost:3001/employees?_page=${page}&amp;_limit=${limit}&amp;q=${query}`;
+    const _employees = await axios
+      .get&lt;Employee[]&gt;(url)
+      .then(({ data }) =&gt; data);
+
+    setEmployees(_employees);
+  };
+
+  return (
+    &lt;div className="App"&gt;
+      &lt;div className="search_form"&gt;
+        &lt;label className="search_form--label"&gt;Search employees&lt;/label&gt;
+        &lt;input
+          className="search_form--input"
+          type="text"
+          value={query}
+          onChange={(event) =&gt; setQuery(event.target.value)}
+        &gt;&lt;/input&gt;
+      &lt;/div&gt;
+      &lt;div className="employee_list"&gt;
+        {employees.map((employee) =&gt; {
+          return (
+            &lt;div className="employee_list--item"&gt;
+              &lt;div className="employee_list--item-name"&gt;{employee.name}&lt;/div&gt;
+              &lt;div className="employee_list--item-address"&gt;
+                {employee.address}
+              &lt;/div&gt;
+              &lt;div className="employee_list--item-email"&gt;{employee.email}&lt;/div&gt;
+            &lt;/div&gt;
+          );
+        })}
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+};
+
+export default App;
+</code></pre>
+<p>Así se ve la aplicación.</p>
+<p><img src="/img/blog/2021-07_deploy-demo-with-api-heroku/demo_app.png" alt="Demo application" /></p>
+<h2 id="mejorandolaconfiguracindedesarrollo">Mejorando la configuración de desarrollo</h2>
+<p>Hagamos algunos cambios para simplificar el ciclo de desarrollo. Agregaremos la configuración de <code>proxy</code> al <code>package.json</code>, para que las llamadas de red se redirijan al puerto 3001.</p>
+<pre><code class="json language-json">  "proxy": "http://localhost:3001",
+</code></pre>
+<p>De este modo podemos simplificar la URL en <code>App.tsx</code>:</p>
+<pre><code class="typescript language-typescript">const url = `/employees?_page=${page}&amp;_limit=${limit}&amp;q=${query}`;
+</code></pre>
+<p>Ahora podemos reiniciar la app y debería seguir funcionando.</p>
+<p>Luego, usaremos <code>concurrently</code> para iniciar tanto el backend como el frontend desde un script de una sola línea. Reemplaza el script <code>start</code> de <code>package.json</code> por lo siguiente:</p>
+<pre><code class="json language-json">    "start": "concurrently \"react-scripts start\" \"json-server --watch src/db/db.json --port 3001\"",
+</code></pre>
+<p>Ahora puedes parar el proceso del terminal corriendo <code>json-server src/db/db.json --port 3001</code>. Simplemente lanza el desde la raíz del proyecto:</p>
+<pre><code class="bash language-bash">yarn start
+</code></pre>
+<p>Y ya está todo listo.</p>
+<h2 id="desplegandoenheroku">Desplegando en Heroku</h2>
+<p>Hacer que tanto el <code>json-server</code> como la app se ejecuten en la misma instancia de un servicio como Heroku es más complicado. Por lo general, harían falta dos sitios, uno para el frontend y otro para el backend.</p>
+<p>Vamos a beneficiarnos del soporte para servir sitios estáticos de <code>json-server</code>.</p>
+<p>Primero que nada, construyamos nuestra aplicación <code>react</code>.</p>
+<pre><code class="bash language-bash">yarn build
+</code></pre>
+<p>Esto generará una versión estática de la aplicación en <code>/build</code>. Luego elimina estas líneas de <code>.gitignore</code> para poder subir el sitio estático a nuestro repositorio remoto:</p>
+<pre><code class="bash language-bash"># production
+/build
+</code></pre>
+<p>Crea un archivo <code>server.js</code> en la raíz del proyecto con el siguiente contenido:</p>
+<pre><code class="javascript language-javascript">const jsonServer = require('json-server');
+const server = jsonServer.create();
+const router = jsonServer.router('src/db/db.json');
+const middlewares = jsonServer.defaults({ static: './build' });
+const port = process.env.PORT || 3000;
+
+server.use(middlewares);
+server.use(router);
+
+server.listen(port);
+</code></pre>
+<p>Si detienes el script <code>yarn start</code> y ejecutas este script localmente, la app se ejecutará desde los archivos estáticos en el directorio <code>/build</code>, servida por <code>json-server</code>.</p>
+<pre><code class="bash language-bash">node server.js
+</code></pre>
+<p>Esto es exactamente lo que Heroku usará para servir tu aplicación usando un solo sitio.</p>
+<p>Ahora, para decirle a Heroku que llame a este <code>node server.js</code> necesitas crear un archivo <code>Procfile</code> en la raíz de tu repositorio con el contenido:</p>
+<pre><code>web: node server.js
+</code></pre>
+<p>Y esa es toda la configuración que necesitas.</p>
+<p>Omitiré la parte en la que debes crear una cuenta de Heroku, agregar una nueva aplicación y conectarla a tu repositorio de Github. Puedes encontrar muchos tutoriales sobre eso por ahí.</p>
+<p>Puedes encontrar el código de esta demo en el siguiente enlace:</p>
+<p><a href="https://github.com/jguix/json-server-demo">https://github.com/jguix/json-server-demo</a></p>
+<p>Y la app desplegada en Heroku:</p>
+<p><a href="https://json-server-demo1.herokuapp.com">https://json-server-demo1.herokuapp.com</a></p>
+<h2 id="netlifyyvercel">Netlify y Vercel</h2>
+<p>Desafortunadamente, no podemos hacer lo mismo en Netlify o Vercel. La razón es que estos servicios no nos permiten ejecutar comandos node, en su lugar deberías crear tu API utilizando funciones serverless. Por supuesto, también puedes alojar allí tu aplicación y tener la API en otro servicio, pero ese no era el objetivo de este artículo.</p>
+<h2 id="conclusin">Conclusión</h2>
+<p>Quería reunir todos los pasos que he aprendido creando y alojando apps simples con fines de demostración, incluyendo una API. Esto podría ayudarte a dar los primeros pasos de tu próximo proyecto, alojar una demo para una publicación de blog o impresionar a alguna empresa en una entrevista técnica.</p>
+<h2 id="crditos">Créditos</h2>
+<p>Foto por Austin Neill en <a href="https://unsplash.com/@arstyy">Unsplash</a>.</p>]]></description><link>https://juanguijordan.com/blog/2021-07_deploy-demo-with-api-heroku</link><guid isPermaLink="true">https://juanguijordan.com/blog/2021-07_deploy-demo-with-api-heroku</guid><category><![CDATA[javascript]]></category><category><![CDATA[frontend]]></category><dc:creator><![CDATA[Juangui Jordán]]></dc:creator><pubDate>Sat, 31 Jul 2021 07:00:00 GMT</pubDate></item><item><title><![CDATA[Añadiendo git hooks]]></title><description><![CDATA[<h1 id="aadiendogithooks">Añadiendo git hooks</h1>
+<p>Esta publicación muestra cómo usar git hooks, para evitar commit o push bajo ciertas circunstancias, y particularmente cómo versionar esos git hooks.</p>
+<p>Git hooks son una colección de disparadores que están vinculados a los comandos de git, como checkout, commit o push. Te permiten ejecutar un script antes/después de que se ejecute realmente el comando git y devuelven un código de salida. En el caso de git hooks que se ejecutan antes, si el código de salida no es cero, el comando git no se ejecutará.</p>
+<p>Los git hooks deben usarse en un proyecto versionado con git, ya que no son más que scripts bash que viven en la carpeta <code>.git/hooks</code>. Hay hooks del lado del cliente y del lado del servidor. En esta publicación hablaremos sobre los hooks del lado del cliente.</p>
+<p>Los git hooks del lado del cliente incluyen:</p>
+<ul>
+<li><p><strong>Hooks del Workflow de Commit.</strong> Son hooks que tienen que ver con el proceso de commit: <code>pre-commit</code>, <code>prepare-commit-msg</code>, <code>commit-msg</code> y <code>post-commit</code>.</p></li>
+<li><p><strong>Hooks del Workflow de Email.</strong> Usados para un workflow basado en email: <code>applypatch-msg</code>, <code>pre-applypatch</code> y <code>post-applypatch</code>.</p></li>
+<li><p><strong>Otros Hooks de Cliente.</strong> Incluyen: <code>pre-rebase</code>, <code>post-rewrite</code>, <code>post-checkout</code>, <code>post-merge</code> y <code>pre-push</code></p></li>
+</ul>
+<p>No entraré en detalles sobre cuál es el uso de cada hook. Puedes encontrar más información sobre el propósito de cada hook y el escenario de activación en <a href="https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks">Customizing-Git-Hooks</a>.</p>
+<p>Solo mencionaré un ejemplo. Algunos proyectos requieren por convención que el mensaje de confirmación incluya un nombre de tarea JIRA, de modo que los miembros del equipo puedan rastrear fácilmente qué commit estaba vinculado a qué tareas en JIRA. Si los nombres de tus tareas de JIRA incluyen todos un prefijo como <code>PROJ</code>, eso se puede lograr con un hook <code>pre-commit</code> como este:</p>
+<pre><code class="sh language-sh">#!/bin/bash
+MSG="$1"
+
+if ! grep -qE "PROJ" "$MSG";then
+    cat "$MSG"
+    echo "Your commit message must contain the task name starting with 'PROJ'"
+    exit 1
+fi
+</code></pre>
+<p>La secuencia de comandos anterior devuelve un <code>1</code> si el mensaje del commit no incluye la palabra <code>PROJ</code>, y eso evitará que se ejecute el commit. Si el mensaje del commit lo incluye, como en <code>"PROJ-202 - Estilos CSS refactorizados"</code>, entonces se llevará a cabo el commit.</p>
+<p>Quizás te estés preguntando, <em>"ok, pero cómo puedo almacenar los hooks en mi proyecto versionado con git si se encuentran dentro de la carpeta <code>.git</code>"</em>, y eso es realmente imposible. No puede hacer commit de archivos dentro de ese directorio. Deberías decirle a cada desarrollador de tu proyecto que los copie, o tener un script que copie los hooks, y luego decirle a todos que lo ejecuten. Nada práctico, ¿no?</p>
+<h2 id="versionadodegithooksenproyectosjavascript">Versionado de git hooks en proyectos Javascript</h2>
+<p>En proyectos Javascript con un <code>package.json</code> podemos usar <a href="https://typicode.github.io/husky">Husky</a> para ocuparnos de los git hooks y su control de versiones dentro del proyecto.</p>
+<p>En primer lugar, debemos instalar Husky en el proyecto:</p>
+<pre><code class="sh language-sh">npx husky-init &amp;&amp; yarn
+</code></pre>
+<p>Esto agregará un par de cosas en <code>package.json</code>:</p>
+<ul>
+<li>la dependencia de husky a nuestra sección <code>devDependencies</code></li>
+<li>un script <code>prepare</code> en nuestra sección de <code>scripts</code></li>
+</ul>
+<p>La parte <code>yarn</code> instalará las dependencias y ejecutará el script <code>prepare</code>. Después de eso, se creará un directorio <code>.husky</code> en la raíz del proyecto que contiene un ejemplo de hook <code>pre-commit</code>, un archivo <code>.gitignore</code> y una carpeta <code>_</code> con el script <code>husky.sh</code>.</p>
+<p>Con esa configuración no se necesita copiar manualmente los hooks en la carpeta <code>.git/hooks</code>: el script <code>husky.sh</code> se encargará de usar los hooks que se encuentran en la carpeta <code>.husky</code>.</p>
+<p>Ahora puedes editar el hook de muestra <code>pre-commit</code>, eliminarlo o crear uno nuevo en la carpeta <code>.husky</code>, manualmente o mediante el comando bash <code>npx husky add</code>. Por ejemplo, si tuviéramos que crear un hook <code>pre-push</code> que ejecute <code>lint</code> y <code>test</code>, podríamos ejecutar:</p>
+<pre><code class="sh language-sh">npx husky add .husky/pre-push "yarn lint &amp;&amp; yarn test"
+</code></pre>
+<p>El resultado será algo como:</p>
+<pre><code class="sh language-sh">#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+yarn lint &amp;&amp; yarn test
+</code></pre>
+<h2 id="versionadodegithooksenproyectosjavaconmaven">Versionado de git hooks en proyectos Java con Maven</h2>
+<p>En cuanto a los proyectos Java administrados por Maven con un archivo <code>pom.xml</code>, no pude encontrar nada como Husky.</p>
+<p>La mejor solución aquí fue usar el <code>maven-resources-plugin</code> para copiar los hooks de un directorio de origen <code>git-hooks</code> a la carpeta de destino <code>.git/hooks</code>.</p>
+<p>Esto es lo que agregué a mi sección <code>build</code> en el <code>pom.xml</code>:</p>
+<pre><code class="xml language-xml">&lt;build&gt;
+  &lt;plugins&gt;
+    &lt;plugin&gt;
+      &lt;artifactId&gt;maven-resources-plugin&lt;/artifactId&gt;
+      &lt;version&gt;3.2.0&lt;/version&gt;
+      &lt;executions&gt;
+        &lt;execution&gt;
+          &lt;id&gt;copy-hooks&lt;/id&gt;
+          &lt;phase&gt;validate&lt;/phase&gt;
+          &lt;goals&gt;
+            &lt;goal&gt;copy-resources&lt;/goal&gt;
+          &lt;/goals&gt;
+          &lt;configuration&gt;
+            &lt;outputDirectory&gt;${basedir}/.git/hooks&lt;/outputDirectory&gt;
+            &lt;resources&gt;
+              &lt;resource&gt;
+                &lt;directory&gt;git-hooks&lt;/directory&gt;
+              &lt;/resource&gt;
+            &lt;/resources&gt;
+          &lt;/configuration&gt;
+        &lt;/execution&gt;
+      &lt;/executions&gt;
+    &lt;/plugin&gt;
+  &lt;/plugins&gt;
+&lt;/build&gt;
+</code></pre>
+<p>Después de eso, llamar al comando <code>mvn validate</code> o cualquier otro comando maven que llame a <code>validate</code>, como <code>package</code>, instalará los hooks en primer lugar.</p>
+<h2 id="ignorandogithooks">Ignorando git hooks</h2>
+<p>¿Qué pasa si tenemos un git hook que requiere mucho tiempo para ejecutarse y se interpone en nuestro camino para las tareas de programación diarias? Por ejemplo, si tuviéramos un hook <code>pre-commit</code> que lanzara nuestras pruebas unitarias y esas pruebas tardaran 30 minutos en ejecutarse, entonces cada vez que hiciéramos commit tendríamos que esperar todo ese tiempo. Es posible que queramos ejecutar las pruebas en el último commit antes del push, y no en cada commit, para ahorrarnos algo de tiempo.</p>
+<p>En tales casos, podemos omitir los git hooks, si sabemos lo que estamos haciendo:</p>
+<pre><code class="sh language-sh">git commit --no-verify -m "An unverifed commit"
+</code></pre>
+<h2 id="conclusin">Conclusión</h2>
+<p>Espero que este post te ayude a integrar git hooks en tus proyectos. Pueden ayudar a hacer cumplir algunas políticas y directivas para mejorar los estándares de calidad en tu equipo.</p>
+<h2 id="crditos">Créditos</h2>
+<p>Foto por Anne Nygard en <a href="https://unsplash.com/">Unsplash</a>.</p>]]></description><link>https://juanguijordan.com/blog/2021-06_adding-git-hooks</link><guid isPermaLink="true">https://juanguijordan.com/blog/2021-06_adding-git-hooks</guid><category><![CDATA[continuous-engineering]]></category><category><![CDATA[javascript]]></category><category><![CDATA[java]]></category><dc:creator><![CDATA[Juangui Jordán]]></dc:creator><pubDate>Tue, 29 Jun 2021 07:00:00 GMT</pubDate></item><item><title><![CDATA[Usando redux con datos relacionales (2/3)]]></title><description><![CDATA[<h2 id="parte2implementandolastorederedux">Parte 2. Implementando la store de redux</h2>
 <p>En esta serie de posts crearemos una aplicación usando <strong>react</strong> y <strong>redux</strong>, en la que manejaremos datos relacionales. En esta segunda parte modelaremos la store.</p>
 <p>Al final de la anterior parte de esta serie habíamos modelado la tienda. Consulta la parte 1 si necesitas más contexto sobre ello: <a href="https://blog-es.mimacom.com/redux-normalized-store-part-1/">Usando redux con datos relacionales (1/3)</a>.</p>
 <p>Nuestra tienda tendrá dos reducers principales, la store <code>entities</code> y la store <code>ui</code>.</p>
@@ -219,7 +516,7 @@ export type NumberIndexed&lt;T&gt; = { [index: number]: T };
 export type StringIndexed&lt;T&gt; = { [index: string]: T };
 export type OrderType = 'asc' | 'desc';
 </code></pre>
-<p>De manera similar, el reducer <code>post</code> tiene un reducer relacionado con la acción<code>LoadPost</code> y un reducer que se encarga de la <code>LoadCommentsAction</code>.</p>
+<p>De manera similar, el reducer <code>post</code> tiene un reducer relacionado con la acción <code>LoadPost</code> y un reducer que se encarga de la <code>LoadCommentsAction</code>.</p>
 <pre><code class="javascript language-javascript">// post.reducer.ts
 import { Post } from './post.types';
 import { PostActionTypes, LoadPostsAction } from './post.actions';
