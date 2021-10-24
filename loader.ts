@@ -26,20 +26,20 @@ export const loadMarkdownFile = async (
   path: string,
   locale?: string
 ): Promise<RawFile> => {
-  const localePath = !locale || locale === "en" ? "" : `${locale}/`;
+  const localePath = !locale || locale === 'en' ? '' : `${locale}/`;
   const mdFile = await import(`./md/${localePath}${path}`);
   return { path, contents: mdFile.default };
 };
 
 export const mdToPost = (file: RawFile): PostData => {
   const metadata = matter(file.contents);
-  const path = file.path.replace(".md", "");
+  const path = file.path.replace('.md', '');
   const post = {
     path,
     title: metadata.data.title,
     subtitle: metadata.data.subtitle || null,
     published: metadata.data.published || false,
-    datePublished: metadata.data.datePublished || null,
+    datePublished: new Date(metadata.data.datePublished)?.getTime() || null,
     tags: metadata.data.tags || null,
     description: metadata.data.description || null,
     canonicalUrl: metadata.data.canonicalUrl || `${globals.url}/${path}`,
@@ -81,7 +81,9 @@ export const loadPost = async (
 };
 
 export const loadBlogPosts = async (locale?: string): Promise<PostData[]> => {
-  return await (await loadMarkdownFiles(`blog/*.md`, locale))
+  return await (
+    await loadMarkdownFiles(`blog/*.md`, locale)
+  )
     .map(mdToPost)
     .filter((p) => p.published)
     .sort((a, b) => (b.datePublished || 0) - (a.datePublished || 0));

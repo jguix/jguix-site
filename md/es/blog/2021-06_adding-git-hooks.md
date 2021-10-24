@@ -2,8 +2,7 @@
 title: 'Añadiendo git hooks'
 description: 'Esta publicación muestra cómo usar git hooks, para evitar commit o push bajo ciertas circunstancias, y particularmente cómo versionar esos git hooks.'
 published: true
-datePublished: 1624950000000
-date: '2021-06-29T09:00:00.000Z'
+datePublished: '2021-06-29T09:00:00.000Z'
 author: Juangui Jordán
 tags:
   - continuous-engineering

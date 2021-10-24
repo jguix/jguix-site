@@ -2,8 +2,7 @@
 title: 'Adding git hooks'
 description: 'This post shows how to use git hooks, to prevent commit or push under certain circumstances, and particularly how to version those git hooks.'
 published: true
-datePublished: 1624950000000
-date: '2021-06-29T09:00:00.000Z'
+datePublished: '2021-06-29T09:00:00.000Z'
 author: Juangui Jordán
 tags:
   - continuous-engineering

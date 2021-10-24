@@ -2,8 +2,7 @@
 title: 'Circular Design SPRINT'
 description: 'En este post os cuento la experiencia de participar en un Design Sprint, y cómo Ecoembes utilizó la metodología Design Sprint para explorar nuevas ideas en el contexto de la economía circular y el reciclaje. Para ello, reclutó mediante becas a un ecléctico grupo de profesionales, incluyendo emprendedores, profesionales del marketing, diseño, y tecnología, entre los que me encuentro. Durante 5 días en Julio de 2018, trabajamos conjuntamente en The Circular Lab, un espacio de innovación de Ecoembes localizado en Logroño, particularmente preparado para el trabajo creativo y colaborativo.'
 published: true
-datePublished: 1561446000000
-date: '2019-06-25T09:00:00.000Z'
+datePublished: '2019-06-25T09:00:00.000Z'
 author: Juangui Jordán
 tags:
   - design-sprint

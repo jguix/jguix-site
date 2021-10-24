@@ -2,8 +2,7 @@
 title: 'Deploy a demo site with a JSON API on Heroku'
 description: 'In this post I will present some tricks that I learned creating demo sites for blog posts and PoCs. You will learn how to configure a JSON-server API and deploy it on the same Heroku site than the frontend app. You will also learn how to use Faker to generate fake data for your JSON server.'
 published: true
-datePublished: 1627714800000
-date: '2021-07-31T09:00:00.000Z'
+datePublished: '2021-07-31T09:00:00.000Z'
 author: Juangui Jordán
 tags:
   - javascript

@@ -2,8 +2,7 @@
 title: 'Desplegando un proyecto Angular CLI en Github Pages y Stackblitz'
 description: 'Aprende a implementar fácilmente un proyecto angular CLI en Github Pages, así como a compartir una versión en live edit mode con Stackblitz'
 published: true
-datePublished: 1522047600000
-date: '2018-03-26T10:00:00.000Z'
+datePublished: '2018-03-26T10:00:00.000Z'
 author: Juangui Jordán
 tags:
   - javascript

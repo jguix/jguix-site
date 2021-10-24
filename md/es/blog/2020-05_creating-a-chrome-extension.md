@@ -2,8 +2,7 @@
 title: 'Creando una extensión de Chrome'
 description: 'En este post, te mostraré cómo crear una simple Chrome extension, usando solo JavaScript, HTML y CSS. También resumiré lo que una extensión de Chrome puede hacer, y también voy a explicar cómo crear extensiones más complejas basadas en JavaScript, React, Angular o Vue.'
 published: true
-datePublished: 1590994800000
-date: '2020-06-01T09:00:00.000Z'
+datePublished: '2020-06-01T09:00:00.000Z'
 author: Juangui Jordán
 tags:
   - javascript

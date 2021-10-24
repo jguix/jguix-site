@@ -1,11 +1,12 @@
-import glob from "glob";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import React, { FC } from "react";
+import glob from 'glob';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import React, { FC } from 'react';
 
-import { BlogPost } from "../../components/BlogPost";
-import { loadPost } from "../../loader";
+import { BlogPost } from '../../components/BlogPost';
+import { loadPost } from '../../loader';
 
 const Post: FC = (props: any) => {
+  console.log(`Post data: ${JSON.stringify(props.post)}`);
   const { post } = props;
 
   return <BlogPost post={post} />;
@@ -13,9 +14,9 @@ const Post: FC = (props: any) => {
 
 export const getStaticPaths = (props?: any) => {
   const { locales } = props;
-  const blogs = glob.sync("./md/blog/*.md");
+  const blogs = glob.sync('./md/blog/*.md');
   const slugs = blogs.map((file: string) => {
-    const popped = file.split("/").pop();
+    const popped = file.split('/').pop();
     if (!popped) throw new Error(`Invalid blog path: ${file}`);
     return popped.slice(0, -3).trim();
   });
@@ -32,7 +33,7 @@ export const getStaticProps = async ({ locale, params }: any) => {
 
   const props = {
     post,
-    ...(await serverSideTranslations(locale, ["common"])),
+    ...(await serverSideTranslations(locale, ['common'])),
   };
 
   return { props };

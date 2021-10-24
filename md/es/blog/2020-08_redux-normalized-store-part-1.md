@@ -2,8 +2,7 @@
 title: 'Usando redux con datos relacionales (1/3)'
 description: 'En esta serie de posts crearemos una aplicación usando react y redux, en la que manejaremos datos relacionales. En esta primera parte modelaremos la store.'
 published: true
-datePublished: 1604390400000
-date: '2020-11-03T09:00:00.000Z'
+datePublished: '2020-11-03T09:00:00.000Z'
 author: Juangui Jordán
 tags:
   - javascript

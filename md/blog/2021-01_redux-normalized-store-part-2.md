@@ -2,8 +2,7 @@
 title: 'Using redux with relational data (2/3)'
 description: 'In this series of posts we will create an application using react and redux, in which we will handle relational data. In this second part we will be implementing the store.'
 published: true
-datePublished: 1611648000000
-date: '2021-01-26T09:00:00.000Z'
+datePublished: '2021-01-26T09:00:00.000Z'
 author: Juangui Jordán
 tags:
   - javascript

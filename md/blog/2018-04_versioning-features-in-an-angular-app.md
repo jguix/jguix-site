@@ -2,8 +2,7 @@
 title: 'Versioning features in an angular app'
 description: 'Versioning components and instantiating the appropriate version dynamically is not only possible but also has some use cases. Check this post where I explain how to accomplish that using a ComponentFactoryResolver and structural directives.'
 published: true
-datePublished: 1524553200000
-date: '2018-04-24T09:00:00.000Z'
+datePublished: '2018-04-24T09:00:00.000Z'
 author: Juangui Jordán
 tags:
   - javascript

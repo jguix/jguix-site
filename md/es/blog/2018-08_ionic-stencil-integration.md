@@ -2,8 +2,7 @@
 title: 'Usando componentes web generados con Stencil en Ionic'
 description: 'Esta publicación tiene como objetivo proporcionar instrucciones claras sobre cómo usar componentes creados y compilados con Stencil en una aplicación Ionic. Te guiaré en el proceso de hacer que un componente web esté disponible en tus templates Ionic, sin necesidad de registrarlos en el registro npm o agregar feos tags script a tu índice.'
 published: true
-datePublished: 1536735600000
-date: '2018-09-12T10:00:00.000Z'
+datePublished: '2018-09-12T10:00:00.000Z'
 author: Juangui Jordán
 tags:
   - javascript

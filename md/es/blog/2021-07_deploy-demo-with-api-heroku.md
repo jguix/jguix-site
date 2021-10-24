@@ -2,8 +2,7 @@
 title: 'Desplegar una demo con una API JSON en Heroku'
 description: 'En este post presentaré algunos trucos que he aprendido al crear demos para publicaciones de blogs y PoC. Aprenderás a configurar una API usando JSON-server y desplegarlo en el mismo sitio Heroku que la aplicación frontend. También aprenderás a utilizar Faker para generar datos falsos para JSON-server.'
 published: true
-datePublished: 1627714800000
-date: '2021-07-31T09:00:00.000Z'
+datePublished: '2021-07-31T09:00:00.000Z'
 author: Juangui Jordán
 tags:
   - javascript

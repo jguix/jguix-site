@@ -2,8 +2,7 @@
 title: 'Versionar características en una aplicación angular'
 description: 'Versionar componentes e instanciar la versión adecuada de forma dinámica no solo es posible, sino que también tiene algunos casos de uso. Consulta esta publicación donde explico cómo lograr eso usando un ComponentFactoryResolver y directivas estructurales.'
 published: true
-datePublished: 1524553200000
-date: '2018-04-24T09:00:00.000Z'
+datePublished: '2018-04-24T09:00:00.000Z'
 author: Juangui Jordán
 tags:
   - javascript
