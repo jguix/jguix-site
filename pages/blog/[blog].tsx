@@ -6,7 +6,6 @@ import { BlogPost } from '../../components/BlogPost';
 import { loadPost } from '../../loader';
 
 const Post: FC = (props: any) => {
-  console.log(`Post data: ${JSON.stringify(props.post)}`);
   const { post } = props;
 
   return <BlogPost post={post} />;
