@@ -15,8 +15,6 @@ thumbnailPhoto: '/img/blog/2021-06_adding-git-hooks/adding-git-hooks.jpg'
 canonicalUrl: https://juanguijordan.com/blog/2021-06_adding-git-hooks
 ---
 
-# Añadiendo git hooks
-
 Esta publicación muestra cómo usar git hooks, para evitar commit o push bajo ciertas circunstancias, y particularmente cómo versionar esos git hooks.
 
 Git hooks son una colección de disparadores que están vinculados a los comandos de git, como checkout, commit o push. Te permiten ejecutar un script antes/después de que se ejecute realmente el comando git y devuelven un código de salida. En el caso de git hooks que se ejecutan antes, si el código de salida no es cero, el comando git no se ejecutará.

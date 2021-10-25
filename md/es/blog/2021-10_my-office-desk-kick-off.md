@@ -17,8 +17,6 @@ thumbnailPhoto: '/img/blog/2021-10_my-office-desk-kick-off/my-office-desk-kick-o
 canonicalUrl: https://juanguijordan.com/blog/2021-10_my-office-desk-kick-off
 ---
 
-# My Office Desk kick off
-
 Today I'm starting a new project. I will call it for now "My Office Desk" but I might have second thoughts about that once I do some UX research.
 
 The aim of the project is putting into practice what I learned in some Udemy tutorials that I recently followed, or I'm about to finish, about NextJS, and Flutter. I'm also trying to come out with a solution for rapid prototyping apps, creating MVPs that are simple but still scalable. And finally I think I can help others in the process. Perhaps people that are already competent in JavaScript can follow my steps to create a different app, or even help me when I get stuck on something.

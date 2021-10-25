@@ -17,8 +17,6 @@ thumbnailPhoto: '/img/blog/2021-10-18_no-mas-colas-kick-off/no-mas-colas-kick-of
 canonicalUrl: https://juanguijordan.com/blog/2021-10-18_no-mas-colas-kick-off
 ---
 
-# 'No Más Colas' kick off
-
 Today I am starting a new project. I will call it for now _"No Más Colas"_ -Spanish translation for _"No More Queues"_- but I might have second thoughts about that once I do some UX research.
 
 The aim of the project is **putting into practice what I learned** in some Udemy tutorials that I recently completed, or I'm about to finish, devoted to NextJS and Flutter. I'm also trying **to come out with a solution for rapid prototyping apps**, creating MVPs that are simple but still scalable. And finally, I think I can **help others in the process**. Perhaps people that are already competent in JavaScript can follow my steps to create a different app, or even help me when I get stuck on something.

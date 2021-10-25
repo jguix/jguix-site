@@ -14,8 +14,6 @@ thumbnailPhoto: '/img/blog/2021-07_deploy-demo-with-api-heroku/deploy-demo-with-
 canonicalUrl: https://juanguijordan.com/blog/2021-07_deploy-demo-with-api-heroku
 ---
 
-# Desplegar una demo con una API JSON en Heroku
-
 En este post presentaré algunos trucos que he aprendido al crear demos para publicaciones de blogs y PoC. Aprenderás a configurar una API usando JSON-server y desplegarlo en el mismo sitio Heroku que la aplicación frontend. También aprenderás a utilizar Faker para generar datos falsos para JSON-server.
 
 A menudo he usado [JSON-server](https://github.com/typicode/json-server) para crear rápidamente una simple API como backend para una demo o prueba de concepto. No me malinterpretes: no estoy animando a nadie a usar esto como servidor de producción, sino solo para ese tipo de proyectos pequeños.

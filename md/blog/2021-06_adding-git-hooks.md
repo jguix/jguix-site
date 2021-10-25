@@ -15,8 +15,6 @@ thumbnailPhoto: '/img/blog/2021-06_adding-git-hooks/adding-git-hooks.jpg'
 canonicalUrl: https://juanguijordan.com/blog/2021-06_adding-git-hooks
 ---
 
-# Adding git hooks
-
 This post shows how to use git hooks, to prevent commit or push under certain circumstances, and particularly how to version those git hooks.
 
 Git hooks are a collection of triggers that are bound to git commands, like checkout, commit or push. They let you run a script before/after the git command is actually executed, and return an exit code. For git hooks that are exectued before, if the exit code is not zero, the git command will not be executed.

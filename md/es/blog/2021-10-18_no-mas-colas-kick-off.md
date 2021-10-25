@@ -17,8 +17,6 @@ thumbnailPhoto: '/img/blog/2021-10-18_no-mas-colas-kick-off/no-mas-colas-kick-of
 canonicalUrl: https://juanguijordan.com/blog/2021-10-18_no-mas-colas-kick-off
 ---
 
-# Inicio del proyecto 'No Más Colas'
-
 Hoy comienzo un nuevo proyecto. Lo llamaré por ahora _"No Más Colas"_ pero podría tener dudas sobre eso una vez que haga una investigación de UX.
 
 El objetivo del proyecto es **poner en práctica lo que aprendí** en algunos tutoriales de Udemy que completé recientemente, o estoy a punto de terminar, dedicados a NextJS y Flutter. También estoy tratando de **encontrar una solución para el prototipado rápido de aplicaciones**, creando MVP que sean simples pero todavía escalables. Y finalmente, creo que puedo **ayudar a otros en el proceso**. Quizás las personas que ya son competentes en JavaScript puedan seguir mis pasos para crear una aplicación diferente, o incluso ayudarme cuando me atasque en algo.
