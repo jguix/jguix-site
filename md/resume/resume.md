@@ -51,6 +51,11 @@ _Universitat Politècnica de València_
 
 ## Further training
 
+**Dic 2021**  
+**DIGITAL PRODUCT DESIGNER**  
+_THE HERO CAMP_  
+[Credential](https://drive.google.com/file/d/1atwJHn37Q7WDqeqj7QB8Fl0c3xVsK1TP/view)
+
 **May 2020**  
 **#COVID-19 CHALLENGE**  
 _UXER SCHOOL_  
