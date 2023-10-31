@@ -1,15 +1,154 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Juangui Jordán]]></title><description><![CDATA[This is my site where I gather my blog posts and some other random stuff]]></description><link>https://juanguijordan.com</link><image><url>https://juanguijordan.com/icon.png</url><title>Juangui Jordán</title><link>https://juanguijordan.com</link></image><generator>RSS for Node</generator><lastBuildDate>Sun, 31 Oct 2021 11:27:28 GMT</lastBuildDate><atom:link href="https://juanguijordan.com/rss.xml" rel="self" type="application/rss+xml"/><pubDate>Wed, 17 Feb 2021 08:00:00 GMT</pubDate><copyright><![CDATA[2021 Juangui Jordán]]></copyright><language><![CDATA[en]]></language><managingEditor><![CDATA[juangui@gmail.com]]></managingEditor><webMaster><![CDATA[juangui@gmail.com]]></webMaster><ttl>60</ttl><item><title><![CDATA[End-to-end testing in React Native with detox]]></title><description><![CDATA[<p>Today I am starting a new project. I will call it for now <em>"No Más Colas"</em> -Spanish translation for <em>"No More Queues"</em>- but I might have second thoughts about that once I do some UX research.</p>
-<p>The aim of the project is <strong>putting into practice what I learned</strong> in some Udemy tutorials that I recently completed, or I'm about to finish, devoted to NextJS and Flutter. I'm also trying <strong>to come out with a solution for rapid prototyping apps</strong>, creating MVPs that are simple but still scalable. And finally, I think I can <strong>help others in the process</strong>. Perhaps people that are already competent in JavaScript can follow my steps to create a different app, or even help me when I get stuck on something.</p>
-<p>I'll blog about the process to help me reflect on those things I learned. I believe that <strong>practice is completely necessary to actually learn stuff</strong>. Thus, I'm not usually happy with watching the videos, but I also follow the steps myself. I consider that to be <em>"practice level 101"</em>, so to speak. The next level comes when you <strong>try something different applying what you learned</strong>. And if you are able to <strong>summarize, sinthesize, write about the topic or teach other people</strong>, then you get to learn the stuff deeper.</p>
-<p>Someone might have instantly kringed when I said that my technical stack for this project will be NextJS + Flutter. If you are going to use React, why not using React Native for mobile, or why not creating a PWA? Or the other way around, why not creating everything in Flutter + Flutter web?</p>
-<p>Truth is, I have had enough of pain with React Native, and I want to try something new. Hopefully, Flutter provides better developer experience -for the time I have been trying it, it does- and gives me enough to create a simple project. I don't want to use PWA because I want my app to live in the app stores. On the other hand, I don't trust much Flutter web for now. I don't know about it being used in production sites, and I wouldn't recommend my clients to use it, so for now I will leave it out of the equation.</p>
-<p>That's the <em>why</em>, but the <em>what</em> is still missing. <strong>I'm going to create a website and a mobile app to manage queues</strong>, not message queues or event queues, but <strong>real life queues with people in a line</strong>. Basically, the app will allow someone to put into place a queue system, where the user can get information through the app on how many people are before him, the estimated waiting time, and notifications when his turn comes close.</p>
-<p>I think this can solve a problem that existed for a long time, but even got worse after COVID. <strong>We never liked to wait long in a line</strong>. Now, with COVID, <strong>it's not even safe to do that</strong>. Having a bunch of people in a closed space for a long time is no longer desirable, and whe might have restrictions or quotes for that. With this app, a user can pick his turn -something that could be even accomplished remotely- and then, if the estimated time is long, he can just go shopping for a while, wait home or have a coffee somewhere, while the queue advances.</p>
-<p>The website will handle the backoffice for queue system and a frontend site to display in the place, where the users will be able to see on site the next queue IDs that will be served, and where they can get their queue ID.</p>
-<p>The mobile app will be responsible to read this ID and inform the user about his position in the queue and estimated times.</p>
-<p><strong>In the next post I will create the NextJS app with typescript support</strong>. Stay tuned and see this app grow.</p>
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Juangui Jordán]]></title><description><![CDATA[This is my site where I gather my blog posts and some other random stuff]]></description><link>https://juanguijordan.com</link><image><url>https://juanguijordan.com/icon.png</url><title>Juangui Jordán</title><link>https://juanguijordan.com</link></image><generator>RSS for Node</generator><lastBuildDate>Mon, 30 Oct 2023 23:31:45 GMT</lastBuildDate><atom:link href="https://juanguijordan.com/rss.xml" rel="self" type="application/rss+xml"/><pubDate>Wed, 17 Feb 2021 08:00:00 GMT</pubDate><copyright><![CDATA[2023 Juangui Jordán]]></copyright><language><![CDATA[en]]></language><managingEditor><![CDATA[juangui@gmail.com]]></managingEditor><webMaster><![CDATA[juangui@gmail.com]]></webMaster><ttl>60</ttl><item><title><![CDATA[End-to-end testing in React Native with Detox]]></title><description><![CDATA[<p>High velocity mobile development requires us to adopt continuous integration workflows. The most difficult part of automated testing on mobile is the tip of the testing pyramid, the <strong>E2E (end to end) tests</strong>.</p>
+<p>E2E tests, when carried out manually, are <strong>very time consuming and repeatedly boring</strong>. Sometimes they can also be <strong>non-deterministic</strong>, depending on asynchronous operations that might take place in a different order inside your app. This is also known as flakiness. Another difficulty is, there are not many options for automated E2E tests using React Native.</p>
+<p>In this post I will introduce <a href="https://github.com/wix/Detox">Detox</a> as a tool for end-to-end testing for React Native. Detox helps us reduce our reliance on manual QA.</p>
+<p>Detox tests your mobile app while it's running in a real device/simulator, interacting with it just like a real user.</p>
+<p>Detox philosophy promotes gray box testing instead of black box testing:</p>
+<ul>
+<li><strong>Black Box Testing:</strong> Software Testing technique in which the tester doesn’t know the internal structure, design and implementation of the software application that is being tested.</li>
+<li><strong>Gray Box Testing:</strong> Software testing technique which is a combination of Black Box Testing technique and White Box Testing technique. The internal structure, design and implementation is partially known in Gray Box Testing.</li>
+</ul>
+<p>Theoretically, it sounds better to test exactly what you ship as a black box. In practice, switching to gray box allows the test framework to monitor the app from the inside and delivers critical wins like fighting flakiness at the core.</p>
+<p>Detox is built from the ground up to support React Native projects as well as pure native ones. It currently supports React Native versions &lt;=0.64.</p>
+<h2 id="installation">Installation</h2>
+<p>The whole Detox setup is described in this link:</p>
+<p>https://github.com/wix/Detox/blob/master/docs/Introduction.GettingStarted.md</p>
+<p>We will go through the main steps that a developer should take to use Detox, in order to create and run the test descriptions. It can also configured to be used as part of the CI pipeline.</p>
+<p><strong>Detox CLI</strong> needs to be installed globally:</p>
+<pre><code class="sh language-sh"># Install detox globally
+npm install -g detox-cli
+</code></pre>
+<p>Some libraries need to be added in <code>package.json</code> of our React Native app.</p>
+<ul>
+<li>Adding <code>detox</code> as a development dependency</li>
+<li>Adding or upgrading <code>jest</code> to jest@^27.0.0</li>
+</ul>
+<pre><code class="sh language-sh"># Add detox as dev dependency
+yarn add detox --dev
+
+# Upgrade jest
+yarn add jest@^27.0.0 --dev
+</code></pre>
+<p>Then run the automated init script:</p>
+<pre><code># Init detox
+detox init -r jest
+</code></pre>
+<p>That script creates several files:</p>
+<ul>
+<li>A <code>.detoxrc.json</code> file.<strong>(*)</strong></li>
+<li>An <code>e2e/</code> folder in your project root</li>
+<li>An <code>e2e/config.json</code> file</li>
+<li>An <code>e2e/environment.js</code> file</li>
+<li>An <code>e2e/firstTest.e2e.js</code> file</li>
+</ul>
+<p><strong>(*) NOTE</strong> The <code>build</code> and <code>binaryPath</code> for both iOS and Android apps in this file are not set.</p>
+<p>Some parameters in <code>.detoxrc.json</code> need to be added or modified. Particularly the <code>build</code> and <code>binaryPath</code> properties are missing or filled with placeholders, and also the <code>avdName</code> and <code>testBinaryPath</code> in Android. These values work on iOS (they kind of work for Android but at the time of writing this article there are some issues that prevent it working):</p>
+<pre><code class="json language-json">{
+  "testRunner": "jest",
+  "runnerConfig": "e2e/config.json",
+  "skipLegacyWorkersInjection": true,
+  "apps": {
+    "ios": {
+      "build": "xcodebuild -workspace ios/pushdemo.xcworkspace -scheme pushdemo -configuration Debug -sdk iphonesimulator -derivedDataPath ios/build",
+      "type": "ios.app",
+      "binaryPath": "ios/build/Build/Products/Debug-iphonesimulator/pushdemo.app"
+    },
+    "android": {
+      "build": "cd android &amp;&amp; ./gradlew assembleAndroidTest -DTestBuildType=debug &amp;&amp; cd ..",
+      "type": "android.apk",
+      "binaryPath": "android/app/build/outputs/apk/debug/app-debug.apk",
+      "testBinaryPath": "android/app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk"
+    }
+  },
+  "devices": {
+    "simulator": {
+      "type": "ios.simulator",
+      "device": {
+        "type": "iPhone 11"
+      }
+    },
+    "emulator": {
+      "type": "android.emulator",
+      "device": {
+        "avdName": "Pixel_3a_API_30_x86"
+      }
+    }
+  },
+  "configurations": {
+    "ios": {
+      "device": "simulator",
+      "app": "ios"
+    },
+    "android": {
+      "device": "emulator",
+      "app": "android"
+    }
+  }
+</code></pre>
+<h3 id="androidspecificsteps">Android specific steps</h3>
+<p>Please follow this link in order to check that a proper environment with Java, Android SDK and AOSP emulators is available:</p>
+<p>https://github.com/wix/Detox/blob/master/docs/Introduction.AndroidDevEnv.md</p>
+<p>Android has currently some issues. The detox build works but the detox test does not. There are many open issues in the Detox project regarding Android so we will probably have to wait to see that working with the current version.</p>
+<p>On the other hand, I was able to download the React Native example from Detox and run the Android tests. I couldn’t translate the exact steps needed to work on my sample project, nor I found those steps in the documentation, but I guess that could be achieved putting more work on it.</p>
+<h3 id="iosspecificsteps">iOS specific steps</h3>
+<p>Please follow this link in order to check that a proper environment with XCode command line tools and simulator utils is available:</p>
+<p>https://github.com/wix/Detox/blob/master/docs/Introduction.iOSDevEnv.md</p>
+<h2 id="buildingandrunningtests">Building and running tests</h2>
+<p>When using Detox with Jest as test runner, the tests are very similar to unit tests. We should configure them to have different extension than unit tests, i.e. <code>*.e2e.js</code> and <code>*.e2e.ts</code> would be a good choice.</p>
+<p>Detox tests use a <code>testID</code> field in JSX templates to match a certain element by ID. For instance, we can write a test like this to assert that a certain View or text are shown.</p>
+<pre><code class="javascript language-javascript">it('should show a title and a description', async () =&gt; {
+  await expect(element(by.id('title'))).toBeVisible();
+  await expect(element(by.id('description'))).toBeVisible();
+});
+</code></pre>
+<p>Then the JSX should just include those <code>testID</code> attributes, just like this:</p>
+<pre><code class="javascript language-javascript">&lt;View&gt;
+  &lt;View&gt;
+    &lt;Text testID="title"&gt;E2E testing with Detox&lt;/Text&gt;
+    &lt;Text testID="description"&gt;
+      This app is testeable with Detox. Push the button to display a greeting
+      message.
+    &lt;/Text&gt;
+    {isMessageVisible &amp;&amp; &lt;Text testID="message"&gt;Hello world!&lt;/Text&gt;}
+  &lt;/View&gt;
+
+  &lt;View&gt;
+    &lt;Button testID="message_button" title="Say Hello" onPress={buttonHandler} /&gt;
+  &lt;/View&gt;
+&lt;/View&gt;
+</code></pre>
+<p>The test spec can trigger buttons, write text inside of input fields and so on. For instance, the following test asserts that a text appears on a container after clicking a button.</p>
+<pre><code class="javascript language-javascript">it('should show a hello world message after tapping the button', async () =&gt; {
+  await element(by.id('message_button')).tap();
+  await expect(element(by.id('message'))).toBeVisible();
+  await expect(element(by.text('Hello world!'))).toBeVisible();
+});
+</code></pre>
+<p>To run the tests, we must build the tests with Detox and then run them. These commands can also be included in <code>package.json</code> for easier use with <code>npm</code> or <code>yarn</code>.</p>
+<pre><code class="sh language-sh"># build and test for ios
+detox build -c ios
+detox test -c ios
+
+# build and test for android
+detox build -c android
+detox test -c android
+</code></pre>
+<p>After running the test, we get a list of passing or failing tests, as usual with jest test runner.</p>
+<pre><code class="sh language-sh">  App
+    ✓ should show a title and a description (1029 ms)
+    ✓ should show a hello world message after tapping the button (1377 ms)
+
+  2 passing
+</code></pre>
+<p>This is how the E2E test runs on a simulator:</p>
+<p><img src="/img/blog/2021-10-31_e2e-testing-in-rn-with-detox/detox_e2e_test.gif" alt="E2E test run" /></p>
+<p>You can find the code for this post in:</p>
+<p>https://github.com/jguix/detox-demo</p>
+<h2 id="moreonreactnativetesting">More on React Native testing</h2>
+<p>During the work on this post I found helpful the information contained in this site, besides the official Detox documentation:</p>
+<p>https://reactnativetesting.io/e2e/intro.html</p>
+<p>They cover unit tests, component tests, end to end tests and continuous integration for React Native projects, and the documentation is quite straightforward and fills some of the gaps of the Detox docs.</p>
 <h2 id="credits">Credits</h2>
-<p>Photo by <a href="https://unsplash.com/@mayofi">Joshua Mayo</a> on <a href="https://unsplash.com">Unsplash</a>.</p>]]></description><link>https://juanguijordan.com/blog/2021-10-31_e2e-testing-in-rn-with-detox</link><guid isPermaLink="true">https://juanguijordan.com/blog/2021-10-31_e2e-testing-in-rn-with-detox</guid><category><![CDATA[frontend]]></category><category><![CDATA[javascript]]></category><category><![CDATA[react-native]]></category><dc:creator><![CDATA[Juangui Jordán]]></dc:creator><pubDate>Sun, 31 Oct 2021 09:00:00 GMT</pubDate></item><item><title><![CDATA["No Más Colas" kick off]]></title><description><![CDATA[<p>Today I am starting a new project. I will call it for now <em>"No Más Colas"</em> -Spanish translation for <em>"No More Queues"</em>- but I might have second thoughts about that once I do some UX research.</p>
+<p>Photo by <a href="https://unsplash.com/@mayofi">Joshua Mayo</a> on <a href="https://unsplash.com">Unsplash</a>.</p>]]></description><link>https://juanguijordan.com/blog/2021-10-31_e2e-testing-in-rn-with-detox</link><guid isPermaLink="true">https://juanguijordan.com/blog/2021-10-31_e2e-testing-in-rn-with-detox</guid><category><![CDATA[frontend]]></category><category><![CDATA[javascript]]></category><category><![CDATA[react-native]]></category><category><![CDATA[testing]]></category><dc:creator><![CDATA[Juangui Jordán]]></dc:creator><pubDate>Sun, 31 Oct 2021 09:00:00 GMT</pubDate></item><item><title><![CDATA["No Más Colas" kick off]]></title><description><![CDATA[<p>Today I am starting a new project. I will call it for now <em>"No Más Colas"</em> -Spanish translation for <em>"No More Queues"</em>- but I might have second thoughts about that once I do some UX research.</p>
 <p>The aim of the project is <strong>putting into practice what I learned</strong> in some Udemy tutorials that I recently completed, or I'm about to finish, devoted to NextJS and Flutter. I'm also trying <strong>to come out with a solution for rapid prototyping apps</strong>, creating MVPs that are simple but still scalable. And finally, I think I can <strong>help others in the process</strong>. Perhaps people that are already competent in JavaScript can follow my steps to create a different app, or even help me when I get stuck on something.</p>
 <p>I'll blog about the process to help me reflect on those things I learned. I believe that <strong>practice is completely necessary to actually learn stuff</strong>. Thus, I'm not usually happy with watching the videos, but I also follow the steps myself. I consider that to be <em>"practice level 101"</em>, so to speak. The next level comes when you <strong>try something different applying what you learned</strong>. And if you are able to <strong>summarize, sinthesize, write about the topic or teach other people</strong>, then you get to learn the stuff deeper.</p>
 <p>Someone might have instantly kringed when I said that my technical stack for this project will be NextJS + Flutter. If you are going to use React, why not using React Native for mobile, or why not creating a PWA? Or the other way around, why not creating everything in Flutter + Flutter web?</p>
@@ -2261,4 +2400,74 @@ this one line trick will load your GitHub project on the Stackblitz IDE.</p>
 <a href="#">https://stackblitz.com/github/NICKNAME/MY_PROJECT</a></p>
 <p>This is valid also for branches, tags or specific commits. Just use the following scheme for the URL:<br />
 <a href="#">https://stackblitz.com/github/NICKNAME/MY_PROJECT/tree/{TAG|BRANCH|COMMIT}</a></p>
-<p>I hope this post helped you to release your projects in a place where they can be seen, enjoyed and edited by others.</p>]]></description><link>https://juanguijordan.com/blog/2018-03_angular-cli-github-pages-stackblitz</link><guid isPermaLink="true">https://juanguijordan.com/blog/2018-03_angular-cli-github-pages-stackblitz</guid><category><![CDATA[javascript]]></category><dc:creator><![CDATA[Juangui Jordán]]></dc:creator><pubDate>Mon, 26 Mar 2018 10:00:00 GMT</pubDate></item></channel></rss>
+<p>I hope this post helped you to release your projects in a place where they can be seen, enjoyed and edited by others.</p>]]></description><link>https://juanguijordan.com/blog/2018-03_angular-cli-github-pages-stackblitz</link><guid isPermaLink="true">https://juanguijordan.com/blog/2018-03_angular-cli-github-pages-stackblitz</guid><category><![CDATA[javascript]]></category><dc:creator><![CDATA[Juangui Jordán]]></dc:creator><pubDate>Mon, 26 Mar 2018 10:00:00 GMT</pubDate></item></channel></rss>do,
+sino que el país se detecta automáticamente desde la configuración de su dispositivo,
+y piensa en una interfaz de usuario más complicada con un panel con varios widgets que deberían mostrarse u ocultarse,
+o tener contenido diferente según el país, y entonces este enfoque tendrá mucho más sentido.</p>
+<p>Este post es lo suficientemente largo para entrar en más detalles.
+Si tienes sugerencias para mejorarlo, inclúyelas en tus comentarios :)</p>]]></description><link>https://juanguijordan.com/blog/2018-04_versioning-features-in-an-angular-app</link><guid isPermaLink="true">https://juanguijordan.com/blog/2018-04_versioning-features-in-an-angular-app</guid><category><![CDATA[javascript]]></category><dc:creator><![CDATA[Juangui Jordán]]></dc:creator><pubDate>Tue, 24 Apr 2018 09:00:00 GMT</pubDate></item><item><title><![CDATA[Desplegando un proyecto Angular CLI en Github Pages y Stackblitz]]></title><description><![CDATA[<p>¿Estás ansioso por mostrarle al mundo tu prueba de concepto, proyecto paralelo, idea…?
+Esta receta de bash de 5 líneas pondrá tu trabajo en el escaparate en cuestión de segundos.</p>
+<p>Así que acabas de terminar de crear el proyecto más genial con <a href="https://cli.angular.io/">Angular CLI</a> y quieres compartirlo con tus colegas, o quizás escribir una publicación al respecto, pero quieres evitarles a tus colegas el dolor de bajarse el código, instalar dependencias y ejecutar la aplicación (lo sé, casi no puede ser más fácil hoy en día) y no tienes un servidor web, o tal vez eres tan vago como tus colegas y no te apetece poner mucho esfuerzo en desplegar el código en algún sitio.</p>
+<p>Bien, ¡<a href="https://pages.github.com/">Github Pages</a> al rescate!</p>
+<h2 id="githubpages">GitHub Pages</h2>
+<p>Voy a asumir que ya creaste el proyecto con Angular CLI, por lo que tu proyecto ya está versionado con git.
+Supongamos también que ya tienes una <strong>cuenta de GitHub</strong> con cierto <code>NICKNAME</code>.
+Dirígete a GitHub y crea un nuevo proyecto, llamémoslo <code>MY_PROJECT</code>.
+No coloques ningún archivo en él, puedes volver más tarde y agregar el <code>README</code> y la licencia deseada,
+pero por ahora será más fácil si lo dejas en blanco.</p>
+<p>Luego, conecta tu repositorio de git local con el nuevo repositorio remoto y haz push de los cambios:</p>
+<pre><code class="bash language-bash">git remote add origin https://github.com/NICKNAME/MY_PROJECT.git
+git push origin master
+</code></pre>
+<p>Ahora, si ya conocíaa GitHub Pages, estarás tentado a activarlas manualmente en el archivo <code>index.html</code> de tu proyecto.
+<strong>¡NO HAGAS ESO! ¡¡No funcionará!!</strong></p>
+<p>Tu proyecto aún debe ser generado para producción,
+lo cual creará una carpeta <code>dist</code> desde la cual podrás servir tus páginas de GitHub, pero <strong>¡NO LO HAGAS! ¡¡¡No funcionará!!!</strong></p>
+<p>Parece que GitHub Pages no son adecuadas para SPA, ya que redirigen las rutas de su aplicación a una página 404.
+Pero algunos tipos muy majos desarrollaron <a href="https://www.npmjs.com/package/angular-cli-ghpages">angular-cli-ghpages</a>.
+Este paquete npm llenará los huecos y hará que tu aplicación funcione en GitHub Pages.</p>
+<p>Instálalo con:</p>
+<pre><code class="bash language-bash">npm install -g angular-cli-ghpages
+</code></pre>
+<p>Luego ejecuta estos 2 comandos:</p>
+<pre><code class="bash language-bash">ng build --prod --base-href "https://NICKNAME.github.io/MY_PROJECT/"
+angular-cli-ghpages
+</code></pre>
+<p>El segundo comando tiene un montón de opciones, pero todas son opcionales como dice la palabra <code>option</code>,
+y no necesitas mucho más para poner en marcha tu aplicación en GitHub Pages. ¡A disfrutar!</p>
+<p>Bueno, ciertamente necesitarás la URL de tu aplicación para compartirla con el mundo.
+Esta URL es exactamente la que usamos en el comando <code>ng build</code>:<br />
+<a href="#">https://NICKNAME.github.io/MY_PROJECT/</a></p>
+<h3 id="desplegandoproyectosionic">Desplegando proyectos Ionic</h3>
+<p>Actualización: 2018-05-07</p>
+<p>¿Qué pasa con los proyectos Ionic?
+Se despliegan en <code>www</code> en lugar de la carpeta <code>dist</code>, y usan Ionic CLI en lugar de Angular CLI,
+por lo que será necesario realizar un par de cambios.</p>
+<pre><code class="bash language-bash">ionic build --prod
+</code></pre>
+<p>El <code>--base-href</code> no está disponible en Ionic CLI (que yo sepa),
+por lo que deberá abrir el archivo <code>index.html</code> y escribir la etiqueta base por tu cuenta, una vez finalizada la compilación.
+Puedes ponerlo después de la etiqueta del título, por ejemplo:</p>
+<pre><code class="html language-html">&lt;title&gt;Ionic App&lt;/title&gt;
+&lt;base href="https://NICKNAME.github.io/MY_PROJECT/" /&gt;
+&lt;meta
+  name="viewport"
+  content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
+/&gt;
+</code></pre>
+<p>Ahora, como dije, la salida de la compilación no es la predeterminada para Angular CLI, que sería la carpeta <code>dist</code>.
+Usa el flag <code>--dir</code> para especificar la carpeta <code>www</code> como fuente para las páginas de GitHub.</p>
+<pre><code class="bash language-bash">angular-cli-ghpages --dir www
+</code></pre>
+<h2 id="stackblitz">Stackblitz</h2>
+<p>Ahora, para la parte de <a href="https://stackblitz.com/">Stackblitz</a> del post… ¿no sería bueno permitir que nuestros colegas o seguidores interactúen realmente con nuestro código y vean el impacto de las modificaciones en casi-tiempo-real?</p>
+<p>Los chicos de Stackblitz han creado este tipo de IDE en línea donde puedes crear proyectos y ver la generación al mismo tiempo.
+¡Es como <strong>JSfiddler</strong> con esteroides!</p>
+<p><img src="/img/blog/2018-03_angular-cli-github-pages-stackblitz/stackblitz.png" alt="Stackblitz" /></p>
+<p>Aún más simple que registrarte en Stackblitz, crear un proyecto y cargar los archivos de tu proyecto,
+este truco de una línea cargará tu proyecto de GitHub en el IDE de Stackblitz.</p>
+<p>Simplemente comparte esta URL, usando nuevamente tu apodo de GitHub y el nombre del proyecto:<br />
+<a href="#">https://stackblitz.com/github/NICKNAME/MY_PROJECT</a></p>
+<p>Esto también es válido para ramas, etiquetas o commits específicos. Simplemente use el siguiente esquema para la URL:<br />
+<a href="#">https://stackblitz.com/github/NICKNAME/MY_PROJECT/tree/{TAG|BRANCH|COMMIT}</a></p>
+<p>Espero que esta publicación te haya ayudado a publicar tus proyectos en un lugar donde otros puedan verlos, disfrutarlos y editarlos.</p>]]></description><link>https://juanguijordan.com/blog/2018-03_angular-cli-github-pages-stackblitz</link><guid isPermaLink="true">https://juanguijordan.com/blog/2018-03_angular-cli-github-pages-stackblitz</guid><category><![CDATA[javascript]]></category><dc:creator><![CDATA[Juangui Jordán]]></dc:creator><pubDate>Mon, 26 Mar 2018 10:00:00 GMT</pubDate></item></channel></rss>

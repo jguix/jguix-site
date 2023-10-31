@@ -90,7 +90,7 @@ _Escuela Oficial de Idiomas de Valencia_
 _Università per Stranieri di Perugia_  
 [Credential](https://drive.google.com/file/d/1Ofg8nM0cvC_dDlD-EsQftJJv-zC1kRor/view)
 
-**B1 German Level Certification**  
+**B2 German Level Certification**  
 _Escuela Oficial de Idiomas de Valencia_
 
 ## Languages
@@ -111,7 +111,7 @@ Full Professional (B2)
 Full Professional (B2)
 
 **German**  
-Limited working proficiency (B1)
+Full Professional (B2)
 
 ## Honors & Awards
 
