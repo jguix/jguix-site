@@ -1,7 +1,7 @@
 {
   "name": "jguix-site",
-  "version": "0.1.0",
-  "description": "A Medium inspired dev blog starter for Next.js",
+  "version": "1.0.0",
+  "description": "Personal website for Juangui Jordan",
   "repository": {
     "type": "git",
     "url": "https://github.com/jguix/jguix-site"
