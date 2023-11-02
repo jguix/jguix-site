@@ -9,11 +9,12 @@ type Props = {
 
 export const Code: FC<Props> = ({ language, value }) => {
   return (
+    // @ts-ignore fixing 'SyntaxHighlighter' cannot be used as a JSX component
     <SyntaxHighlighter
       language={(language === 'ts' ? 'typescript' : language) || 'typescript'}
       style={darcula}
     >
-      {value}
+      {value || ''}
     </SyntaxHighlighter>
   );
 };

@@ -13,20 +13,18 @@ type Props = {
 };
 
 const Blog: FC<Props> = ({ posts }) => {
-  const { t } = useTranslation("blog", { useSuspense: false });
+  const { t } = useTranslation('blog', { useSuspense: false });
 
   return (
     <div className="content">
       <Head>
-        <title>
-          {t("title")} - {globals.siteName}
-        </title>
+        <title>{`${t('title')} - ${globals.siteName}`}</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <div className="section">
-        <h1>{t("title")}</h1>
-        <p>{t("description")}</p>
+        <h1>{t('title')}</h1>
+        <p>{t('description')}</p>
         <div className="post-card-container">
           {posts.map((post, j) => {
             return <PostCard post={post} key={j} />;
@@ -47,7 +45,7 @@ export const getStaticProps = async ({ locale }: any) => {
 
   const props = {
     posts,
-    ...(await serverSideTranslations(locale, ["common", "blog"])),
+    ...(await serverSideTranslations(locale, ['common', 'blog'])),
   };
 
   return { props };

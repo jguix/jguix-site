@@ -12,18 +12,12 @@ export const Header: FC = () => {
 
   return (
     <div className={classes.header}>
-      <Link href="/">
-        <a href="/">{globals.siteName}</a>
-      </Link>
+      <Link href="/">{globals.siteName}</Link>
       <div className="flex-spacer" />
-      <Link href="/blog">
-        <a>{t('header_blog')}</a>
-      </Link>
-      <Link href="/resume">
-        <a>{t('header_resume')}</a>
-      </Link>
+      <Link href="/blog">{t('header_blog')}</Link>
+      <Link href="/resume">{t('header_resume')}</Link>
       <Link href={router.asPath} locale={router.locale === 'en' ? 'es' : 'en'}>
-        <a>{router.locale === 'en' ? t('language_es') : t('language_en')}</a>
+        {router.locale === 'en' ? t('language_es') : t('language_en')}
       </Link>
     </div>
   );

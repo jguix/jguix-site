@@ -14,7 +14,7 @@ export const PostCard: FC<Props> = ({ post }) => {
     post;
 
   return (
-    <Link href={`/${path}`}>
+    <Link legacyBehavior href={`/${path}`}>
       <a className={classes.linkContainer}>
         <div className={classes.container}>
           {thumbnailPhoto && (
